@@ -1,0 +1,7 @@
+**What makes them unique:** Heavy Subscribers commit to many recurring services but rarely audit overlap — they're the highest leakage segment.
+
+**Features to build:**
+  • Subscription dashboard: visual timeline of all recurring debits with usage scores.
+  • Duplicate-service detector: flag when 2 merchants serve the same need.
+
+**Notification strategy:** Monthly 'Subscription Audit Day' on the 1st — 'You're paying for X services. Here are 2 you haven't used in 30 days.'

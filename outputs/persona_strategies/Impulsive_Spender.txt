@@ -1,0 +1,7 @@
+**What makes them unique:** Impulsive Spenders have high income potential but weekend purchase clusters erode savings before month-end.
+
+**Features to build:**
+  • Friday evening 'Weekend Budget' alert showing remaining discretionary balance.
+  • 'Cool-down timer': 24-hour hold on purchases above ₹2,000 from unknown merchants.
+
+**Notification strategy:** Thursday afternoon nudge — 'Your weekend budget is ₹X. Lock in savings before Friday?' with a one-tap FD shortcut.

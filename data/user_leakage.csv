@@ -1,0 +1,277 @@
+user_id,merchant_name,category,monthly_amount,cost_per_use,dormancy_days,leakage_score,status,estimated_annual_saving
+USR0194,Swiggy,Food,3567.93,3567.93,187,100.0,Dormant,42815.16
+USR0181,Haldiram's,Food,3433.88,3433.88,131,96.14,Dormant,41206.56
+USR0154,Domino's,Food,3233.42,3233.42,78,90.38,Dormant,38801.04
+USR0055,Subway,Food,3209.82,3209.82,121,89.7,Dormant,38517.84
+USR0218,Chai Point,Food,3131.94,3131.94,50,87.46,Low Usage,37583.28
+USR0363,McDonald's,Food,3072.66,3072.66,71,85.76,Dormant,36871.92
+USR0197,YouTube Premium,Entertainment,3059.34,3059.34,93,85.37,Dormant,36712.08
+USR0313,BigBasket,Food,2919.25,2919.25,89,81.35,Dormant,35031.0
+USR0100,Subway,Food,2827.1,2827.1,52,78.7,Low Usage,33925.2
+USR0396,Chai Point,Food,2733.75,2733.75,78,76.01,Dormant,32805.0
+USR0419,Zomato,Food,2731.06,2731.06,53,75.93,Low Usage,32772.72
+USR0138,McDonald's,Food,2569.7,2569.7,134,71.29,Dormant,30836.4
+USR0340,Blinkit,Food,2547.2,2547.2,99,70.65,Dormant,30566.4
+USR0279,Zomato,Food,2522.07,2522.07,34,69.92,Low Usage,30264.84
+USR0100,Dunzo,Food,2506.36,2506.36,141,69.47,Dormant,30076.32
+USR0107,Zomato,Food,3649.29,3649.29,0,68.23,Low Usage,43791.48
+USR0454,McDonald's,Food,2403.2,2403.2,91,66.5,Dormant,28838.4
+USR0015,Swiggy,Food,3494.47,3494.47,25,65.26,Low Usage,41933.64
+USR0094,Haldiram's,Food,3454.37,3454.37,10,64.49,Low Usage,41452.44
+USR0008,Chai Point,Food,2315.07,2315.07,50,63.97,Low Usage,27780.84
+USR0476,Dunzo,Food,3406.68,3406.68,1,63.58,Low Usage,40880.16
+USR0355,BigBasket,Food,3368.16,3368.16,0,62.84,Low Usage,40417.92
+USR0259,Zomato,Food,1574.76,1181.07,43,62.72,Duplicate,18897.12
+USR0066,Blinkit,Food,2255.44,2255.44,48,62.26,Low Usage,27065.28
+USR0402,Blinkit,Food,3274.33,3274.33,0,61.04,Low Usage,39291.96
+USR0437,Domino's,Food,2207.42,2207.42,110,60.87,Dormant,26489.04
+USR0158,Subway,Food,3146.61,3146.61,16,58.59,Low Usage,37759.32
+USR0301,BigBasket,Food,2053.91,2053.91,164,56.46,Dormant,24646.92
+USR0011,McDonald's,Food,2052.43,2052.43,32,56.42,Low Usage,24629.16
+USR0245,McDonald's,Food,2934.29,2934.29,5,54.52,Low Usage,35211.48
+USR0212,McDonald's,Food,2625.36,1969.02,87,54.02,Dormant,31504.32
+USR0157,Domino's,Food,1939.65,1939.65,149,53.17,Dormant,23275.8
+USR0302,Swiggy,Food,2841.14,2841.14,2,52.73,Low Usage,34093.68
+USR0056,Subway,Food,1919.82,1919.82,117,52.6,Dormant,23037.84
+USR0109,McDonald's,Food,2825.3,2825.3,2,52.43,Low Usage,33903.6
+USR0395,Swiggy,Food,2825.2,2825.2,29,52.43,Low Usage,33902.4
+USR0378,Swiggy,Food,2768.26,2768.26,0,51.34,Low Usage,33219.12
+USR0261,Blinkit,Food,1867.56,1867.56,105,51.1,Dormant,22410.72
+USR0336,Domino's,Food,2324.23,1859.38,113,50.87,Dormant,27890.76
+USR0132,Zomato,Food,1415.97,1415.97,18,50.82,Duplicate,16991.64
+USR0193,BigBasket,Food,1835.19,1835.19,255,50.17,Dormant,22022.28
+USR0430,BigBasket,Food,1834.46,1834.46,54,50.15,Low Usage,22013.52
+USR0148,Haldiram's,Food,1831.33,1831.33,93,50.06,Dormant,21975.96
+USR0487,Domino's,Food,1824.19,1824.19,233,49.85,Dormant,21890.28
+USR0174,Swiggy,Food,1815.21,1815.21,40,49.59,Low Usage,21782.52
+USR0282,Swiggy,Food,2323.58,1742.68,234,47.51,Dormant,27882.96
+USR0311,Subway,Food,1741.69,1741.69,155,47.48,Dormant,20900.28
+USR0430,Subway,Food,2522.13,2522.13,24,46.62,Low Usage,30265.56
+USR0384,Swiggy,Food,1704.02,1704.02,224,46.4,Dormant,20448.24
+USR0471,Swiggy,Food,2492.2,2492.2,3,46.04,Low Usage,29906.4
+USR0426,Subway,Food,1653.28,1653.28,77,44.94,Dormant,19839.36
+USR0012,Subway,Food,1647.31,1647.31,302,44.77,Dormant,19767.72
+USR0236,Zomato,Food,1640.15,1640.15,31,44.56,Active,0.0
+USR0346,Domino's,Food,1637.35,1637.35,70,44.48,Dormant,19648.2
+USR0259,Blinkit,Food,1218.38,1218.38,0,43.24,Duplicate,14620.56
+USR0122,Subway,Food,1551.53,1551.53,119,42.01,Dormant,18618.36
+USR0373,Zomato,Food,1546.35,1546.35,60,41.86,Active,0.0
+USR0490,Indane Gas,Utilities,2250.11,2250.11,14,41.4,Low Usage,27001.32
+USR0172,Chai Point,Food,2978.06,2233.54,0,41.08,Low Usage,35736.72
+USR0100,BigBasket,Food,2199.01,2199.01,11,40.42,Low Usage,26388.12
+USR0073,Swiggy,Food,1479.42,1479.42,217,39.94,Dormant,17753.04
+USR0374,Blinkit,Food,1466.39,1466.39,180,39.56,Dormant,17596.68
+USR0191,Blinkit,Food,1453.24,1453.24,64,39.19,Dormant,17438.88
+USR0344,BigBasket,Food,1449.83,1449.83,82,39.09,Dormant,17397.96
+USR0433,Swiggy,Food,1398.07,1398.07,121,37.6,Dormant,16776.84
+USR0223,Domino's,Food,2036.47,2036.47,12,37.31,Low Usage,24437.64
+USR0113,Subway,Food,1382.92,1382.92,97,37.16,Dormant,16595.04
+USR0255,Haldiram's,Food,2027.58,2027.58,22,37.13,Low Usage,24330.96
+USR0183,Blinkit,Food,1356.65,1356.65,125,36.41,Dormant,16279.8
+USR0274,McDonald's,Food,1980.81,1980.81,7,36.24,Low Usage,23769.72
+USR0231,Swiggy,Food,1978.0,1978.0,9,36.18,Low Usage,23736.0
+USR0232,Subway,Food,1348.08,1348.08,59,36.16,Active,0.0
+USR0287,Swiggy,Food,1346.94,1346.94,85,36.13,Dormant,16163.28
+USR0239,Domino's,Food,1790.93,1343.2,74,36.02,Dormant,21491.16
+USR0446,Dunzo,Food,1323.32,1323.32,38,35.45,Active,0.0
+USR0347,Subway,Food,1296.2,1296.2,135,34.67,Dormant,15554.4
+USR0169,McDonald's,Food,1291.34,1291.34,68,34.53,Dormant,15496.08
+USR0127,BigBasket,Food,1283.7,1283.7,138,34.31,Dormant,15404.4
+USR0153,Domino's,Food,1276.47,1276.47,197,34.1,Dormant,15317.64
+USR0164,Chai Point,Food,1691.61,1268.71,162,33.88,Dormant,20299.32
+USR0391,Swiggy,Food,2468.76,1851.57,11,33.76,Low Usage,29625.12
+USR0265,Chai Point,Food,1836.05,1836.05,0,33.46,Low Usage,22032.6
+USR0407,Blinkit,Food,1254.24,1254.24,162,33.46,Dormant,15050.88
+USR0367,Swiggy,Food,1250.89,1250.89,257,33.37,Dormant,15010.68
+USR0331,Blinkit,Food,1248.11,1248.11,31,33.29,Active,0.0
+USR0057,BigBasket,Food,1825.17,1825.17,12,33.25,Low Usage,21902.04
+USR0036,Dunzo,Food,1808.47,1808.47,19,32.93,Low Usage,21701.64
+USR0296,Subway,Food,1645.05,1233.79,86,32.87,Dormant,19740.6
+USR0026,Chai Point,Food,1231.09,1231.09,160,32.8,Dormant,14773.08
+USR0474,Chai Point,Food,1794.02,1794.02,10,32.66,Low Usage,21528.24
+USR0154,BigBasket,Food,1221.51,1221.51,151,32.52,Dormant,14658.12
+USR0137,Chai Point,Food,1782.8,1782.8,3,32.44,Low Usage,21393.6
+USR0411,Domino's,Food,1205.85,1205.85,89,32.07,Dormant,14470.2
+USR0082,Domino's,Food,1743.19,1743.19,3,31.68,Low Usage,20918.28
+USR0156,BigBasket,Food,1731.97,1731.97,15,31.47,Low Usage,20783.64
+USR0440,Swiggy,Food,1182.81,1182.81,189,31.41,Dormant,14193.72
+USR0122,Chai Point,Food,1168.53,1168.53,237,31.0,Dormant,14022.36
+USR0484,McDonald's,Food,1168.06,1168.06,124,30.98,Dormant,14016.72
+USR0303,Haldiram's,Food,1692.22,1692.22,0,30.71,Active,0.0
+USR0344,Blinkit,Food,1148.69,1148.69,108,30.43,Dormant,13784.28
+USR0119,Haldiram's,Food,1676.84,1676.84,0,30.41,Active,0.0
+USR0466,BigBasket,Food,1143.26,1143.26,171,30.27,Dormant,13719.12
+USR0095,Haldiram's,Food,1644.11,1644.11,23,29.78,Active,0.0
+USR0405,Chai Point,Food,1124.52,1124.52,51,29.73,Active,0.0
+USR0256,Domino's,Food,1107.98,1107.98,194,29.26,Dormant,13295.76
+USR0068,Domino's,Food,1609.12,1609.12,5,29.11,Active,0.0
+USR0179,Zomato,Food,1595.65,1595.65,0,28.85,Active,0.0
+USR0385,McDonald's,Food,1093.26,1093.26,76,28.83,Dormant,13119.12
+USR0182,Zomato,Food,1086.96,1086.96,105,28.65,Dormant,13043.52
+USR0487,Dunzo,Food,1514.11,1514.11,0,27.29,Active,0.0
+USR0060,BigBasket,Food,1507.82,1507.82,30,27.17,Active,0.0
+USR0412,McDonald's,Food,1034.35,1034.35,203,27.14,Dormant,12412.2
+USR0173,Blinkit,Food,1374.57,1030.93,45,27.04,Active,0.0
+USR0132,Swiggy,Food,1024.11,1024.11,65,26.84,Dormant,12289.32
+USR0474,Haldiram's,Food,1016.92,1016.92,106,26.64,Dormant,12203.04
+USR0207,Blinkit,Food,1002.92,1002.92,96,26.23,Dormant,12035.04
+USR0213,Chai Point,Food,943.89,943.89,184,24.54,Dormant,11326.68
+USR0194,Haldiram's,Food,935.73,935.73,140,24.3,Dormant,11228.76
+USR0366,Subway,Food,935.61,935.61,112,24.3,Dormant,11227.32
+USR0219,BigBasket,Food,920.16,920.16,32,23.85,Active,0.0
+USR0232,Metro Card,Transport,917.43,917.43,63,23.78,Dormant,11009.16
+USR0379,BigBasket,Food,1323.84,1323.84,24,23.64,Active,0.0
+USR0217,Blinkit,Food,912.63,912.63,85,23.64,Dormant,10951.56
+USR0091,Uber,Transport,912.55,912.55,108,23.64,Dormant,10950.6
+USR0092,Haldiram's,Food,1317.71,1317.71,8,23.53,Active,0.0
+USR0152,Chai Point,Food,1311.01,1311.01,24,23.4,Active,0.0
+USR0033,BigBasket,Food,1701.83,1276.37,10,22.73,Active,0.0
+USR0409,McDonald's,Food,874.23,874.23,95,22.53,Dormant,10490.76
+USR0274,Dunzo,Food,856.03,856.03,157,22.01,Dormant,10272.36
+USR0103,Chai Point,Food,1642.73,1232.05,24,21.88,Active,0.0
+USR0115,Chai Point,Food,1119.8,839.85,73,21.55,Dormant,13437.6
+USR0290,Blinkit,Food,837.02,837.02,61,21.46,Dormant,10044.24
+USR0157,BigBasket,Food,829.83,829.83,96,21.26,Dormant,9957.96
+USR0105,Zomato,Food,822.62,822.62,127,21.05,Dormant,9871.44
+USR0220,Zomato,Food,1179.38,1179.38,0,20.87,Active,0.0
+USR0393,McDonald's,Food,810.03,810.03,154,20.69,Dormant,9720.36
+USR0356,Chai Point,Food,809.82,809.82,192,20.68,Dormant,9717.84
+USR0383,Subway,Food,1162.94,1162.94,0,20.56,Active,0.0
+USR0052,Gym Membership,Subscriptions,803.67,803.67,109,20.5,Dormant,9644.04
+USR0297,Gym Membership,Subscriptions,801.25,801.25,81,20.44,Dormant,9615.0
+USR0047,Gym Membership,Subscriptions,799.0,799.0,227,20.37,Dormant,9588.0
+USR0373,Gym Membership,Subscriptions,798.67,798.67,203,20.36,Dormant,9584.04
+USR0465,Metro Card,Transport,785.52,785.52,168,19.98,Dormant,9426.24
+USR0432,IndiGo Airlines,Transport,783.96,783.96,90,19.94,Dormant,9407.52
+USR0194,RedBus,Transport,775.42,775.42,44,19.69,Active,0.0
+USR0361,Zomato,Food,1116.99,1116.99,10,19.68,Active,0.0
+USR0436,BigBasket,Food,1110.47,1110.47,0,19.55,Active,0.0
+USR0268,MakeMyTrip,Transport,741.3,741.3,67,18.71,Dormant,8895.6
+USR0267,Dunzo,Food,730.92,730.92,130,18.41,Dormant,8771.04
+USR0078,Rapido,Transport,704.12,704.12,211,17.64,Dormant,8449.44
+USR0226,Jio Fiber,Subscriptions,702.67,702.67,78,17.6,Dormant,8432.04
+USR0379,Jio Fiber,Subscriptions,701.33,701.33,105,17.56,Dormant,8415.96
+USR0396,BigBasket,Food,698.84,698.84,45,17.49,Active,0.0
+USR0275,Jio Fiber,Subscriptions,693.75,693.75,77,17.34,Dormant,8325.0
+USR0012,Jio Fiber,Subscriptions,693.0,693.0,45,17.32,Active,0.0
+USR0147,Ola,Transport,692.74,692.74,73,17.31,Dormant,8312.88
+USR0230,Ola,Transport,850.81,680.65,122,16.97,Dormant,10209.72
+USR0343,IndiGo Airlines,Transport,679.63,679.63,170,16.94,Dormant,8155.56
+USR0139,Zomato,Food,954.23,954.23,26,16.56,Active,0.0
+USR0421,RedBus,Transport,665.07,665.07,208,16.52,Dormant,7980.84
+USR0356,Swiggy,Food,949.74,949.74,0,16.47,Active,0.0
+USR0228,Rapido,Transport,662.52,662.52,41,16.45,Active,0.0
+USR0297,Zomato,Food,945.67,945.67,8,16.39,Active,0.0
+USR0013,IRCTC,Transport,656.77,656.77,114,16.28,Dormant,7881.24
+USR0457,Swiggy,Food,653.6,653.6,111,16.19,Dormant,7843.2
+USR0310,Rapido,Transport,641.98,641.98,94,15.85,Dormant,7703.76
+USR0354,McDonald's,Food,910.67,910.67,25,15.72,Active,0.0
+USR0159,Dunzo,Food,631.59,631.59,150,15.56,Dormant,7579.08
+USR0372,IndiGo Airlines,Transport,629.57,629.57,67,15.5,Dormant,7554.84
+USR0351,Uber,Transport,829.07,621.8,112,15.27,Dormant,9948.84
+USR0138,RedBus,Transport,614.06,614.06,132,15.05,Dormant,7368.72
+USR0398,Uber,Transport,873.32,873.32,29,15.01,Active,0.0
+USR0272,Ola,Transport,612.1,612.1,85,15.0,Dormant,7345.2
+USR0029,BigBasket,Food,1157.33,868.0,0,14.9,Active,0.0
+USR0113,Haldiram's,Food,867.59,867.59,26,14.9,Active,0.0
+USR0307,Netflix,Subscriptions,605.0,605.0,48,14.79,Active,0.0
+USR0120,Petrol Pump,Transport,603.83,603.83,212,14.76,Dormant,7245.96
+USR0145,Netflix,Subscriptions,603.25,603.25,77,14.74,Dormant,7239.0
+USR0401,Netflix,Subscriptions,601.67,601.67,78,14.7,Dormant,7220.04
+USR0198,Netflix,Subscriptions,600.33,600.33,142,14.66,Dormant,7203.96
+USR0171,Dunzo,Food,594.94,594.94,188,14.5,Dormant,7139.28
+USR0171,Netflix,Subscriptions,594.0,594.0,105,14.47,Dormant,7128.0
+USR0408,Ola,Transport,567.59,567.59,254,13.72,Dormant,6811.08
+USR0171,Gym Membership,Subscriptions,793.67,793.67,13,13.48,Active,0.0
+USR0287,Ola,Transport,541.14,541.14,42,12.95,Active,0.0
+USR0500,Uber,Transport,764.43,764.43,0,12.92,Active,0.0
+USR0477,Subway,Food,714.78,536.08,215,12.81,Dormant,8577.36
+USR0192,Ola,Transport,532.95,532.95,148,12.72,Dormant,6395.4
+USR0208,RedBus,Transport,532.18,532.18,242,12.7,Dormant,6386.16
+USR0269,IRCTC,Transport,519.89,519.89,46,12.34,Active,0.0
+USR0499,IRCTC,Transport,726.26,726.26,2,12.19,Active,0.0
+USR0279,RedBus,Transport,719.26,719.26,19,12.05,Active,0.0
+USR0022,Jio Fiber,Subscriptions,710.0,710.0,17,11.87,Active,0.0
+USR0230,Jio Fiber,Subscriptions,703.67,703.67,15,11.75,Active,0.0
+USR0232,RedBus,Transport,494.24,494.24,77,11.61,Dormant,5930.88
+USR0136,Uber,Transport,923.5,692.62,30,11.54,Active,0.0
+USR0106,Subway,Food,688.7,688.7,19,11.47,Active,0.0
+USR0389,Petrol Pump,Transport,483.91,483.91,97,11.31,Dormant,5806.92
+USR0334,Chai Point,Food,677.01,677.01,0,11.24,Active,0.0
+USR0366,Rapido,Transport,472.96,472.96,66,10.99,Dormant,5675.52
+USR0376,IRCTC,Transport,469.02,469.02,230,10.88,Dormant,5628.24
+USR0023,Petrol Pump,Transport,657.85,657.85,3,10.87,Active,0.0
+USR0154,Petrol Pump,Transport,648.99,648.99,3,10.7,Active,0.0
+USR0219,Rapido,Transport,460.62,460.62,53,10.64,Active,0.0
+USR0449,Rapido,Transport,633.87,633.87,17,10.41,Active,0.0
+USR0464,Haldiram's,Food,626.12,626.12,10,10.27,Active,0.0
+USR0103,IRCTC,Transport,431.62,431.62,51,9.81,Active,0.0
+USR0280,Ola,Transport,430.83,430.83,40,9.78,Active,0.0
+USR0261,Metro Card,Transport,595.11,595.11,9,9.67,Active,0.0
+USR0462,IndiGo Airlines,Transport,580.29,580.29,18,9.39,Active,0.0
+USR0340,Ola,Transport,572.88,572.88,2,9.25,Active,0.0
+USR0307,Ola,Transport,570.04,570.04,2,9.19,Active,0.0
+USR0351,Rapido,Transport,404.08,404.08,71,9.01,Dormant,4848.96
+USR0226,IRCTC,Transport,559.9,559.9,0,9.0,Active,0.0
+USR0487,Subway,Food,553.37,553.37,30,8.87,Active,0.0
+USR0461,Petrol Pump,Transport,395.38,395.38,159,8.76,Dormant,4744.56
+USR0430,IRCTC,Transport,531.08,531.08,0,8.44,Active,0.0
+USR0182,RedBus,Transport,383.27,383.27,107,8.41,Dormant,4599.24
+USR0286,Metro Card,Transport,373.32,373.32,108,8.13,Dormant,4479.84
+USR0213,IRCTC,Transport,496.16,496.16,6,7.77,Active,0.0
+USR0085,Airtel Xstream,Subscriptions,359.75,359.75,78,7.74,Dormant,4317.0
+USR0397,Ola,Transport,491.18,491.18,11,7.68,Active,0.0
+USR0221,Airtel Xstream,Subscriptions,356.75,356.75,110,7.65,Dormant,4281.0
+USR0425,Airtel Xstream,Subscriptions,355.67,355.67,201,7.62,Dormant,4268.04
+USR0179,Airtel Xstream,Subscriptions,355.33,355.33,107,7.61,Dormant,4263.96
+USR0039,Petrol Pump,Transport,480.39,480.39,0,7.47,Active,0.0
+USR0081,Uber,Transport,447.23,335.42,34,7.04,Active,0.0
+USR0186,IRCTC,Transport,446.16,446.16,0,6.82,Active,0.0
+USR0023,RedBus,Transport,419.64,419.64,0,6.31,Active,0.0
+USR0465,Disney+ Hotstar,Subscriptions,307.33,307.33,44,6.23,Active,0.0
+USR0182,Amazon Prime,Subscriptions,302.25,302.25,76,6.08,Dormant,3627.0
+USR0392,Disney+ Hotstar,Subscriptions,302.0,302.0,50,6.08,Active,0.0
+USR0204,Disney+ Hotstar,Subscriptions,301.25,301.25,46,6.06,Active,0.0
+USR0183,SonyLIV,Subscriptions,301.33,301.33,80,6.06,Dormant,3615.96
+USR0063,SonyLIV,Subscriptions,301.33,301.33,202,6.06,Dormant,3615.96
+USR0399,SonyLIV,Subscriptions,300.67,300.67,77,6.04,Dormant,3608.04
+USR0169,Disney+ Hotstar,Subscriptions,299.67,299.67,80,6.01,Dormant,3596.04
+USR0362,SonyLIV,Subscriptions,297.67,297.67,44,5.95,Active,0.0
+USR0231,IndiGo Airlines,Transport,400.3,400.3,6,5.94,Active,0.0
+USR0360,Amazon Prime,Subscriptions,297.0,297.0,46,5.93,Active,0.0
+USR0273,SonyLIV,Subscriptions,296.67,296.67,139,5.92,Dormant,3560.04
+USR0469,Disney+ Hotstar,Subscriptions,296.0,296.0,142,5.9,Dormant,3552.0
+USR0489,SonyLIV,Subscriptions,293.0,293.0,46,5.82,Active,0.0
+USR0458,SonyLIV,Subscriptions,291.67,291.67,78,5.78,Dormant,3500.04
+USR0140,Disney+ Hotstar,Subscriptions,288.67,288.67,81,5.69,Dormant,3464.04
+USR0377,IndiGo Airlines,Transport,260.91,260.91,182,4.9,Dormant,3130.92
+USR0084,Airtel Xstream,Subscriptions,341.5,341.5,13,4.81,Active,0.0
+USR0363,Airtel Xstream,Subscriptions,340.33,340.33,17,4.79,Active,0.0
+USR0234,RedBus,Transport,320.22,320.22,24,4.4,Active,0.0
+USR0160,Disney+ Hotstar,Subscriptions,307.33,307.33,16,4.15,Active,0.0
+USR0497,Amazon Prime,Subscriptions,307.0,307.0,16,4.15,Active,0.0
+USR0116,Amazon Prime,Subscriptions,305.33,305.33,13,4.12,Active,0.0
+USR0463,Disney+ Hotstar,Subscriptions,304.33,304.33,19,4.1,Active,0.0
+USR0339,Disney+ Hotstar,Subscriptions,303.8,303.8,13,4.09,Active,0.0
+USR0130,SonyLIV,Subscriptions,303.33,303.33,14,4.08,Active,0.0
+USR0181,SonyLIV,Subscriptions,303.33,303.33,15,4.08,Active,0.0
+USR0303,Amazon Prime,Subscriptions,296.33,296.33,16,3.94,Active,0.0
+USR0216,Ola,Transport,216.94,216.94,114,3.63,Dormant,2603.28
+USR0419,YouTube Premium,Subscriptions,190.67,190.67,76,2.88,Dormant,2288.04
+USR0469,YouTube Premium,Subscriptions,185.33,185.33,167,2.72,Dormant,2223.96
+USR0023,YouTube Premium,Subscriptions,178.6,178.6,47,2.53,Active,0.0
+USR0019,Metro Card,Transport,207.21,207.21,4,2.23,Active,0.0
+USR0426,YouTube Premium,Subscriptions,190.25,190.25,16,1.91,Active,0.0
+USR0392,YouTube Premium,Subscriptions,185.0,185.0,15,1.81,Active,0.0
+USR0413,YouTube Premium,Subscriptions,180.67,180.67,18,1.73,Active,0.0
+USR0302,Spotify,Subscriptions,125.33,125.33,48,1.0,Active,0.0
+USR0291,Spotify,Subscriptions,121.67,121.67,77,0.89,Dormant,1460.04
+USR0158,Spotify,Subscriptions,116.33,116.33,170,0.74,Dormant,1395.96
+USR0421,Spotify,Subscriptions,116.0,116.0,260,0.73,Dormant,1392.0
+USR0441,Spotify,Subscriptions,115.67,115.67,78,0.72,Dormant,1388.04
+USR0282,Spotify,Subscriptions,111.0,111.0,77,0.58,Dormant,1332.0
+USR0069,Zee5,Subscriptions,105.33,105.33,19,0.28,Active,0.0
+USR0270,Zee5,Subscriptions,97.33,97.33,109,0.19,Dormant,1167.96
+USR0474,Zee5,Subscriptions,96.33,96.33,75,0.16,Dormant,1155.96
+USR0451,Zee5,Subscriptions,98.0,98.0,13,0.14,Active,0.0
+USR0247,Zee5,Subscriptions,90.67,90.67,44,0.0,Active,0.0

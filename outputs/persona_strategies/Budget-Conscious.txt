@@ -1,0 +1,7 @@
+**What makes them unique:** Budget-Conscious users spend mindfully but often miss higher-yield savings opportunities despite having the discipline for them.
+
+**Features to build:**
+  • Auto-invest surplus: sweep end-of-month balance into a liquid fund automatically.
+  • Savings milestone badges: gamify reaching ₹10K, ₹50K, ₹1L thresholds.
+
+**Notification strategy:** Weekly 'You saved ₹X more than last week!' push every Sunday evening — positive reinforcement drives retention for this segment.

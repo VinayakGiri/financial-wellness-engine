@@ -1,0 +1,7 @@
+**What makes them unique:** Luxury Spenders have the highest avg transaction value and strong income, but lifestyle inflation creeps up silently.
+
+**Features to build:**
+  • Lifestyle inflation tracker: year-on-year comparison of category spend.
+  • Premium concierge: curated cashback deals at preferred merchants.
+
+**Notification strategy:** Quarterly 'Net Worth Check-in' — compare asset growth vs spending growth. Frame as status ('You're in the top 15% of savers').

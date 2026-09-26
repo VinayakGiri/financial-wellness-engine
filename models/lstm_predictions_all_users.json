@@ -1,0 +1,1346 @@
+{
+  "USR0003": {
+    "lstm_forecast": 2753.57,
+    "arima_forecast": 2753.57,
+    "prophet_forecast": 2753.57,
+    "ensemble_forecast": 2753.57,
+    "confidence": "high"
+  },
+  "USR0008": {
+    "lstm_forecast": 4572.88,
+    "arima_forecast": 4572.88,
+    "prophet_forecast": 4572.88,
+    "ensemble_forecast": 4572.88,
+    "confidence": "high"
+  },
+  "USR0010": {
+    "lstm_forecast": 2238.52,
+    "arima_forecast": 4730.65,
+    "prophet_forecast": 1736.51,
+    "ensemble_forecast": 2901.89,
+    "confidence": "low"
+  },
+  "USR0017": {
+    "lstm_forecast": 3232.37,
+    "arima_forecast": 3232.37,
+    "prophet_forecast": 3232.37,
+    "ensemble_forecast": 3232.37,
+    "confidence": "high"
+  },
+  "USR0019": {
+    "lstm_forecast": 4411.36,
+    "arima_forecast": 4411.36,
+    "prophet_forecast": 4411.36,
+    "ensemble_forecast": 4411.36,
+    "confidence": "high"
+  },
+  "USR0021": {
+    "lstm_forecast": 1336.57,
+    "arima_forecast": 1336.57,
+    "prophet_forecast": 1336.57,
+    "ensemble_forecast": 1336.57,
+    "confidence": "high"
+  },
+  "USR0022": {
+    "lstm_forecast": 5583.81,
+    "arima_forecast": 5583.81,
+    "prophet_forecast": 5583.81,
+    "ensemble_forecast": 5583.81,
+    "confidence": "high"
+  },
+  "USR0023": {
+    "lstm_forecast": 2608.13,
+    "arima_forecast": 2608.13,
+    "prophet_forecast": 2608.13,
+    "ensemble_forecast": 2608.13,
+    "confidence": "high"
+  },
+  "USR0025": {
+    "lstm_forecast": 4353.69,
+    "arima_forecast": 4353.69,
+    "prophet_forecast": 4353.69,
+    "ensemble_forecast": 4353.69,
+    "confidence": "high"
+  },
+  "USR0026": {
+    "lstm_forecast": 2630.14,
+    "arima_forecast": 2630.14,
+    "prophet_forecast": 2630.14,
+    "ensemble_forecast": 2630.14,
+    "confidence": "high"
+  },
+  "USR0027": {
+    "lstm_forecast": 2856.09,
+    "arima_forecast": 2856.09,
+    "prophet_forecast": 2856.09,
+    "ensemble_forecast": 2856.09,
+    "confidence": "high"
+  },
+  "USR0032": {
+    "lstm_forecast": 6642.17,
+    "arima_forecast": 6642.17,
+    "prophet_forecast": 6642.17,
+    "ensemble_forecast": 6642.17,
+    "confidence": "high"
+  },
+  "USR0034": {
+    "lstm_forecast": 3926.34,
+    "arima_forecast": 3926.34,
+    "prophet_forecast": 3926.34,
+    "ensemble_forecast": 3926.34,
+    "confidence": "high"
+  },
+  "USR0038": {
+    "lstm_forecast": 1004.52,
+    "arima_forecast": 1004.52,
+    "prophet_forecast": 1004.52,
+    "ensemble_forecast": 1004.52,
+    "confidence": "high"
+  },
+  "USR0044": {
+    "lstm_forecast": 3782.47,
+    "arima_forecast": 3782.47,
+    "prophet_forecast": 3782.47,
+    "ensemble_forecast": 3782.47,
+    "confidence": "high"
+  },
+  "USR0046": {
+    "lstm_forecast": 2921.61,
+    "arima_forecast": 2921.61,
+    "prophet_forecast": 2921.61,
+    "ensemble_forecast": 2921.61,
+    "confidence": "high"
+  },
+  "USR0051": {
+    "lstm_forecast": 1553.07,
+    "arima_forecast": 1553.07,
+    "prophet_forecast": 1553.07,
+    "ensemble_forecast": 1553.07,
+    "confidence": "high"
+  },
+  "USR0052": {
+    "lstm_forecast": 4462.41,
+    "arima_forecast": 4462.41,
+    "prophet_forecast": 4462.41,
+    "ensemble_forecast": 4462.41,
+    "confidence": "high"
+  },
+  "USR0055": {
+    "lstm_forecast": 2903.05,
+    "arima_forecast": 2903.05,
+    "prophet_forecast": 2903.05,
+    "ensemble_forecast": 2903.05,
+    "confidence": "high"
+  },
+  "USR0056": {
+    "lstm_forecast": 4039.27,
+    "arima_forecast": 0,
+    "prophet_forecast": 7320.89,
+    "ensemble_forecast": 3786.72,
+    "confidence": "low"
+  },
+  "USR0058": {
+    "lstm_forecast": 2069.09,
+    "arima_forecast": 2069.09,
+    "prophet_forecast": 2069.09,
+    "ensemble_forecast": 2069.09,
+    "confidence": "high"
+  },
+  "USR0060": {
+    "lstm_forecast": 1812.38,
+    "arima_forecast": 1812.38,
+    "prophet_forecast": 1812.38,
+    "ensemble_forecast": 1812.38,
+    "confidence": "high"
+  },
+  "USR0070": {
+    "lstm_forecast": 1496.98,
+    "arima_forecast": 1496.98,
+    "prophet_forecast": 1496.98,
+    "ensemble_forecast": 1496.98,
+    "confidence": "high"
+  },
+  "USR0071": {
+    "lstm_forecast": 3466.95,
+    "arima_forecast": 3466.95,
+    "prophet_forecast": 3466.95,
+    "ensemble_forecast": 3466.95,
+    "confidence": "high"
+  },
+  "USR0073": {
+    "lstm_forecast": 4589.0,
+    "arima_forecast": 4612.35,
+    "prophet_forecast": 6915.5,
+    "ensemble_forecast": 5372.28,
+    "confidence": "medium"
+  },
+  "USR0074": {
+    "lstm_forecast": 1879.61,
+    "arima_forecast": 2150.01,
+    "prophet_forecast": 971.71,
+    "ensemble_forecast": 1667.11,
+    "confidence": "low"
+  },
+  "USR0075": {
+    "lstm_forecast": 2826.14,
+    "arima_forecast": 2826.14,
+    "prophet_forecast": 2826.14,
+    "ensemble_forecast": 2826.14,
+    "confidence": "high"
+  },
+  "USR0077": {
+    "lstm_forecast": 2029.6,
+    "arima_forecast": 2029.6,
+    "prophet_forecast": 2029.6,
+    "ensemble_forecast": 2029.6,
+    "confidence": "high"
+  },
+  "USR0081": {
+    "lstm_forecast": 2332.7,
+    "arima_forecast": 2332.7,
+    "prophet_forecast": 2332.7,
+    "ensemble_forecast": 2332.7,
+    "confidence": "high"
+  },
+  "USR0084": {
+    "lstm_forecast": 4131.76,
+    "arima_forecast": 4131.76,
+    "prophet_forecast": 4131.76,
+    "ensemble_forecast": 4131.76,
+    "confidence": "high"
+  },
+  "USR0085": {
+    "lstm_forecast": 4477.7,
+    "arima_forecast": 4477.7,
+    "prophet_forecast": 4477.7,
+    "ensemble_forecast": 4477.7,
+    "confidence": "high"
+  },
+  "USR0088": {
+    "lstm_forecast": 2113.91,
+    "arima_forecast": 2113.91,
+    "prophet_forecast": 2113.91,
+    "ensemble_forecast": 2113.91,
+    "confidence": "high"
+  },
+  "USR0094": {
+    "lstm_forecast": 2527.15,
+    "arima_forecast": 3543.65,
+    "prophet_forecast": 5483.18,
+    "ensemble_forecast": 3851.33,
+    "confidence": "low"
+  },
+  "USR0097": {
+    "lstm_forecast": 1978.78,
+    "arima_forecast": 1978.78,
+    "prophet_forecast": 1978.78,
+    "ensemble_forecast": 1978.78,
+    "confidence": "high"
+  },
+  "USR0098": {
+    "lstm_forecast": 2205.53,
+    "arima_forecast": 2205.53,
+    "prophet_forecast": 2205.53,
+    "ensemble_forecast": 2205.53,
+    "confidence": "high"
+  },
+  "USR0100": {
+    "lstm_forecast": 4632.51,
+    "arima_forecast": 4632.51,
+    "prophet_forecast": 4632.51,
+    "ensemble_forecast": 4632.51,
+    "confidence": "high"
+  },
+  "USR0101": {
+    "lstm_forecast": 1719.6,
+    "arima_forecast": 1719.6,
+    "prophet_forecast": 1719.6,
+    "ensemble_forecast": 1719.6,
+    "confidence": "high"
+  },
+  "USR0103": {
+    "lstm_forecast": 3379.09,
+    "arima_forecast": 3379.09,
+    "prophet_forecast": 3379.09,
+    "ensemble_forecast": 3379.09,
+    "confidence": "high"
+  },
+  "USR0105": {
+    "lstm_forecast": 3430.32,
+    "arima_forecast": 4010.75,
+    "prophet_forecast": 2138.28,
+    "ensemble_forecast": 3193.12,
+    "confidence": "medium"
+  },
+  "USR0108": {
+    "lstm_forecast": 4547.62,
+    "arima_forecast": 4547.62,
+    "prophet_forecast": 4547.62,
+    "ensemble_forecast": 4547.62,
+    "confidence": "high"
+  },
+  "USR0109": {
+    "lstm_forecast": 2666.19,
+    "arima_forecast": 2666.19,
+    "prophet_forecast": 2666.19,
+    "ensemble_forecast": 2666.19,
+    "confidence": "high"
+  },
+  "USR0112": {
+    "lstm_forecast": 1715.47,
+    "arima_forecast": 1715.47,
+    "prophet_forecast": 1715.47,
+    "ensemble_forecast": 1715.47,
+    "confidence": "high"
+  },
+  "USR0116": {
+    "lstm_forecast": 3902.46,
+    "arima_forecast": 3902.46,
+    "prophet_forecast": 3902.46,
+    "ensemble_forecast": 3902.46,
+    "confidence": "high"
+  },
+  "USR0117": {
+    "lstm_forecast": 5568.67,
+    "arima_forecast": 5568.67,
+    "prophet_forecast": 5568.67,
+    "ensemble_forecast": 5568.67,
+    "confidence": "high"
+  },
+  "USR0120": {
+    "lstm_forecast": 2507.31,
+    "arima_forecast": 2507.31,
+    "prophet_forecast": 2507.31,
+    "ensemble_forecast": 2507.31,
+    "confidence": "high"
+  },
+  "USR0121": {
+    "lstm_forecast": 1795.81,
+    "arima_forecast": 1795.81,
+    "prophet_forecast": 1795.81,
+    "ensemble_forecast": 1795.81,
+    "confidence": "high"
+  },
+  "USR0122": {
+    "lstm_forecast": 2783.19,
+    "arima_forecast": 2783.19,
+    "prophet_forecast": 2783.19,
+    "ensemble_forecast": 2783.19,
+    "confidence": "high"
+  },
+  "USR0123": {
+    "lstm_forecast": 3795.15,
+    "arima_forecast": 3795.15,
+    "prophet_forecast": 3795.15,
+    "ensemble_forecast": 3795.15,
+    "confidence": "high"
+  },
+  "USR0127": {
+    "lstm_forecast": 4239.21,
+    "arima_forecast": 4239.21,
+    "prophet_forecast": 4239.21,
+    "ensemble_forecast": 4239.21,
+    "confidence": "high"
+  },
+  "USR0129": {
+    "lstm_forecast": 1574.69,
+    "arima_forecast": 1574.69,
+    "prophet_forecast": 1574.69,
+    "ensemble_forecast": 1574.69,
+    "confidence": "high"
+  },
+  "USR0130": {
+    "lstm_forecast": 4088.29,
+    "arima_forecast": 4088.29,
+    "prophet_forecast": 4088.29,
+    "ensemble_forecast": 4088.29,
+    "confidence": "high"
+  },
+  "USR0132": {
+    "lstm_forecast": 3370.09,
+    "arima_forecast": 3370.09,
+    "prophet_forecast": 3370.09,
+    "ensemble_forecast": 3370.09,
+    "confidence": "high"
+  },
+  "USR0133": {
+    "lstm_forecast": 2780.96,
+    "arima_forecast": 2780.96,
+    "prophet_forecast": 2780.96,
+    "ensemble_forecast": 2780.96,
+    "confidence": "high"
+  },
+  "USR0136": {
+    "lstm_forecast": 1416.18,
+    "arima_forecast": 1416.18,
+    "prophet_forecast": 1416.18,
+    "ensemble_forecast": 1416.18,
+    "confidence": "high"
+  },
+  "USR0137": {
+    "lstm_forecast": 1548.07,
+    "arima_forecast": 1548.07,
+    "prophet_forecast": 1548.07,
+    "ensemble_forecast": 1548.07,
+    "confidence": "high"
+  },
+  "USR0138": {
+    "lstm_forecast": 1335.46,
+    "arima_forecast": 2164.87,
+    "prophet_forecast": 1092.57,
+    "ensemble_forecast": 1530.97,
+    "confidence": "low"
+  },
+  "USR0139": {
+    "lstm_forecast": 2203.14,
+    "arima_forecast": 2203.14,
+    "prophet_forecast": 2203.14,
+    "ensemble_forecast": 2203.14,
+    "confidence": "high"
+  },
+  "USR0144": {
+    "lstm_forecast": 4162.85,
+    "arima_forecast": 4162.85,
+    "prophet_forecast": 4162.85,
+    "ensemble_forecast": 4162.85,
+    "confidence": "high"
+  },
+  "USR0147": {
+    "lstm_forecast": 3000.46,
+    "arima_forecast": 3000.46,
+    "prophet_forecast": 3000.46,
+    "ensemble_forecast": 3000.46,
+    "confidence": "high"
+  },
+  "USR0148": {
+    "lstm_forecast": 5375.77,
+    "arima_forecast": 5375.77,
+    "prophet_forecast": 5375.77,
+    "ensemble_forecast": 5375.77,
+    "confidence": "high"
+  },
+  "USR0150": {
+    "lstm_forecast": 5212.66,
+    "arima_forecast": 5212.66,
+    "prophet_forecast": 5212.66,
+    "ensemble_forecast": 5212.66,
+    "confidence": "high"
+  },
+  "USR0151": {
+    "lstm_forecast": 5851.08,
+    "arima_forecast": 5851.08,
+    "prophet_forecast": 5851.08,
+    "ensemble_forecast": 5851.08,
+    "confidence": "high"
+  },
+  "USR0153": {
+    "lstm_forecast": 3947.45,
+    "arima_forecast": 3947.45,
+    "prophet_forecast": 3947.45,
+    "ensemble_forecast": 3947.45,
+    "confidence": "high"
+  },
+  "USR0154": {
+    "lstm_forecast": 5540.36,
+    "arima_forecast": 5540.36,
+    "prophet_forecast": 5540.36,
+    "ensemble_forecast": 5540.36,
+    "confidence": "high"
+  },
+  "USR0155": {
+    "lstm_forecast": 1430.51,
+    "arima_forecast": 1430.51,
+    "prophet_forecast": 1430.51,
+    "ensemble_forecast": 1430.51,
+    "confidence": "high"
+  },
+  "USR0156": {
+    "lstm_forecast": 2653.46,
+    "arima_forecast": 2653.46,
+    "prophet_forecast": 2653.46,
+    "ensemble_forecast": 2653.46,
+    "confidence": "high"
+  },
+  "USR0157": {
+    "lstm_forecast": 5822.31,
+    "arima_forecast": 6201.43,
+    "prophet_forecast": 7207.27,
+    "ensemble_forecast": 6410.34,
+    "confidence": "high"
+  },
+  "USR0158": {
+    "lstm_forecast": 4372.37,
+    "arima_forecast": 4372.37,
+    "prophet_forecast": 4372.37,
+    "ensemble_forecast": 4372.37,
+    "confidence": "high"
+  },
+  "USR0160": {
+    "lstm_forecast": 2400.37,
+    "arima_forecast": 2400.37,
+    "prophet_forecast": 2400.37,
+    "ensemble_forecast": 2400.37,
+    "confidence": "high"
+  },
+  "USR0161": {
+    "lstm_forecast": 3753.04,
+    "arima_forecast": 3753.04,
+    "prophet_forecast": 3753.04,
+    "ensemble_forecast": 3753.04,
+    "confidence": "high"
+  },
+  "USR0168": {
+    "lstm_forecast": 2328.31,
+    "arima_forecast": 2328.31,
+    "prophet_forecast": 2328.31,
+    "ensemble_forecast": 2328.31,
+    "confidence": "high"
+  },
+  "USR0171": {
+    "lstm_forecast": 1977.93,
+    "arima_forecast": 1977.93,
+    "prophet_forecast": 1977.93,
+    "ensemble_forecast": 1977.93,
+    "confidence": "high"
+  },
+  "USR0172": {
+    "lstm_forecast": 4534.73,
+    "arima_forecast": 4534.73,
+    "prophet_forecast": 4534.73,
+    "ensemble_forecast": 4534.73,
+    "confidence": "high"
+  },
+  "USR0174": {
+    "lstm_forecast": 3956.8,
+    "arima_forecast": 3956.8,
+    "prophet_forecast": 3956.8,
+    "ensemble_forecast": 3956.8,
+    "confidence": "high"
+  },
+  "USR0179": {
+    "lstm_forecast": 2730.44,
+    "arima_forecast": 2730.44,
+    "prophet_forecast": 2730.44,
+    "ensemble_forecast": 2730.44,
+    "confidence": "high"
+  },
+  "USR0181": {
+    "lstm_forecast": 7426.45,
+    "arima_forecast": 7426.45,
+    "prophet_forecast": 7426.45,
+    "ensemble_forecast": 7426.45,
+    "confidence": "high"
+  },
+  "USR0184": {
+    "lstm_forecast": 2002.13,
+    "arima_forecast": 2002.13,
+    "prophet_forecast": 2002.13,
+    "ensemble_forecast": 2002.13,
+    "confidence": "high"
+  },
+  "USR0185": {
+    "lstm_forecast": 4336.5,
+    "arima_forecast": 4336.5,
+    "prophet_forecast": 4336.5,
+    "ensemble_forecast": 4336.5,
+    "confidence": "high"
+  },
+  "USR0189": {
+    "lstm_forecast": 3471.8,
+    "arima_forecast": 3471.8,
+    "prophet_forecast": 3471.8,
+    "ensemble_forecast": 3471.8,
+    "confidence": "high"
+  },
+  "USR0191": {
+    "lstm_forecast": 5788.22,
+    "arima_forecast": 5788.22,
+    "prophet_forecast": 5788.22,
+    "ensemble_forecast": 5788.22,
+    "confidence": "high"
+  },
+  "USR0194": {
+    "lstm_forecast": 3182.83,
+    "arima_forecast": 3836.81,
+    "prophet_forecast": 435.87,
+    "ensemble_forecast": 2485.17,
+    "confidence": "low"
+  },
+  "USR0195": {
+    "lstm_forecast": 2342.24,
+    "arima_forecast": 2342.24,
+    "prophet_forecast": 2342.24,
+    "ensemble_forecast": 2342.24,
+    "confidence": "high"
+  },
+  "USR0200": {
+    "lstm_forecast": 5999.88,
+    "arima_forecast": 5999.88,
+    "prophet_forecast": 5999.88,
+    "ensemble_forecast": 5999.88,
+    "confidence": "high"
+  },
+  "USR0203": {
+    "lstm_forecast": 1287.38,
+    "arima_forecast": 1287.38,
+    "prophet_forecast": 1287.38,
+    "ensemble_forecast": 1287.38,
+    "confidence": "high"
+  },
+  "USR0204": {
+    "lstm_forecast": 2146.37,
+    "arima_forecast": 2146.37,
+    "prophet_forecast": 2146.37,
+    "ensemble_forecast": 2146.37,
+    "confidence": "high"
+  },
+  "USR0207": {
+    "lstm_forecast": 3192.79,
+    "arima_forecast": 3192.79,
+    "prophet_forecast": 3192.79,
+    "ensemble_forecast": 3192.79,
+    "confidence": "high"
+  },
+  "USR0209": {
+    "lstm_forecast": 2919.78,
+    "arima_forecast": 2919.78,
+    "prophet_forecast": 2919.78,
+    "ensemble_forecast": 2919.78,
+    "confidence": "high"
+  },
+  "USR0211": {
+    "lstm_forecast": 6101.76,
+    "arima_forecast": 6101.76,
+    "prophet_forecast": 6101.76,
+    "ensemble_forecast": 6101.76,
+    "confidence": "high"
+  },
+  "USR0212": {
+    "lstm_forecast": 6970.6,
+    "arima_forecast": 6970.6,
+    "prophet_forecast": 6970.6,
+    "ensemble_forecast": 6970.6,
+    "confidence": "high"
+  },
+  "USR0217": {
+    "lstm_forecast": 1060.65,
+    "arima_forecast": 1060.65,
+    "prophet_forecast": 1060.65,
+    "ensemble_forecast": 1060.65,
+    "confidence": "high"
+  },
+  "USR0218": {
+    "lstm_forecast": 5493.38,
+    "arima_forecast": 5493.38,
+    "prophet_forecast": 5493.38,
+    "ensemble_forecast": 5493.38,
+    "confidence": "high"
+  },
+  "USR0220": {
+    "lstm_forecast": 785.26,
+    "arima_forecast": 785.26,
+    "prophet_forecast": 785.26,
+    "ensemble_forecast": 785.26,
+    "confidence": "high"
+  },
+  "USR0223": {
+    "lstm_forecast": 4547.16,
+    "arima_forecast": 4547.16,
+    "prophet_forecast": 4547.16,
+    "ensemble_forecast": 4547.16,
+    "confidence": "high"
+  },
+  "USR0226": {
+    "lstm_forecast": 2855.7,
+    "arima_forecast": 2855.7,
+    "prophet_forecast": 2855.7,
+    "ensemble_forecast": 2855.7,
+    "confidence": "high"
+  },
+  "USR0230": {
+    "lstm_forecast": 3130.67,
+    "arima_forecast": 3130.67,
+    "prophet_forecast": 3130.67,
+    "ensemble_forecast": 3130.67,
+    "confidence": "high"
+  },
+  "USR0231": {
+    "lstm_forecast": 3216.06,
+    "arima_forecast": 3216.06,
+    "prophet_forecast": 3216.06,
+    "ensemble_forecast": 3216.06,
+    "confidence": "high"
+  },
+  "USR0232": {
+    "lstm_forecast": 2864.09,
+    "arima_forecast": 2864.09,
+    "prophet_forecast": 2864.09,
+    "ensemble_forecast": 2864.09,
+    "confidence": "high"
+  },
+  "USR0234": {
+    "lstm_forecast": 4207.82,
+    "arima_forecast": 4207.82,
+    "prophet_forecast": 4207.82,
+    "ensemble_forecast": 4207.82,
+    "confidence": "high"
+  },
+  "USR0238": {
+    "lstm_forecast": 1466.33,
+    "arima_forecast": 1466.33,
+    "prophet_forecast": 1466.33,
+    "ensemble_forecast": 1466.33,
+    "confidence": "high"
+  },
+  "USR0239": {
+    "lstm_forecast": 4483.75,
+    "arima_forecast": 3739.38,
+    "prophet_forecast": 3113.34,
+    "ensemble_forecast": 3778.82,
+    "confidence": "medium"
+  },
+  "USR0242": {
+    "lstm_forecast": 2240.69,
+    "arima_forecast": 2240.69,
+    "prophet_forecast": 2240.69,
+    "ensemble_forecast": 2240.69,
+    "confidence": "high"
+  },
+  "USR0245": {
+    "lstm_forecast": 2488.28,
+    "arima_forecast": 2488.28,
+    "prophet_forecast": 2488.28,
+    "ensemble_forecast": 2488.28,
+    "confidence": "high"
+  },
+  "USR0246": {
+    "lstm_forecast": 2136.68,
+    "arima_forecast": 2136.68,
+    "prophet_forecast": 2136.68,
+    "ensemble_forecast": 2136.68,
+    "confidence": "high"
+  },
+  "USR0247": {
+    "lstm_forecast": 2210.42,
+    "arima_forecast": 2210.42,
+    "prophet_forecast": 2210.42,
+    "ensemble_forecast": 2210.42,
+    "confidence": "high"
+  },
+  "USR0254": {
+    "lstm_forecast": 2872.04,
+    "arima_forecast": 2872.04,
+    "prophet_forecast": 2872.04,
+    "ensemble_forecast": 2872.04,
+    "confidence": "high"
+  },
+  "USR0255": {
+    "lstm_forecast": 4209.76,
+    "arima_forecast": 4209.76,
+    "prophet_forecast": 4209.76,
+    "ensemble_forecast": 4209.76,
+    "confidence": "high"
+  },
+  "USR0256": {
+    "lstm_forecast": 2474.04,
+    "arima_forecast": 2474.04,
+    "prophet_forecast": 2474.04,
+    "ensemble_forecast": 2474.04,
+    "confidence": "high"
+  },
+  "USR0259": {
+    "lstm_forecast": 5344.81,
+    "arima_forecast": 5344.81,
+    "prophet_forecast": 5344.81,
+    "ensemble_forecast": 5344.81,
+    "confidence": "high"
+  },
+  "USR0264": {
+    "lstm_forecast": 3779.59,
+    "arima_forecast": 3779.59,
+    "prophet_forecast": 3779.59,
+    "ensemble_forecast": 3779.59,
+    "confidence": "high"
+  },
+  "USR0270": {
+    "lstm_forecast": 1466.76,
+    "arima_forecast": 1466.76,
+    "prophet_forecast": 1466.76,
+    "ensemble_forecast": 1466.76,
+    "confidence": "high"
+  },
+  "USR0271": {
+    "lstm_forecast": 3349.12,
+    "arima_forecast": 3349.12,
+    "prophet_forecast": 3349.12,
+    "ensemble_forecast": 3349.12,
+    "confidence": "high"
+  },
+  "USR0272": {
+    "lstm_forecast": 3671.68,
+    "arima_forecast": 3671.68,
+    "prophet_forecast": 3671.68,
+    "ensemble_forecast": 3671.68,
+    "confidence": "high"
+  },
+  "USR0273": {
+    "lstm_forecast": 3517.08,
+    "arima_forecast": 3517.08,
+    "prophet_forecast": 3517.08,
+    "ensemble_forecast": 3517.08,
+    "confidence": "high"
+  },
+  "USR0274": {
+    "lstm_forecast": 3344.9,
+    "arima_forecast": 3344.9,
+    "prophet_forecast": 3344.9,
+    "ensemble_forecast": 3344.9,
+    "confidence": "high"
+  },
+  "USR0276": {
+    "lstm_forecast": 2956.39,
+    "arima_forecast": 2956.39,
+    "prophet_forecast": 2956.39,
+    "ensemble_forecast": 2956.39,
+    "confidence": "high"
+  },
+  "USR0279": {
+    "lstm_forecast": 5177.99,
+    "arima_forecast": 5177.99,
+    "prophet_forecast": 5177.99,
+    "ensemble_forecast": 5177.99,
+    "confidence": "high"
+  },
+  "USR0283": {
+    "lstm_forecast": 2960.42,
+    "arima_forecast": 2960.42,
+    "prophet_forecast": 2960.42,
+    "ensemble_forecast": 2960.42,
+    "confidence": "high"
+  },
+  "USR0292": {
+    "lstm_forecast": 4104.89,
+    "arima_forecast": 4104.89,
+    "prophet_forecast": 4104.89,
+    "ensemble_forecast": 4104.89,
+    "confidence": "high"
+  },
+  "USR0296": {
+    "lstm_forecast": 2942.59,
+    "arima_forecast": 2942.59,
+    "prophet_forecast": 2942.59,
+    "ensemble_forecast": 2942.59,
+    "confidence": "high"
+  },
+  "USR0299": {
+    "lstm_forecast": 1656.91,
+    "arima_forecast": 1656.91,
+    "prophet_forecast": 1656.91,
+    "ensemble_forecast": 1656.91,
+    "confidence": "high"
+  },
+  "USR0302": {
+    "lstm_forecast": 2031.39,
+    "arima_forecast": 2031.39,
+    "prophet_forecast": 2031.39,
+    "ensemble_forecast": 2031.39,
+    "confidence": "high"
+  },
+  "USR0312": {
+    "lstm_forecast": 1167.71,
+    "arima_forecast": 1167.71,
+    "prophet_forecast": 1167.71,
+    "ensemble_forecast": 1167.71,
+    "confidence": "high"
+  },
+  "USR0313": {
+    "lstm_forecast": 2464.63,
+    "arima_forecast": 2464.63,
+    "prophet_forecast": 2464.63,
+    "ensemble_forecast": 2464.63,
+    "confidence": "high"
+  },
+  "USR0314": {
+    "lstm_forecast": 1519.56,
+    "arima_forecast": 1519.56,
+    "prophet_forecast": 1519.56,
+    "ensemble_forecast": 1519.56,
+    "confidence": "high"
+  },
+  "USR0315": {
+    "lstm_forecast": 3417.74,
+    "arima_forecast": 3417.74,
+    "prophet_forecast": 3417.74,
+    "ensemble_forecast": 3417.74,
+    "confidence": "high"
+  },
+  "USR0316": {
+    "lstm_forecast": 3059.11,
+    "arima_forecast": 3059.11,
+    "prophet_forecast": 3059.11,
+    "ensemble_forecast": 3059.11,
+    "confidence": "high"
+  },
+  "USR0317": {
+    "lstm_forecast": 2444.74,
+    "arima_forecast": 2444.74,
+    "prophet_forecast": 2444.74,
+    "ensemble_forecast": 2444.74,
+    "confidence": "high"
+  },
+  "USR0321": {
+    "lstm_forecast": 2293.8,
+    "arima_forecast": 2293.8,
+    "prophet_forecast": 2293.8,
+    "ensemble_forecast": 2293.8,
+    "confidence": "high"
+  },
+  "USR0322": {
+    "lstm_forecast": 2691.27,
+    "arima_forecast": 2691.27,
+    "prophet_forecast": 2691.27,
+    "ensemble_forecast": 2691.27,
+    "confidence": "high"
+  },
+  "USR0329": {
+    "lstm_forecast": 1871.17,
+    "arima_forecast": 1871.17,
+    "prophet_forecast": 1871.17,
+    "ensemble_forecast": 1871.17,
+    "confidence": "high"
+  },
+  "USR0330": {
+    "lstm_forecast": 1661.68,
+    "arima_forecast": 1661.68,
+    "prophet_forecast": 1661.68,
+    "ensemble_forecast": 1661.68,
+    "confidence": "high"
+  },
+  "USR0331": {
+    "lstm_forecast": 2172.65,
+    "arima_forecast": 2172.65,
+    "prophet_forecast": 2172.65,
+    "ensemble_forecast": 2172.65,
+    "confidence": "high"
+  },
+  "USR0336": {
+    "lstm_forecast": 2146.73,
+    "arima_forecast": 2146.73,
+    "prophet_forecast": 2146.73,
+    "ensemble_forecast": 2146.73,
+    "confidence": "high"
+  },
+  "USR0340": {
+    "lstm_forecast": 3250.03,
+    "arima_forecast": 3250.03,
+    "prophet_forecast": 3250.03,
+    "ensemble_forecast": 3250.03,
+    "confidence": "high"
+  },
+  "USR0342": {
+    "lstm_forecast": 1362.97,
+    "arima_forecast": 1362.97,
+    "prophet_forecast": 1362.97,
+    "ensemble_forecast": 1362.97,
+    "confidence": "high"
+  },
+  "USR0343": {
+    "lstm_forecast": 4095.32,
+    "arima_forecast": 4095.32,
+    "prophet_forecast": 4095.32,
+    "ensemble_forecast": 4095.32,
+    "confidence": "high"
+  },
+  "USR0344": {
+    "lstm_forecast": 1360.76,
+    "arima_forecast": 1360.76,
+    "prophet_forecast": 1360.76,
+    "ensemble_forecast": 1360.76,
+    "confidence": "high"
+  },
+  "USR0345": {
+    "lstm_forecast": 2699.68,
+    "arima_forecast": 2699.68,
+    "prophet_forecast": 2699.68,
+    "ensemble_forecast": 2699.68,
+    "confidence": "high"
+  },
+  "USR0346": {
+    "lstm_forecast": 3057.49,
+    "arima_forecast": 3057.49,
+    "prophet_forecast": 3057.49,
+    "ensemble_forecast": 3057.49,
+    "confidence": "high"
+  },
+  "USR0347": {
+    "lstm_forecast": 3069.53,
+    "arima_forecast": 3069.53,
+    "prophet_forecast": 3069.53,
+    "ensemble_forecast": 3069.53,
+    "confidence": "high"
+  },
+  "USR0348": {
+    "lstm_forecast": 3451.62,
+    "arima_forecast": 3451.62,
+    "prophet_forecast": 3451.62,
+    "ensemble_forecast": 3451.62,
+    "confidence": "high"
+  },
+  "USR0349": {
+    "lstm_forecast": 4830.09,
+    "arima_forecast": 4830.09,
+    "prophet_forecast": 4830.09,
+    "ensemble_forecast": 4830.09,
+    "confidence": "high"
+  },
+  "USR0350": {
+    "lstm_forecast": 1407.47,
+    "arima_forecast": 1407.47,
+    "prophet_forecast": 1407.47,
+    "ensemble_forecast": 1407.47,
+    "confidence": "high"
+  },
+  "USR0351": {
+    "lstm_forecast": 4050.74,
+    "arima_forecast": 4050.74,
+    "prophet_forecast": 4050.74,
+    "ensemble_forecast": 4050.74,
+    "confidence": "high"
+  },
+  "USR0356": {
+    "lstm_forecast": 1599.62,
+    "arima_forecast": 1599.62,
+    "prophet_forecast": 1599.62,
+    "ensemble_forecast": 1599.62,
+    "confidence": "high"
+  },
+  "USR0357": {
+    "lstm_forecast": 4286.82,
+    "arima_forecast": 4286.82,
+    "prophet_forecast": 4286.82,
+    "ensemble_forecast": 4286.82,
+    "confidence": "high"
+  },
+  "USR0358": {
+    "lstm_forecast": 2529.27,
+    "arima_forecast": 2529.27,
+    "prophet_forecast": 2529.27,
+    "ensemble_forecast": 2529.27,
+    "confidence": "high"
+  },
+  "USR0361": {
+    "lstm_forecast": 2787.37,
+    "arima_forecast": 2787.37,
+    "prophet_forecast": 2787.37,
+    "ensemble_forecast": 2787.37,
+    "confidence": "high"
+  },
+  "USR0363": {
+    "lstm_forecast": 2514.75,
+    "arima_forecast": 2514.75,
+    "prophet_forecast": 2514.75,
+    "ensemble_forecast": 2514.75,
+    "confidence": "high"
+  },
+  "USR0373": {
+    "lstm_forecast": 2340.22,
+    "arima_forecast": 2340.22,
+    "prophet_forecast": 2340.22,
+    "ensemble_forecast": 2340.22,
+    "confidence": "high"
+  },
+  "USR0375": {
+    "lstm_forecast": 3638.0,
+    "arima_forecast": 3638.0,
+    "prophet_forecast": 3638.0,
+    "ensemble_forecast": 3638.0,
+    "confidence": "high"
+  },
+  "USR0379": {
+    "lstm_forecast": 1880.42,
+    "arima_forecast": 1880.42,
+    "prophet_forecast": 1880.42,
+    "ensemble_forecast": 1880.42,
+    "confidence": "high"
+  },
+  "USR0383": {
+    "lstm_forecast": 2708.76,
+    "arima_forecast": 2708.76,
+    "prophet_forecast": 2708.76,
+    "ensemble_forecast": 2708.76,
+    "confidence": "high"
+  },
+  "USR0385": {
+    "lstm_forecast": 3728.72,
+    "arima_forecast": 3728.72,
+    "prophet_forecast": 3728.72,
+    "ensemble_forecast": 3728.72,
+    "confidence": "high"
+  },
+  "USR0387": {
+    "lstm_forecast": 4880.49,
+    "arima_forecast": 4880.49,
+    "prophet_forecast": 4880.49,
+    "ensemble_forecast": 4880.49,
+    "confidence": "high"
+  },
+  "USR0388": {
+    "lstm_forecast": 4108.38,
+    "arima_forecast": 4108.38,
+    "prophet_forecast": 4108.38,
+    "ensemble_forecast": 4108.38,
+    "confidence": "high"
+  },
+  "USR0392": {
+    "lstm_forecast": 792.79,
+    "arima_forecast": 792.79,
+    "prophet_forecast": 792.79,
+    "ensemble_forecast": 792.79,
+    "confidence": "high"
+  },
+  "USR0399": {
+    "lstm_forecast": 3417.85,
+    "arima_forecast": 3417.85,
+    "prophet_forecast": 3417.85,
+    "ensemble_forecast": 3417.85,
+    "confidence": "high"
+  },
+  "USR0402": {
+    "lstm_forecast": 4713.56,
+    "arima_forecast": 4713.56,
+    "prophet_forecast": 4713.56,
+    "ensemble_forecast": 4713.56,
+    "confidence": "high"
+  },
+  "USR0405": {
+    "lstm_forecast": 2075.85,
+    "arima_forecast": 2075.85,
+    "prophet_forecast": 2075.85,
+    "ensemble_forecast": 2075.85,
+    "confidence": "high"
+  },
+  "USR0407": {
+    "lstm_forecast": 1255.45,
+    "arima_forecast": 1255.45,
+    "prophet_forecast": 1255.45,
+    "ensemble_forecast": 1255.45,
+    "confidence": "high"
+  },
+  "USR0408": {
+    "lstm_forecast": 3404.21,
+    "arima_forecast": 3404.21,
+    "prophet_forecast": 3404.21,
+    "ensemble_forecast": 3404.21,
+    "confidence": "high"
+  },
+  "USR0414": {
+    "lstm_forecast": 1962.64,
+    "arima_forecast": 1962.64,
+    "prophet_forecast": 1962.64,
+    "ensemble_forecast": 1962.64,
+    "confidence": "high"
+  },
+  "USR0419": {
+    "lstm_forecast": 2686.59,
+    "arima_forecast": 2686.59,
+    "prophet_forecast": 2686.59,
+    "ensemble_forecast": 2686.59,
+    "confidence": "high"
+  },
+  "USR0420": {
+    "lstm_forecast": 4075.32,
+    "arima_forecast": 4075.32,
+    "prophet_forecast": 4075.32,
+    "ensemble_forecast": 4075.32,
+    "confidence": "high"
+  },
+  "USR0421": {
+    "lstm_forecast": 4567.66,
+    "arima_forecast": 4567.66,
+    "prophet_forecast": 4567.66,
+    "ensemble_forecast": 4567.66,
+    "confidence": "high"
+  },
+  "USR0428": {
+    "lstm_forecast": 2975.09,
+    "arima_forecast": 2975.09,
+    "prophet_forecast": 2975.09,
+    "ensemble_forecast": 2975.09,
+    "confidence": "high"
+  },
+  "USR0431": {
+    "lstm_forecast": 3931.8,
+    "arima_forecast": 3931.8,
+    "prophet_forecast": 3931.8,
+    "ensemble_forecast": 3931.8,
+    "confidence": "high"
+  },
+  "USR0432": {
+    "lstm_forecast": 3484.78,
+    "arima_forecast": 3484.78,
+    "prophet_forecast": 3484.78,
+    "ensemble_forecast": 3484.78,
+    "confidence": "high"
+  },
+  "USR0435": {
+    "lstm_forecast": 2566.27,
+    "arima_forecast": 2566.27,
+    "prophet_forecast": 2566.27,
+    "ensemble_forecast": 2566.27,
+    "confidence": "high"
+  },
+  "USR0438": {
+    "lstm_forecast": 4368.75,
+    "arima_forecast": 4368.75,
+    "prophet_forecast": 4368.75,
+    "ensemble_forecast": 4368.75,
+    "confidence": "high"
+  },
+  "USR0439": {
+    "lstm_forecast": 1593.21,
+    "arima_forecast": 1593.21,
+    "prophet_forecast": 1593.21,
+    "ensemble_forecast": 1593.21,
+    "confidence": "high"
+  },
+  "USR0441": {
+    "lstm_forecast": 2776.36,
+    "arima_forecast": 2776.36,
+    "prophet_forecast": 2776.36,
+    "ensemble_forecast": 2776.36,
+    "confidence": "high"
+  },
+  "USR0446": {
+    "lstm_forecast": 1549.77,
+    "arima_forecast": 1549.77,
+    "prophet_forecast": 1549.77,
+    "ensemble_forecast": 1549.77,
+    "confidence": "high"
+  },
+  "USR0449": {
+    "lstm_forecast": 1015.06,
+    "arima_forecast": 1015.06,
+    "prophet_forecast": 1015.06,
+    "ensemble_forecast": 1015.06,
+    "confidence": "high"
+  },
+  "USR0451": {
+    "lstm_forecast": 2789.7,
+    "arima_forecast": 2789.7,
+    "prophet_forecast": 2789.7,
+    "ensemble_forecast": 2789.7,
+    "confidence": "high"
+  },
+  "USR0454": {
+    "lstm_forecast": 3847.82,
+    "arima_forecast": 3847.82,
+    "prophet_forecast": 3847.82,
+    "ensemble_forecast": 3847.82,
+    "confidence": "high"
+  },
+  "USR0461": {
+    "lstm_forecast": 2837.0,
+    "arima_forecast": 2837.0,
+    "prophet_forecast": 2837.0,
+    "ensemble_forecast": 2837.0,
+    "confidence": "high"
+  },
+  "USR0465": {
+    "lstm_forecast": 4913.86,
+    "arima_forecast": 4913.86,
+    "prophet_forecast": 4913.86,
+    "ensemble_forecast": 4913.86,
+    "confidence": "high"
+  },
+  "USR0466": {
+    "lstm_forecast": 2918.07,
+    "arima_forecast": 2918.07,
+    "prophet_forecast": 2918.07,
+    "ensemble_forecast": 2918.07,
+    "confidence": "high"
+  },
+  "USR0469": {
+    "lstm_forecast": 850.67,
+    "arima_forecast": 850.67,
+    "prophet_forecast": 850.67,
+    "ensemble_forecast": 850.67,
+    "confidence": "high"
+  },
+  "USR0472": {
+    "lstm_forecast": 1306.63,
+    "arima_forecast": 1306.63,
+    "prophet_forecast": 1306.63,
+    "ensemble_forecast": 1306.63,
+    "confidence": "high"
+  },
+  "USR0474": {
+    "lstm_forecast": 1760.08,
+    "arima_forecast": 1760.08,
+    "prophet_forecast": 1760.08,
+    "ensemble_forecast": 1760.08,
+    "confidence": "high"
+  },
+  "USR0475": {
+    "lstm_forecast": 4480.92,
+    "arima_forecast": 4480.92,
+    "prophet_forecast": 4480.92,
+    "ensemble_forecast": 4480.92,
+    "confidence": "high"
+  },
+  "USR0476": {
+    "lstm_forecast": 3993.79,
+    "arima_forecast": 3993.79,
+    "prophet_forecast": 3993.79,
+    "ensemble_forecast": 3993.79,
+    "confidence": "high"
+  },
+  "USR0482": {
+    "lstm_forecast": 2904.19,
+    "arima_forecast": 2904.19,
+    "prophet_forecast": 2904.19,
+    "ensemble_forecast": 2904.19,
+    "confidence": "high"
+  },
+  "USR0486": {
+    "lstm_forecast": 5412.74,
+    "arima_forecast": 5412.74,
+    "prophet_forecast": 5412.74,
+    "ensemble_forecast": 5412.74,
+    "confidence": "high"
+  },
+  "USR0488": {
+    "lstm_forecast": 2453.18,
+    "arima_forecast": 2453.18,
+    "prophet_forecast": 2453.18,
+    "ensemble_forecast": 2453.18,
+    "confidence": "high"
+  },
+  "USR0493": {
+    "lstm_forecast": 3956.74,
+    "arima_forecast": 3956.74,
+    "prophet_forecast": 3956.74,
+    "ensemble_forecast": 3956.74,
+    "confidence": "high"
+  },
+  "USR0495": {
+    "lstm_forecast": 3543.26,
+    "arima_forecast": 4702.95,
+    "prophet_forecast": 2330.82,
+    "ensemble_forecast": 3525.68,
+    "confidence": "low"
+  },
+  "USR0499": {
+    "lstm_forecast": 2261.98,
+    "arima_forecast": 2261.98,
+    "prophet_forecast": 2261.98,
+    "ensemble_forecast": 2261.98,
+    "confidence": "high"
+  },
+  "USR0500": {
+    "lstm_forecast": 4064.14,
+    "arima_forecast": 4064.14,
+    "prophet_forecast": 4064.14,
+    "ensemble_forecast": 4064.14,
+    "confidence": "high"
+  }
+}

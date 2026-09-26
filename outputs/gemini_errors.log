@@ -1,0 +1,18 @@
+2026-09-26 10:34:07  WARNING  [USR0042] wellness_narrative fallback: Gemini model not initialised
+2026-09-26 10:34:07  WARNING  [Impulsive Spender] persona_strategy fallback: Gemini model not initialised
+2026-09-26 10:34:07  WARNING  [Netflix] cancellation_script fallback: Gemini model not initialised
+2026-09-26 10:34:08  WARNING  [Budget-Conscious] persona_strategy fallback: Gemini model not initialised
+2026-09-26 10:34:08  WARNING  [Impulsive Spender] persona_strategy fallback: Gemini model not initialised
+2026-09-26 10:34:08  WARNING  [Heavy Subscriber] persona_strategy fallback: Gemini model not initialised
+2026-09-26 10:34:08  WARNING  [Luxury Spender] persona_strategy fallback: Gemini model not initialised
+2026-09-26 10:34:08  WARNING  [Weekend Shopper] persona_strategy fallback: Gemini model not initialised
+2026-09-26 10:34:08  WARNING  [Indane Gas] cancellation_script fallback: Gemini model not initialised
+2026-09-26 10:34:08  WARNING  [Swiggy] cancellation_script fallback: Gemini model not initialised
+2026-09-26 10:34:08  WARNING  [McDonald's] cancellation_script fallback: Gemini model not initialised
+2026-09-26 10:34:08  WARNING  [Domino's] cancellation_script fallback: Gemini model not initialised
+2026-09-26 10:34:08  WARNING  [Haldiram's] cancellation_script fallback: Gemini model not initialised
+2026-09-26 10:34:08  WARNING  [Subway] cancellation_script fallback: Gemini model not initialised
+2026-09-26 10:34:08  WARNING  [Zomato] cancellation_script fallback: Gemini model not initialised
+2026-09-26 10:34:08  WARNING  [BigBasket] cancellation_script fallback: Gemini model not initialised
+2026-09-26 10:34:08  WARNING  [Chai Point] cancellation_script fallback: Gemini model not initialised
+2026-09-26 10:34:08  WARNING  [Blinkit] cancellation_script fallback: Gemini model not initialised

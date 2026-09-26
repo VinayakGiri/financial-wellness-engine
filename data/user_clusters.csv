@@ -1,0 +1,501 @@
+user_id,cluster_label,persona_name
+USR0001,1,Impulsive Spender
+USR0002,0,Budget-Conscious
+USR0003,1,Impulsive Spender
+USR0004,1,Impulsive Spender
+USR0005,4,Weekend Shopper
+USR0006,2,Heavy Subscriber
+USR0007,1,Impulsive Spender
+USR0008,3,Luxury Spender
+USR0009,4,Weekend Shopper
+USR0010,1,Impulsive Spender
+USR0011,2,Heavy Subscriber
+USR0012,1,Impulsive Spender
+USR0013,1,Impulsive Spender
+USR0014,3,Luxury Spender
+USR0015,1,Impulsive Spender
+USR0016,2,Heavy Subscriber
+USR0017,1,Impulsive Spender
+USR0018,2,Heavy Subscriber
+USR0019,1,Impulsive Spender
+USR0020,3,Luxury Spender
+USR0021,2,Heavy Subscriber
+USR0022,0,Budget-Conscious
+USR0023,3,Luxury Spender
+USR0024,0,Budget-Conscious
+USR0025,0,Budget-Conscious
+USR0026,4,Weekend Shopper
+USR0027,1,Impulsive Spender
+USR0028,3,Luxury Spender
+USR0029,1,Impulsive Spender
+USR0030,1,Impulsive Spender
+USR0031,3,Luxury Spender
+USR0032,0,Budget-Conscious
+USR0033,2,Heavy Subscriber
+USR0034,1,Impulsive Spender
+USR0035,2,Heavy Subscriber
+USR0036,0,Budget-Conscious
+USR0037,4,Weekend Shopper
+USR0038,4,Weekend Shopper
+USR0039,0,Budget-Conscious
+USR0040,1,Impulsive Spender
+USR0041,3,Luxury Spender
+USR0042,3,Luxury Spender
+USR0043,3,Luxury Spender
+USR0044,3,Luxury Spender
+USR0045,0,Budget-Conscious
+USR0046,1,Impulsive Spender
+USR0047,4,Weekend Shopper
+USR0048,3,Luxury Spender
+USR0049,0,Budget-Conscious
+USR0050,0,Budget-Conscious
+USR0051,4,Weekend Shopper
+USR0052,0,Budget-Conscious
+USR0053,3,Luxury Spender
+USR0054,1,Impulsive Spender
+USR0055,4,Weekend Shopper
+USR0056,0,Budget-Conscious
+USR0057,4,Weekend Shopper
+USR0058,1,Impulsive Spender
+USR0059,1,Impulsive Spender
+USR0060,2,Heavy Subscriber
+USR0061,1,Impulsive Spender
+USR0062,2,Heavy Subscriber
+USR0063,1,Impulsive Spender
+USR0064,1,Impulsive Spender
+USR0065,0,Budget-Conscious
+USR0066,1,Impulsive Spender
+USR0067,3,Luxury Spender
+USR0068,4,Weekend Shopper
+USR0069,1,Impulsive Spender
+USR0070,1,Impulsive Spender
+USR0071,1,Impulsive Spender
+USR0072,2,Heavy Subscriber
+USR0073,0,Budget-Conscious
+USR0074,4,Weekend Shopper
+USR0075,1,Impulsive Spender
+USR0076,2,Heavy Subscriber
+USR0077,2,Heavy Subscriber
+USR0078,1,Impulsive Spender
+USR0079,1,Impulsive Spender
+USR0080,2,Heavy Subscriber
+USR0081,1,Impulsive Spender
+USR0082,1,Impulsive Spender
+USR0083,0,Budget-Conscious
+USR0084,3,Luxury Spender
+USR0085,0,Budget-Conscious
+USR0086,3,Luxury Spender
+USR0087,2,Heavy Subscriber
+USR0088,1,Impulsive Spender
+USR0089,3,Luxury Spender
+USR0090,3,Luxury Spender
+USR0091,1,Impulsive Spender
+USR0092,3,Luxury Spender
+USR0093,2,Heavy Subscriber
+USR0094,1,Impulsive Spender
+USR0095,3,Luxury Spender
+USR0096,3,Luxury Spender
+USR0097,2,Heavy Subscriber
+USR0098,2,Heavy Subscriber
+USR0099,3,Luxury Spender
+USR0100,0,Budget-Conscious
+USR0101,1,Impulsive Spender
+USR0102,3,Luxury Spender
+USR0103,1,Impulsive Spender
+USR0104,2,Heavy Subscriber
+USR0105,0,Budget-Conscious
+USR0106,1,Impulsive Spender
+USR0107,1,Impulsive Spender
+USR0108,0,Budget-Conscious
+USR0109,1,Impulsive Spender
+USR0110,1,Impulsive Spender
+USR0111,1,Impulsive Spender
+USR0112,2,Heavy Subscriber
+USR0113,0,Budget-Conscious
+USR0114,3,Luxury Spender
+USR0115,4,Weekend Shopper
+USR0116,0,Budget-Conscious
+USR0117,0,Budget-Conscious
+USR0118,3,Luxury Spender
+USR0119,1,Impulsive Spender
+USR0120,1,Impulsive Spender
+USR0121,4,Weekend Shopper
+USR0122,1,Impulsive Spender
+USR0123,0,Budget-Conscious
+USR0124,1,Impulsive Spender
+USR0125,3,Luxury Spender
+USR0126,1,Impulsive Spender
+USR0127,0,Budget-Conscious
+USR0128,1,Impulsive Spender
+USR0129,2,Heavy Subscriber
+USR0130,3,Luxury Spender
+USR0131,0,Budget-Conscious
+USR0132,1,Impulsive Spender
+USR0133,4,Weekend Shopper
+USR0134,1,Impulsive Spender
+USR0135,1,Impulsive Spender
+USR0136,4,Weekend Shopper
+USR0137,4,Weekend Shopper
+USR0138,2,Heavy Subscriber
+USR0139,4,Weekend Shopper
+USR0140,3,Luxury Spender
+USR0141,0,Budget-Conscious
+USR0142,4,Weekend Shopper
+USR0143,3,Luxury Spender
+USR0144,3,Luxury Spender
+USR0145,4,Weekend Shopper
+USR0146,2,Heavy Subscriber
+USR0147,1,Impulsive Spender
+USR0148,0,Budget-Conscious
+USR0149,3,Luxury Spender
+USR0150,0,Budget-Conscious
+USR0151,0,Budget-Conscious
+USR0152,3,Luxury Spender
+USR0153,3,Luxury Spender
+USR0154,0,Budget-Conscious
+USR0155,4,Weekend Shopper
+USR0156,2,Heavy Subscriber
+USR0157,0,Budget-Conscious
+USR0158,0,Budget-Conscious
+USR0159,1,Impulsive Spender
+USR0160,4,Weekend Shopper
+USR0161,3,Luxury Spender
+USR0162,2,Heavy Subscriber
+USR0163,2,Heavy Subscriber
+USR0164,4,Weekend Shopper
+USR0165,2,Heavy Subscriber
+USR0166,1,Impulsive Spender
+USR0167,3,Luxury Spender
+USR0168,4,Weekend Shopper
+USR0169,4,Weekend Shopper
+USR0170,1,Impulsive Spender
+USR0171,4,Weekend Shopper
+USR0172,1,Impulsive Spender
+USR0173,1,Impulsive Spender
+USR0174,0,Budget-Conscious
+USR0175,1,Impulsive Spender
+USR0176,1,Impulsive Spender
+USR0177,3,Luxury Spender
+USR0178,3,Luxury Spender
+USR0179,1,Impulsive Spender
+USR0180,2,Heavy Subscriber
+USR0181,0,Budget-Conscious
+USR0182,1,Impulsive Spender
+USR0183,3,Luxury Spender
+USR0184,1,Impulsive Spender
+USR0185,0,Budget-Conscious
+USR0186,1,Impulsive Spender
+USR0187,3,Luxury Spender
+USR0188,1,Impulsive Spender
+USR0189,0,Budget-Conscious
+USR0190,1,Impulsive Spender
+USR0191,0,Budget-Conscious
+USR0192,1,Impulsive Spender
+USR0193,1,Impulsive Spender
+USR0194,1,Impulsive Spender
+USR0195,1,Impulsive Spender
+USR0196,0,Budget-Conscious
+USR0197,1,Impulsive Spender
+USR0198,3,Luxury Spender
+USR0199,0,Budget-Conscious
+USR0200,3,Luxury Spender
+USR0201,1,Impulsive Spender
+USR0202,0,Budget-Conscious
+USR0203,4,Weekend Shopper
+USR0204,4,Weekend Shopper
+USR0205,1,Impulsive Spender
+USR0206,0,Budget-Conscious
+USR0207,4,Weekend Shopper
+USR0208,0,Budget-Conscious
+USR0209,1,Impulsive Spender
+USR0210,0,Budget-Conscious
+USR0211,0,Budget-Conscious
+USR0212,0,Budget-Conscious
+USR0213,2,Heavy Subscriber
+USR0214,2,Heavy Subscriber
+USR0215,4,Weekend Shopper
+USR0216,2,Heavy Subscriber
+USR0217,2,Heavy Subscriber
+USR0218,0,Budget-Conscious
+USR0219,2,Heavy Subscriber
+USR0220,2,Heavy Subscriber
+USR0221,0,Budget-Conscious
+USR0222,3,Luxury Spender
+USR0223,1,Impulsive Spender
+USR0224,3,Luxury Spender
+USR0225,0,Budget-Conscious
+USR0226,4,Weekend Shopper
+USR0227,1,Impulsive Spender
+USR0228,1,Impulsive Spender
+USR0229,1,Impulsive Spender
+USR0230,4,Weekend Shopper
+USR0231,1,Impulsive Spender
+USR0232,1,Impulsive Spender
+USR0233,3,Luxury Spender
+USR0234,0,Budget-Conscious
+USR0235,2,Heavy Subscriber
+USR0236,1,Impulsive Spender
+USR0237,2,Heavy Subscriber
+USR0238,2,Heavy Subscriber
+USR0239,3,Luxury Spender
+USR0240,1,Impulsive Spender
+USR0241,1,Impulsive Spender
+USR0242,1,Impulsive Spender
+USR0243,2,Heavy Subscriber
+USR0244,3,Luxury Spender
+USR0245,1,Impulsive Spender
+USR0246,2,Heavy Subscriber
+USR0247,1,Impulsive Spender
+USR0248,4,Weekend Shopper
+USR0249,0,Budget-Conscious
+USR0250,1,Impulsive Spender
+USR0251,2,Heavy Subscriber
+USR0252,3,Luxury Spender
+USR0253,2,Heavy Subscriber
+USR0254,1,Impulsive Spender
+USR0255,4,Weekend Shopper
+USR0256,1,Impulsive Spender
+USR0257,1,Impulsive Spender
+USR0258,4,Weekend Shopper
+USR0259,0,Budget-Conscious
+USR0260,4,Weekend Shopper
+USR0261,0,Budget-Conscious
+USR0262,3,Luxury Spender
+USR0263,0,Budget-Conscious
+USR0264,3,Luxury Spender
+USR0265,2,Heavy Subscriber
+USR0266,3,Luxury Spender
+USR0267,2,Heavy Subscriber
+USR0268,0,Budget-Conscious
+USR0269,0,Budget-Conscious
+USR0270,2,Heavy Subscriber
+USR0271,1,Impulsive Spender
+USR0272,0,Budget-Conscious
+USR0273,4,Weekend Shopper
+USR0274,0,Budget-Conscious
+USR0275,4,Weekend Shopper
+USR0276,3,Luxury Spender
+USR0277,1,Impulsive Spender
+USR0278,2,Heavy Subscriber
+USR0279,3,Luxury Spender
+USR0280,1,Impulsive Spender
+USR0281,1,Impulsive Spender
+USR0282,1,Impulsive Spender
+USR0283,1,Impulsive Spender
+USR0284,2,Heavy Subscriber
+USR0285,1,Impulsive Spender
+USR0286,1,Impulsive Spender
+USR0287,0,Budget-Conscious
+USR0288,0,Budget-Conscious
+USR0289,0,Budget-Conscious
+USR0290,1,Impulsive Spender
+USR0291,0,Budget-Conscious
+USR0292,0,Budget-Conscious
+USR0293,1,Impulsive Spender
+USR0294,0,Budget-Conscious
+USR0295,2,Heavy Subscriber
+USR0296,1,Impulsive Spender
+USR0297,0,Budget-Conscious
+USR0298,1,Impulsive Spender
+USR0299,2,Heavy Subscriber
+USR0300,0,Budget-Conscious
+USR0301,3,Luxury Spender
+USR0302,1,Impulsive Spender
+USR0303,4,Weekend Shopper
+USR0304,1,Impulsive Spender
+USR0305,0,Budget-Conscious
+USR0306,0,Budget-Conscious
+USR0307,4,Weekend Shopper
+USR0308,1,Impulsive Spender
+USR0309,2,Heavy Subscriber
+USR0310,3,Luxury Spender
+USR0311,1,Impulsive Spender
+USR0312,4,Weekend Shopper
+USR0313,2,Heavy Subscriber
+USR0314,2,Heavy Subscriber
+USR0315,1,Impulsive Spender
+USR0316,1,Impulsive Spender
+USR0317,4,Weekend Shopper
+USR0318,0,Budget-Conscious
+USR0319,0,Budget-Conscious
+USR0320,0,Budget-Conscious
+USR0321,1,Impulsive Spender
+USR0322,1,Impulsive Spender
+USR0323,3,Luxury Spender
+USR0324,3,Luxury Spender
+USR0325,0,Budget-Conscious
+USR0326,4,Weekend Shopper
+USR0327,3,Luxury Spender
+USR0328,1,Impulsive Spender
+USR0329,4,Weekend Shopper
+USR0330,2,Heavy Subscriber
+USR0331,4,Weekend Shopper
+USR0332,2,Heavy Subscriber
+USR0333,1,Impulsive Spender
+USR0334,1,Impulsive Spender
+USR0335,1,Impulsive Spender
+USR0336,4,Weekend Shopper
+USR0337,3,Luxury Spender
+USR0338,3,Luxury Spender
+USR0339,3,Luxury Spender
+USR0340,4,Weekend Shopper
+USR0341,4,Weekend Shopper
+USR0342,2,Heavy Subscriber
+USR0343,0,Budget-Conscious
+USR0344,2,Heavy Subscriber
+USR0345,1,Impulsive Spender
+USR0346,1,Impulsive Spender
+USR0347,1,Impulsive Spender
+USR0348,0,Budget-Conscious
+USR0349,0,Budget-Conscious
+USR0350,2,Heavy Subscriber
+USR0351,4,Weekend Shopper
+USR0352,1,Impulsive Spender
+USR0353,1,Impulsive Spender
+USR0354,2,Heavy Subscriber
+USR0355,3,Luxury Spender
+USR0356,2,Heavy Subscriber
+USR0357,0,Budget-Conscious
+USR0358,4,Weekend Shopper
+USR0359,3,Luxury Spender
+USR0360,0,Budget-Conscious
+USR0361,1,Impulsive Spender
+USR0362,4,Weekend Shopper
+USR0363,4,Weekend Shopper
+USR0364,1,Impulsive Spender
+USR0365,2,Heavy Subscriber
+USR0366,2,Heavy Subscriber
+USR0367,3,Luxury Spender
+USR0368,1,Impulsive Spender
+USR0369,0,Budget-Conscious
+USR0370,1,Impulsive Spender
+USR0371,0,Budget-Conscious
+USR0372,1,Impulsive Spender
+USR0373,4,Weekend Shopper
+USR0374,3,Luxury Spender
+USR0375,3,Luxury Spender
+USR0376,2,Heavy Subscriber
+USR0377,4,Weekend Shopper
+USR0378,2,Heavy Subscriber
+USR0379,4,Weekend Shopper
+USR0380,3,Luxury Spender
+USR0381,2,Heavy Subscriber
+USR0382,3,Luxury Spender
+USR0383,1,Impulsive Spender
+USR0384,1,Impulsive Spender
+USR0385,4,Weekend Shopper
+USR0386,1,Impulsive Spender
+USR0387,0,Budget-Conscious
+USR0388,0,Budget-Conscious
+USR0389,2,Heavy Subscriber
+USR0390,1,Impulsive Spender
+USR0391,0,Budget-Conscious
+USR0392,4,Weekend Shopper
+USR0393,2,Heavy Subscriber
+USR0394,1,Impulsive Spender
+USR0395,1,Impulsive Spender
+USR0396,0,Budget-Conscious
+USR0397,4,Weekend Shopper
+USR0398,1,Impulsive Spender
+USR0399,0,Budget-Conscious
+USR0400,1,Impulsive Spender
+USR0401,4,Weekend Shopper
+USR0402,3,Luxury Spender
+USR0403,1,Impulsive Spender
+USR0404,1,Impulsive Spender
+USR0405,2,Heavy Subscriber
+USR0406,3,Luxury Spender
+USR0407,4,Weekend Shopper
+USR0408,1,Impulsive Spender
+USR0409,0,Budget-Conscious
+USR0410,1,Impulsive Spender
+USR0411,2,Heavy Subscriber
+USR0412,3,Luxury Spender
+USR0413,4,Weekend Shopper
+USR0414,2,Heavy Subscriber
+USR0415,2,Heavy Subscriber
+USR0416,1,Impulsive Spender
+USR0417,4,Weekend Shopper
+USR0418,2,Heavy Subscriber
+USR0419,1,Impulsive Spender
+USR0420,1,Impulsive Spender
+USR0421,0,Budget-Conscious
+USR0422,1,Impulsive Spender
+USR0423,2,Heavy Subscriber
+USR0424,0,Budget-Conscious
+USR0425,0,Budget-Conscious
+USR0426,0,Budget-Conscious
+USR0427,2,Heavy Subscriber
+USR0428,2,Heavy Subscriber
+USR0429,0,Budget-Conscious
+USR0430,0,Budget-Conscious
+USR0431,4,Weekend Shopper
+USR0432,4,Weekend Shopper
+USR0433,0,Budget-Conscious
+USR0434,3,Luxury Spender
+USR0435,1,Impulsive Spender
+USR0436,0,Budget-Conscious
+USR0437,1,Impulsive Spender
+USR0438,1,Impulsive Spender
+USR0439,4,Weekend Shopper
+USR0440,2,Heavy Subscriber
+USR0441,0,Budget-Conscious
+USR0442,1,Impulsive Spender
+USR0443,1,Impulsive Spender
+USR0444,3,Luxury Spender
+USR0445,4,Weekend Shopper
+USR0446,4,Weekend Shopper
+USR0447,1,Impulsive Spender
+USR0448,1,Impulsive Spender
+USR0449,4,Weekend Shopper
+USR0450,1,Impulsive Spender
+USR0451,4,Weekend Shopper
+USR0452,1,Impulsive Spender
+USR0453,4,Weekend Shopper
+USR0454,2,Heavy Subscriber
+USR0455,2,Heavy Subscriber
+USR0456,2,Heavy Subscriber
+USR0457,2,Heavy Subscriber
+USR0458,3,Luxury Spender
+USR0459,1,Impulsive Spender
+USR0460,2,Heavy Subscriber
+USR0461,1,Impulsive Spender
+USR0462,1,Impulsive Spender
+USR0463,0,Budget-Conscious
+USR0464,3,Luxury Spender
+USR0465,0,Budget-Conscious
+USR0466,1,Impulsive Spender
+USR0467,2,Heavy Subscriber
+USR0468,3,Luxury Spender
+USR0469,4,Weekend Shopper
+USR0470,1,Impulsive Spender
+USR0471,1,Impulsive Spender
+USR0472,2,Heavy Subscriber
+USR0473,3,Luxury Spender
+USR0474,2,Heavy Subscriber
+USR0475,0,Budget-Conscious
+USR0476,1,Impulsive Spender
+USR0477,2,Heavy Subscriber
+USR0478,1,Impulsive Spender
+USR0479,1,Impulsive Spender
+USR0480,3,Luxury Spender
+USR0481,3,Luxury Spender
+USR0482,0,Budget-Conscious
+USR0483,3,Luxury Spender
+USR0484,3,Luxury Spender
+USR0485,4,Weekend Shopper
+USR0486,0,Budget-Conscious
+USR0487,1,Impulsive Spender
+USR0488,0,Budget-Conscious
+USR0489,2,Heavy Subscriber
+USR0490,3,Luxury Spender
+USR0491,1,Impulsive Spender
+USR0492,2,Heavy Subscriber
+USR0493,3,Luxury Spender
+USR0494,2,Heavy Subscriber
+USR0495,1,Impulsive Spender
+USR0496,1,Impulsive Spender
+USR0497,4,Weekend Shopper
+USR0498,0,Budget-Conscious
+USR0499,1,Impulsive Spender
+USR0500,4,Weekend Shopper

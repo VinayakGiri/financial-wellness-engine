@@ -1,0 +1,117 @@
+[
+  {
+    "cluster_id": 0,
+    "persona_name": "Budget-Conscious",
+    "emoji": "💰",
+    "cluster_size": 100,
+    "avg_monthly_spend": 4918.71,
+    "std_monthly_spend": 876.48,
+    "avg_savings_rate": 0.3782,
+    "essential_pct": 12.8,
+    "discretionary_pct": 61.3,
+    "food_pct": 25.9,
+    "top3_categories": [
+      "Shopping",
+      "Food",
+      "Entertainment"
+    ],
+    "avg_sub_monthly": 70.54,
+    "weekend_spend_pct": 67.8,
+    "avg_txn_amount": 2321.24,
+    "impulse_count": 102,
+    "characteristic": "Maintains disciplined spending habits with strong essentials focus and minimal discretionary splurges.",
+    "recommendation": "Channel existing savings discipline into systematic investments via SIP or recurring deposits to build long-term wealth."
+  },
+  {
+    "cluster_id": 1,
+    "persona_name": "Impulsive Spender",
+    "emoji": "🔥",
+    "cluster_size": 161,
+    "avg_monthly_spend": 3285.11,
+    "std_monthly_spend": 750.71,
+    "avg_savings_rate": 0.5309,
+    "essential_pct": 17.6,
+    "discretionary_pct": 41.7,
+    "food_pct": 40.8,
+    "top3_categories": [
+      "Food",
+      "Shopping",
+      "Entertainment"
+    ],
+    "avg_sub_monthly": 49.89,
+    "weekend_spend_pct": 72.4,
+    "avg_txn_amount": 1717.88,
+    "impulse_count": 229,
+    "characteristic": "Shows high weekend spending spikes and frequent large single transactions driven by impulse rather than planning.",
+    "recommendation": "Set up weekend spending caps and real-time SMS alerts for transactions above ₹2,000 to curb impulsive behaviour."
+  },
+  {
+    "cluster_id": 2,
+    "persona_name": "Heavy Subscriber",
+    "emoji": "📺",
+    "cluster_size": 85,
+    "avg_monthly_spend": 2300.33,
+    "std_monthly_spend": 575.76,
+    "avg_savings_rate": 0.7084,
+    "essential_pct": 29.1,
+    "discretionary_pct": 15.5,
+    "food_pct": 55.4,
+    "top3_categories": [
+      "Food",
+      "Transport",
+      "Utilities"
+    ],
+    "avg_sub_monthly": 40.47,
+    "weekend_spend_pct": 58.8,
+    "avg_txn_amount": 1277.36,
+    "impulse_count": 67,
+    "characteristic": "Accumulates multiple streaming and lifestyle subscriptions, often with overlapping services and low utilisation.",
+    "recommendation": "Conduct a monthly subscription audit — cancel duplicate or low-use services to free ₹500–₹1,500 per month."
+  },
+  {
+    "cluster_id": 3,
+    "persona_name": "Luxury Spender",
+    "emoji": "💎",
+    "cluster_size": 81,
+    "avg_monthly_spend": 3816.0,
+    "std_monthly_spend": 859.08,
+    "avg_savings_rate": 0.4896,
+    "essential_pct": 14.0,
+    "discretionary_pct": 60.2,
+    "food_pct": 25.8,
+    "top3_categories": [
+      "Shopping",
+      "Food",
+      "Transport"
+    ],
+    "avg_sub_monthly": 49.82,
+    "weekend_spend_pct": 44.2,
+    "avg_txn_amount": 2147.91,
+    "impulse_count": 82,
+    "characteristic": "Consistently high average transaction amounts across premium merchants and discretionary categories.",
+    "recommendation": "Redirect 10% of discretionary spend into a liquid fund to build an emergency corpus without lifestyle compromise."
+  },
+  {
+    "cluster_id": 4,
+    "persona_name": "Weekend Shopper",
+    "emoji": "🛍️",
+    "cluster_size": 73,
+    "avg_monthly_spend": 2595.38,
+    "std_monthly_spend": 812.71,
+    "avg_savings_rate": 0.3988,
+    "essential_pct": 24.0,
+    "discretionary_pct": 33.2,
+    "food_pct": 42.7,
+    "top3_categories": [
+      "Food",
+      "Shopping",
+      "Transport"
+    ],
+    "avg_sub_monthly": 146.39,
+    "weekend_spend_pct": 59.2,
+    "avg_txn_amount": 1309.09,
+    "impulse_count": 81,
+    "characteristic": "Concentrates entertainment and shopping spend on weekends with predictable but elevated impulse patterns.",
+    "recommendation": "Pre-plan a weekend leisure budget each Monday and use cashback credit cards to earn rewards on predictable spend."
+  }
+]

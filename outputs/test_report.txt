@@ -1,0 +1,158 @@
+=================================================================
+  FINANCIAL WELLNESS ENGINE — TEST REPORT
+  Generated : 2026-09-21 12:24:47
+  Total Time: 0.98s
+=================================================================
+  TOTAL: 62 tests | PASSED: 62 | FAILED: 0 | SKIPPED: 0
+
+
+── Data Quality ──────────────────────────────────────
+  ✅ [PASS]  CSV file exists & readable
+           → 10,000 rows loaded
+  ✅ [PASS]  No missing values
+           → 0 missing values
+  ✅ [PASS]  Amount range valid (₹0 – ₹1L)
+           → ₹50.25 – ₹79978.00
+  ✅ [PASS]  Date span ≥ 11 months
+           → 365 days (12.0 months)
+  ✅ [PASS]  Exactly 500 unique users
+           → 500 unique users
+  ✅ [PASS]  Row count in [6,000 – 10,000]
+           → 10,000 rows
+  ✅ [PASS]  All 8 categories present
+           → 8 categories present
+  ✅ [PASS]  Debit & Credit transaction types
+           → Debit + Credit both present
+  ✅ [PASS]  No fully duplicate rows
+           → 0 duplicate rows
+
+── Feature Engineering ───────────────────────────────
+  ✅ [PASS]  user_features.csv exists
+           → 500 users × 20 features
+  ✅ [PASS]  Shape: 500 users × ≥15 features
+           → 500 × 20
+  ✅ [PASS]  All features normalized to [0, 1]
+           → Range [0.0000, 1.0000] ≈ [0, 1]
+  ✅ [PASS]  No NaN values in feature matrix
+           → 0 NaNs
+  ✅ [PASS]  Features have meaningful variance
+           → 0 near-zero variance features
+  ✅ [PASS]  Required feature columns present
+           → All 5 required columns present
+
+── Clustering ────────────────────────────────────────
+  ✅ [PASS]  user_clusters.csv exists
+           → 500 rows
+  ✅ [PASS]  Exactly 5 clusters
+           → 5 clusters
+  ✅ [PASS]  All 500 users assigned exactly once
+           → All 500 users assigned
+  ✅ [PASS]  Cluster labels all in {0,1,2,3,4}
+           → Labels ∈ {0,1,2,3,4}
+  ✅ [PASS]  All 5 persona names present
+           → All 5 persona names present
+  ✅ [PASS]  Each cluster has ≥10 users
+           → Smallest cluster: 73 users
+  ✅ [PASS]  Silhouette score > 0.05 (synthetic data)
+           → Silhouette = 0.1166
+  ✅ [PASS]  KMeans model loads with n_clusters=5
+           → n_clusters=5, n_iter=20
+
+── Classification ────────────────────────────────────
+  ✅ [PASS]  Classifier & scaler load successfully
+           → RandomForest with 100 trees
+  ✅ [PASS]  Accuracy>0.75, Precision>0.65, Recall>0.60, F1>0.60
+           → Acc=1.000  Prec=1.000  Rec=1.000  F1=1.000
+  ✅ [PASS]  user_leakage.csv has required columns
+           → 276 leakage records, all required columns present
+  ✅ [PASS]  Leakage scores in [0, 100]
+           → Scores in [0.00, 100.00]
+  ✅ [PASS]  Status values all valid
+           → Status values: ['Active', 'Dormant', 'Duplicate', 'Low Usage']
+  ✅ [PASS]  leakage_features.json exists with ≥3 entries
+           → 5 features in importance JSON
+
+── Forecasting ───────────────────────────────────────
+  ✅ [PASS]  wellness_forecast_baseline.csv exists
+           → 30 forecasts loaded
+  ✅ [PASS]  Forecast CSV has required columns
+           → All 7 required columns present
+  ✅ [PASS]  All forecast values are non-negative
+           → All forecasts ≥ 0
+  ✅ [PASS]  ARIMA forecasts within 5× current avg (sanity)
+           → 0 forecasts outside 5× sanity bound
+  ✅ [PASS]  baseline_forecasts.json valid
+           → 30 records, 'wellness_score' key present
+  ✅ [PASS]  Risk levels all valid (Low/Medium/High)
+           → Risk levels: ['Low Risk']
+  ✅ [PASS]  cash_flow_risk is binary (0 or 1)
+           → cash_flow_risk ∈ {0, 1}
+
+── Wellness Scores ───────────────────────────────────
+  ✅ [PASS]  All scores in [0, 100]
+           → Range [87.41, 100.00] ⊆ [0, 100]
+  ✅ [PASS]  Mean wellness score in [25, 100]
+           → Mean = 92.84
+  ✅ [PASS]  Std dev ≥ 1 (variation exists)
+           → Std = 3.16
+  ✅ [PASS]  No NaN wellness scores
+           → 0 NaN scores
+  ✅ [PASS]  IQR ≥ 0 (scores not all identical)
+           → Q25=91.0  Q75=94.9  IQR=3.8
+
+── Output Files ──────────────────────────────────────
+  ✅ [PASS]  transactions_synthetic.csv exists & valid
+           → 10,000 rows, 693.2 KB
+  ✅ [PASS]  user_features.csv exists & valid
+           → 500 rows, 171.2 KB
+  ✅ [PASS]  user_clusters.csv exists & valid
+           → 500 rows, 13.1 KB
+  ✅ [PASS]  recurring_transactions.csv exists & valid
+           → 276 rows, 12.4 KB
+  ✅ [PASS]  user_leakage.csv exists & valid
+           → 276 rows, 17.3 KB
+  ✅ [PASS]  wellness_forecast_baseline.csv exists & valid
+           → 30 rows, 1.5 KB
+  ✅ [PASS]  personas_summary.csv exists & valid
+           → 5 rows, 1.6 KB
+  ✅ [PASS]  persona_insights.json exists & valid
+           → 5 entries, 3.8 KB
+  ✅ [PASS]  leakage_features.json exists & valid
+           → 5 entries, 0.2 KB
+  ✅ [PASS]  baseline_forecasts.json exists & valid
+           → 30 entries, 12.5 KB
+  ✅ [PASS]  correlation_matrix.png exists & valid
+           → 261.2 KB
+  ✅ [PASS]  elbow_curve.png exists & valid
+           → 88.3 KB
+  ✅ [PASS]  personas_scatter.png exists & valid
+           → 235.2 KB
+  ✅ [PASS]  top_leakages.png exists & valid
+           → 230.4 KB
+  ✅ [PASS]  leakage_cm.png exists & valid
+           → 63.6 KB
+  ✅ [PASS]  feature_importance.png exists & valid
+           → 58.4 KB
+  ✅ [PASS]  wellness_distribution.png exists & valid
+           → 93.6 KB
+  ✅ [PASS]  sample_forecasts.png exists & valid
+           → 174.3 KB
+  ✅ [PASS]  kmeans_model.pkl exists & valid
+           → Loaded OK, 3.4 KB
+  ✅ [PASS]  leakage_classifier.pkl exists & valid
+           → Loaded OK, 181.3 KB
+  ✅ [PASS]  leakage_scaler.pkl exists & valid
+           → Loaded OK, 0.7 KB
+
+=================================================================
+  Suite Summary:
+    ✅  Data Quality                         9/9 passed
+    ✅  Feature Engineering                  6/6 passed
+    ✅  Clustering                           8/8 passed
+    ✅  Classification                       6/6 passed
+    ✅  Forecasting                          7/7 passed
+    ✅  Wellness Scores                      5/5 passed
+    ✅  Output Files                         21/21 passed
+=================================================================
+
+  🎉  ALL TESTS PASSED — System is production ready!

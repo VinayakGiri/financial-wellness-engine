@@ -1,0 +1,31 @@
+GEMINI INSIGHT LAYER — TEST SAMPLES
+Mode: Fallback templates
+API calls made: 0
+=================================================================
+
+=== Test 1: User Wellness Narrative [USR0042] ===
+
+Great news, USR0042! Your wellness score of 78/100 puts you in a strong financial position. Your forecast for next month is ₹4,320.
+
+**1. Immediate (this week):** Review your top spending areas — Food, Shopping, Entertainment — and set a weekly micro-budget for each.
+**2. Short-term (2 weeks):** Your top leaking subscription is **Netflix** (₹649/mo). Cancelling unused services could save ₹21,804/year — redirect that to a recurring deposit.
+**3. Long-term habit (next month):** Automate 10% of income (₹5,200) into a liquid mutual fund on salary day.
+
+
+
+=== Test 2: Persona Strategy [Impulsive Spender] ===
+
+**What makes them unique:** Impulsive Spenders have high income potential but weekend purchase clusters erode savings before month-end.
+
+**Features to build:**
+  • Friday evening 'Weekend Budget' alert showing remaining discretionary balance.
+  • 'Cool-down timer': 24-hour hold on purchases above ₹2,000 from unknown merchants.
+
+**Notification strategy:** Thursday afternoon nudge — 'Your weekend budget is ₹X. Lock in savings before Friday?' with a one-tap FD shortcut.
+
+
+
+=== Test 3: Cancellation Script [Netflix] ===
+
+👋 Heads up! You haven't used **Netflix** in 67 days, but it's costing you ₹649/month (₹7,788/year). Pause or cancel now to keep that money where it works harder for you.
+

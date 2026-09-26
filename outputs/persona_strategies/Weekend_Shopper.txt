@@ -1,0 +1,7 @@
+**What makes them unique:** Weekend Shoppers concentrate spending on Fri–Sun, making month-end budgets unpredictable.
+
+**Features to build:**
+  • Weekend spend forecast: 'Based on past 4 weekends, you'll spend ~₹X this weekend.'
+  • Buy-now-pay-later guardrail: block BNPL activation if monthly spend > 80% of budget.
+
+**Notification strategy:** Saturday morning check-in — 'Good morning! Your weekend budget is ₹X. Tap to see last weekend's breakdown.'
