@@ -547,7 +547,7 @@ class BankCsvStatementParser:
             return "phonepe"
         if any("google transaction id" in c or "gpay" in c for c in cols):
             return "gpay"
-        if any("chq./ref.no." in c or "narration" in c for c in cols):
+        if any("chq./ref.no." in c for c in cols) or (any("narration" in c for c in cols) and any("withdrawal" in c or "deposit" in c for c in cols)):
             return "hdfc"
         if any("txn date" in c and "description" in c for c in cols):
             return "sbi"
@@ -586,9 +586,16 @@ class BankCsvStatementParser:
                 if deposit > 0:
                     raw_amount = deposit
                     txn_type = "Credit"
-                else:
+                elif withdrawal > 0:
                     raw_amount = withdrawal
                     txn_type = "Debit"
+                else:
+                    for col in ["Amount", "amount", "Transaction Amount"]:
+                        if col in row and pd.notnull(row[col]):
+                            try:
+                                raw_amount = abs(float(str(row[col]).replace(",", "").replace("₹", "").strip()))
+                                break
+                            except: pass
 
                 date_val = str(row.get("Date", row.get("date", txn_date)))
                 txn_date = pd.to_datetime(date_val, errors="coerce")
@@ -669,6 +676,187 @@ class BankCsvStatementParser:
             })
 
         return parsed_rows
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Adapter 4: Indian UPI PDF Statement Parser (PhonePe, GPay, Paytm, Bank PDFs)
+# ─────────────────────────────────────────────────────────────────────────────
+
+class UpiPdfStatementParser:
+    """
+    Parser for Indian UPI statement PDFs (PhonePe, Google Pay, Paytm, and bank exports).
+    Uses pypdf to extract raw text page-by-page, parses transaction blocks and records,
+    applies Zero-Knowledge PII Sanitization, and returns normalized records.
+    """
+
+    DATE_PATTERNS = [
+        r"\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b",
+        r"\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* \d{1,2},? \d{4}\b",
+        r"\b\d{1,2} (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* \d{4}\b",
+    ]
+
+    AMOUNT_PATTERN = r"(?:₹|Rs\.?|INR)?\s*([0-9]{1,3}(?:,[0-9]{2,3})*(?:\.[0-9]{1,2})?|[0-9]+(?:\.[0-9]{1,2})?)"
+
+    @classmethod
+    def extract_text(cls, file_path_or_buffer: Union[str, Any]) -> str:
+        """
+        Extracts plain text across all pages from PDF file or buffer.
+        """
+        import io
+        import pypdf
+
+        if isinstance(file_path_or_buffer, (str, bytes, os.PathLike)):
+            reader = pypdf.PdfReader(file_path_or_buffer)
+        elif hasattr(file_path_or_buffer, "read"):
+            # Streamlit UploadedFile or file-like buffer
+            content = file_path_or_buffer.read()
+            if hasattr(file_path_or_buffer, "seek"):
+                file_path_or_buffer.seek(0)
+            reader = pypdf.PdfReader(io.BytesIO(content))
+        else:
+            raise ValueError("Unsupported PDF input type")
+
+        full_text = []
+        for page_idx, page in enumerate(reader.pages):
+            page_text = page.extract_text()
+            if page_text:
+                full_text.append(page_text)
+
+        return "\n".join(full_text)
+
+    @classmethod
+    def parse_pdf(cls, user_id: str, file_path_or_buffer: Union[str, Any]) -> List[Dict[str, Any]]:
+        """
+        Parses UPI PDF statement into normalized transaction records.
+        """
+        raw_text = cls.extract_text(file_path_or_buffer)
+        if not raw_text.strip():
+            return []
+
+        lines = [line.strip() for line in raw_text.splitlines() if line.strip()]
+        parsed_records = []
+
+        combined_date_regex = re.compile("|".join(f"(?:{p})" for p in cls.DATE_PATTERNS), re.IGNORECASE)
+
+        idx = 0
+        while idx < len(lines):
+            line = lines[idx]
+
+            # 1. Search for date in the line
+            d_match = combined_date_regex.search(line)
+            if d_match:
+                raw_date_str = d_match.group(0)
+                txn_date = pd.to_datetime(raw_date_str, errors="coerce")
+                formatted_date = (
+                    txn_date.strftime("%Y-%m-%d %H:%M:%S")
+                    if pd.notnull(txn_date)
+                    else datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                )
+
+                # Look for transaction details in current line and next 2 lines (PhonePe / GPay block)
+                block_lines = [line]
+                lookahead = 1
+                while lookahead <= 2 and (idx + lookahead) < len(lines):
+                    next_l = lines[idx + lookahead]
+                    if combined_date_regex.search(next_l):
+                        break  # next transaction started
+                    block_lines.append(next_l)
+                    lookahead += 1
+
+                block_text = " ".join(block_lines)
+
+                # 2. Extract amount (mask date string first so date digits are not parsed as amount)
+                text_without_date = block_text.replace(raw_date_str, " ")
+                amounts = []
+                for amt_m in re.finditer(r"(?:₹|Rs\.?|INR)?\s*([0-9]{1,3}(?:,[0-9]{2,3})*(?:\.[0-9]{1,2})|[0-9]+(?:\.[0-9]{1,2})|\b[0-9]{2,7}\b)", text_without_date):
+                    amt_str = amt_m.group(1).replace(",", "")
+                    try:
+                        amt_val = float(amt_str)
+                        if 1.0 <= amt_val <= 10000000.0:  # reasonable transaction range
+                            amounts.append(amt_val)
+                    except ValueError:
+                        pass
+
+                raw_amount = amounts[0] if amounts else 0.0
+
+                if raw_amount > 0:
+                    # 3. Determine transaction type (Credit vs Debit)
+                    block_lower = block_text.lower()
+                    if any(kw in block_lower for kw in ["received", "credited", "credit", "cr", "cashback", "refund", "salary"]):
+                        txn_type = "Credit"
+                    else:
+                        txn_type = "Debit"
+
+                    # 4. Extract merchant / narration
+                    narration = text_without_date
+                    for a_val in amounts:
+                        narration = re.sub(rf"(?:₹|Rs\.?|INR)?\s*{re.escape(str(a_val))}(?:\.00)?", "", narration)
+                    
+                    # Look for explicit "Paid to <Merchant>" or "Received from <Merchant>"
+                    m_paid = re.search(r"(?:paid to|transfer to|payment to|sent to)\s+([^0-9\n\r/]+)", block_text, re.IGNORECASE)
+                    m_recv = re.search(r"(?:received from|transfer from)\s+([^0-9\n\r/]+)", block_text, re.IGNORECASE)
+                    if m_paid:
+                        target_merchant = m_paid.group(1).strip()
+                    elif m_recv:
+                        target_merchant = m_recv.group(1).strip()
+                    else:
+                        target_merchant = re.sub(r"(?i)\b(debit|credit|paid to|received from|transfer to|payment to|upi ref|utr|txn id)\b", "", narration).strip()
+                    
+                    target_merchant = re.sub(r"\s+", " ", target_merchant).strip()
+
+                    # Sanitize PII
+                    sanitized_narration = sanitize_pii_string(block_text)
+                    norm_merchant, cat = normalize_merchant_and_category(target_merchant, sanitized_narration)
+
+                    parsed_records.append({
+                        "transaction_id": hashlib.md5(f"{user_id}_{formatted_date}_{raw_amount}_{norm_merchant}".encode()).hexdigest(),
+                        "user_id": user_id,
+                        "timestamp": formatted_date,
+                        "merchant": norm_merchant,
+                        "normalized_merchant": norm_merchant,
+                        "category": cat,
+                        "amount": raw_amount,
+                        "type": txn_type,
+                        "mode": "UPI",
+                        "balance_after": None,
+                        "narration": sanitized_narration
+                    })
+
+                    idx += lookahead
+                    continue
+
+            idx += 1
+
+        return parsed_records
+
+
+def parse_and_ingest_statement_file(
+    user_id: str,
+    file_path_or_buffer: Union[str, Any],
+    filename: str = "statement.csv",
+    db_path: str = DB_PATH
+) -> List[Dict[str, Any]]:
+    """
+    Unified ingestion dispatcher:
+    Accepts CSV or PDF statement files, delegates to appropriate parser,
+    and inserts normalized transactions into SQLite database.
+    """
+    filename_lower = filename.lower()
+    if filename_lower.endswith(".pdf"):
+        records = UpiPdfStatementParser.parse_pdf(user_id, file_path_or_buffer)
+    elif filename_lower.endswith(".csv"):
+        records = BankCsvStatementParser.parse_csv(user_id, file_path_or_buffer)
+    else:
+        # Try CSV first, fallback to PDF
+        try:
+            records = BankCsvStatementParser.parse_csv(user_id, file_path_or_buffer)
+        except Exception:
+            records = UpiPdfStatementParser.parse_pdf(user_id, file_path_or_buffer)
+
+    if records:
+        save_transactions_to_db(records, db_path=db_path)
+
+    return records
 
 
 # ─────────────────────────────────────────────────────────────────────────────

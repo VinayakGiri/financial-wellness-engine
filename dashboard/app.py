@@ -30,6 +30,7 @@ if ROOT not in sys.path:
 from src.data_adapter import (
     init_db, seed_database_from_legacy_data, get_all_users,
     get_user_transactions, get_user_profile, BankCsvStatementParser,
+    UpiPdfStatementParser, parse_and_ingest_statement_file,
     save_transactions_to_db, save_user_profile, DB_PATH
 )
 from src.engine_1_behavior import analyze_user_persona, PERSONA_META
@@ -208,20 +209,23 @@ st.sidebar.markdown(f"""
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 📥 Ingest Live Statement")
 uploaded_file = st.sidebar.file_uploader(
-    "Upload Bank CSV / UPI Export",
-    type=["csv"],
-    help="Supports HDFC, SBI, ICICI, PhonePe, and Google Pay statement exports with Zero-Knowledge PII hashing."
+    "Upload Statement (CSV or PDF)",
+    type=["csv", "pdf"],
+    help="Supports PhonePe, Google Pay, Paytm, HDFC, SBI, ICICI statements in CSV or PDF formats with Zero-Knowledge PII hashing."
 )
 
 if uploaded_file is not None:
     try:
-        new_txns = BankCsvStatementParser.parse_csv(selected_user_id, uploaded_file)
+        new_txns = parse_and_ingest_statement_file(
+            selected_user_id,
+            uploaded_file,
+            filename=uploaded_file.name
+        )
         if new_txns:
-            save_transactions_to_db(new_txns)
-            st.sidebar.success(f"✅ Ingested {len(new_txns)} sanitized transactions into {selected_user_id}!")
+            st.sidebar.success(f"✅ Ingested {len(new_txns)} sanitized transactions from {uploaded_file.name}!")
             st.rerun()
         else:
-            st.sidebar.warning("No valid transactions found in file.")
+            st.sidebar.warning("No readable transaction entries found in uploaded file.")
     except Exception as e:
         st.sidebar.error(f"Error parsing statement: {e}")
 

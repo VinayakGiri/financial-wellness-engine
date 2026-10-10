@@ -17,3 +17,5 @@
 2026-09-26 10:34:08  WARNING  [Chai Point] cancellation_script fallback: Gemini model not initialised
 2026-09-26 10:34:08  WARNING  [Blinkit] cancellation_script fallback: Gemini model not initialised
 2026-10-10 13:39:26  WARNING  Hyper-personalized advice fallback for Rahul: Gemini model not initialised or invalid key format
+2026-10-10 13:48:47  WARNING  Hyper-personalized advice fallback for Aditya Sharma (Plaid Verified): Gemini model not initialised or invalid key format
+2026-10-10 13:49:01  WARNING  Hyper-personalized advice fallback for User 0001 (Verified): Gemini model not initialised or invalid key format

@@ -25,6 +25,7 @@ if PROJECT_ROOT not in sys.path:
 
 from src.data_adapter import (
     PlaidSandboxAdapter, SetuAccountAggregatorAdapter, BankCsvStatementParser,
+    UpiPdfStatementParser, parse_and_ingest_statement_file,
     sanitize_pii_string, normalize_merchant_and_category,
     init_db, seed_database_from_legacy_data, get_all_users,
     get_user_transactions, get_user_profile, DB_PATH
@@ -103,6 +104,58 @@ def test_bank_csv_parsing():
     assert records[0]["amount"] == 450.00
     assert records[1]["type"] == "Credit"
     assert records[1]["amount"] == 65000.00
+
+
+def test_upi_pdf_statement_parsing():
+    """Validates parsing of Indian UPI transaction statements in PDF format."""
+    import io
+    pdf_bytes = b"""%PDF-1.4
+1 0 obj <</Type /Catalog /Pages 2 0 R>> endobj
+2 0 obj <</Type /Pages /Kids [3 0 R] /Count 1>> endobj
+3 0 obj <</Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >> endobj
+4 0 obj <</Length 240>> stream
+BT
+/F1 12 Tf
+72 700 Td
+(05/10/2026 Paid to Swiggy 450.00 DEBIT) Tj
+0 -30 Td
+(08/10/2026 Paid to Netflix 649.00 DEBIT) Tj
+0 -30 Td
+(01/10/2026 Received from Tech Corp Salary 65000.00 CREDIT) Tj
+ET
+endstream
+endobj
+5 0 obj <</Type /Font /Subtype /Type1 /BaseFont /Helvetica>> endobj
+xref
+0 6
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000244 00000 n 
+0000000534 00000 n 
+trailer <</Size 6 /Root 1 0 R>>
+startxref
+609
+%%EOF"""
+
+    records = UpiPdfStatementParser.parse_pdf("USR_PDF_TEST", io.BytesIO(pdf_bytes))
+    assert len(records) == 3, "Must extract 3 transactions from UPI PDF"
+    assert records[0]["merchant"] == "Swiggy"
+    assert records[0]["amount"] == 450.00
+    assert records[0]["type"] == "Debit"
+    assert records[1]["merchant"] == "Netflix"
+    assert records[1]["amount"] == 649.00
+    assert records[2]["type"] == "Credit"
+    assert records[2]["amount"] == 65000.00
+
+
+def test_parse_and_ingest_dispatcher():
+    """Validates unified ingestion dispatcher for both CSV and PDF files."""
+    import io
+    csv_data = "Date,Narration,Amount,Type\n05/10/2026,UPI-Zomato,299.00,Debit\n"
+    res = parse_and_ingest_statement_file("USR_DISPATCH_TEST", io.StringIO(csv_data), filename="export.csv")
+    assert len(res) == 1
+    assert res[0]["amount"] == 299.00
 
 
 def test_database_schema_integrity():

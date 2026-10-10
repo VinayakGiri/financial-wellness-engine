@@ -10,5 +10,10 @@ jupyter
 python-dotenv
 faker
 statsmodels
-tensorflow
+google-genai
 google-generativeai
+pypdf
+torch
+pmdarima
+prophet
+pytest
