@@ -29,9 +29,8 @@ if ROOT not in sys.path:
 
 from src.data_adapter import (
     init_db, seed_database_from_legacy_data, get_all_users,
-    get_user_transactions, get_user_profile, BankCsvStatementParser,
-    UpiPdfStatementParser, parse_and_ingest_statement_file,
-    save_transactions_to_db, save_user_profile, DB_PATH
+    get_user_transactions, get_user_profile,
+    parse_and_ingest_statement_file, DB_PATH
 )
 from src.engine_1_behavior import analyze_user_persona, PERSONA_META
 from src.engine_2_leakage import analyze_user_leakages
