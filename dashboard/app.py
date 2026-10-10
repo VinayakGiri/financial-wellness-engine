@@ -33,9 +33,16 @@ from src.data_adapter import (
     save_transactions_to_db, save_user_profile, DB_PATH
 )
 from src.engine_1_behavior import analyze_user_persona, PERSONA_META
-from src.engine_2_leakage import analyze_user_leakages, STATUS_COLORS
+from src.engine_2_leakage import analyze_user_leakages
 from src.engine_3_predictive import analyze_user_cashflow_and_wellness
 from src.gemini_insights import get_hyper_personalized_pfm_advice
+
+STATUS_COLORS = {
+    "Active":    "#16a34a",
+    "Low Usage": "#d97706",
+    "Dormant":   "#dc2626",
+    "Duplicate": "#9333ea",
+}
 
 # ── Page Config ───────────────────────────────────────────────────────────────
 st.set_page_config(
