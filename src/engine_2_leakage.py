@@ -36,6 +36,13 @@ KNOWN_MERCHANTS = [
     "Jio Fiber", "Airtel", "Apple", "Google Storage", "Gym Pass", "Times Prime"
 ]
 
+STATUS_COLORS = {
+    "Active":    "#16a34a",   # green
+    "Low Usage": "#d97706",   # amber
+    "Dormant":   "#dc2626",   # red
+    "Duplicate": "#9333ea",   # purple
+}
+
 
 def fuzzy_normalize_merchant(raw_name: str) -> str:
     """
