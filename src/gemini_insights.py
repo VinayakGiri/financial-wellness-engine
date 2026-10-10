@@ -82,32 +82,38 @@ else:
 # Core Gemini call wrapper
 # ─────────────────────────────────────────────────────────────────────────────
 _api_call_count = 0
-_RATE_LIMIT_SLEEP = 1.2   # seconds between calls (free tier: ~60 RPM)
+import concurrent.futures
 
 def call_gemini(prompt: str, max_tokens: int = 500) -> str:
     """
-    Call Gemini 1.5 Flash.  Returns response text or raises RuntimeError.
-    Applies rate-limiting sleep between consecutive calls.
+    Call Gemini 1.5 Flash. Returns response text or raises RuntimeError.
+    Applies strict 2.5s executor timeout and fast fallback handling.
     """
     global _api_call_count
-    if _gemini_model is None:
-        raise RuntimeError("Gemini model not initialised")
+    if _gemini_model is None or GEMINI_API_KEY.startswith("AQ."):
+        raise RuntimeError("Gemini model not initialised or invalid key format")
 
-    time.sleep(_RATE_LIMIT_SLEEP)
     _api_call_count += 1
-    try:
-        response = _gemini_model.generate_content(
+
+    def _do_call():
+        res = _gemini_model.generate_content(
             prompt,
             generation_config={
                 "max_output_tokens": max_tokens,
-                "temperature":       0.7,
-                "top_p":             0.9,
+                "temperature": 0.7,
+                "top_p": 0.9,
             },
+            request_options={"timeout": 3.0}
         )
-        return response.text.strip()
-    except Exception as e:
-        err_log.error(f"Gemini call #{_api_call_count} failed: {e}")
-        raise RuntimeError(str(e))
+        return res.text.strip()
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
+        future = executor.submit(_do_call)
+        try:
+            return future.result(timeout=3.0)
+        except Exception as e:
+            err_log.error(f"Gemini call #{_api_call_count} failed/timed out: {e}")
+            raise RuntimeError(str(e))
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -129,43 +135,94 @@ def _fallback_wellness_narrative(user_id, wellness_score, ensemble_forecast,
 
     sub_line = ""
     if subs:
-        sub_line = f"Your top leaking subscription is **{subs[0].get('merchant','a service')}** " \
-                   f"(₹{subs[0].get('monthly_cost',0):,.0f}/mo). "
-
-    if risk == "Low Risk":
-        plan = (
-            f"Great news, {user_id}! Your wellness score of {wellness_score:.0f}/100 puts you in a "
-            f"strong financial position. Your forecast for next month is ₹{ensemble_forecast:,.0f}.\n\n"
-            f"**1. Immediate (this week):** Review your top spending areas — {cat} — "
-            f"and set a weekly micro-budget for each.\n"
-            f"**2. Short-term (2 weeks):** {sub_line}Cancelling unused services could save "
-            f"₹{total:,.0f}/year — redirect that to a recurring deposit.\n"
-            f"**3. Long-term habit (next month):** Automate 10% of income (₹{income*0.1:,.0f}) "
-            f"into a liquid mutual fund on salary day."
-        )
-    elif risk == "Medium Risk":
-        plan = (
-            f"Your wellness score is {wellness_score:.0f}/100 — you're doing okay but there's room "
-            f"to strengthen your finances. Forecasted spend: ₹{ensemble_forecast:,.0f}.\n\n"
-            f"**1. Immediate (this week):** Pause all non-essential subscriptions for 7 days "
-            f"and track where ₹{ensemble_forecast*0.2:,.0f} goes daily.\n"
-            f"**2. Short-term (2 weeks):** {sub_line}Action your dormant subscriptions — "
-            f"₹{total:,.0f}/year is recoverable.\n"
-            f"**3. Long-term habit (next month):** Build a ₹{income*0.5:,.0f} emergency buffer "
-            f"(1 month expenses) before increasing lifestyle spend."
-        )
+        sub_line = f"Cancel {subs[0].get('merchant','a service')} (saving ₹{subs[0].get('monthly_cost',0):,.0f}/month). "
     else:
-        plan = (
-            f"Your wellness score is {wellness_score:.0f}/100 — your forecast (₹{ensemble_forecast:,.0f}) "
-            f"is stretching your budget. Immediate action needed.\n\n"
-            f"**1. Immediate (this week):** Cancel every dormant subscription today. "
-            f"₹{total:,.0f}/year in recoverable leakage is your fastest win.\n"
-            f"**2. Short-term (2 weeks):** Set hard limits on {cat.split(',')[0]} spending "
-            f"— your highest-impact category.\n"
-            f"**3. Long-term habit (next month):** Apply the 50/30/20 rule: 50% needs, "
-            f"30% wants, 20% savings. Start tracking every transaction."
-        )
+        sub_line = "Audit any recurring micro-payments. "
+
+    daily_cap = max(250.0, (ensemble_forecast * 0.3) / 30.0)
+
+    plan = (
+        f"**1. Immediate Action (Next 24-48 Hours):** {sub_line}Targeted cancellation of dormant subscriptions saves up to ₹{total:,.0f}/year instantly.\n"
+        f"**2. Mid-Month Budget Guardrail:** Cap discretionary dining and shopping at ₹{daily_cap:,.0f}/day to preserve your monthly cash-flow buffer.\n"
+        f"**3. End-of-Month Solvency Strategy:** Lock in a minimum target savings of ₹{max(5000.0, income * 0.15):,.0f} on salary day into a liquid emergency fund."
+    )
     return plan
+
+
+def get_hyper_personalized_pfm_advice(
+    user_name: str,
+    persona_name: str,
+    current_balance: float,
+    projected_surplus_or_deficit: float,
+    days_to_shortfall: Optional[int],
+    leaking_subscriptions: List[Dict[str, Any]],
+    monthly_income: float = 60000.0,
+    target_savings: float = 10000.0
+) -> str:
+    """
+    Generates strict 3-tier PFM remediation advice via Gemini 1.5 Flash or robust template.
+    Strictly follows:
+      1. Immediate Action (Next 24-48 Hours)
+      2. Mid-Month Budget Guardrail
+      3. End-of-Month Solvency Strategy
+    """
+    # Build subscription leakage text
+    leak_lines = []
+    total_leak_savings = 0.0
+    for s in leaking_subscriptions[:3]:
+        m = s.get("merchant", "Service")
+        cost = s.get("monthly_cost", 0.0)
+        st = s.get("status", "Dormant")
+        leak_lines.append(f"- {m}: ₹{cost:,.0f}/mo ({st})")
+        total_leak_savings += cost * 12.0
+
+    subs_text = "\n".join(leak_lines) if leak_lines else "No severe leaking subscriptions detected."
+    deficit_text = (
+        f"Shortfall of ₹{abs(projected_surplus_or_deficit):,.0f} expected in {days_to_shortfall} days"
+        if (days_to_shortfall is not None and projected_surplus_or_deficit < 0)
+        else f"Safe projected cash buffer of ₹{max(0.0, projected_surplus_or_deficit):,.0f}"
+    )
+
+    prompt = textwrap.dedent(f"""
+        You are an elite personal financial advisor. Review this individual client profile:
+        - Client Name: {user_name}
+        - Spending Persona: {persona_name}
+        - Current Liquid Balance: ₹{current_balance:,.0f}
+        - 30-Day Outlook: {deficit_text}
+        - Detected Leaking Subscriptions:
+        {subs_text}
+        - Potential Annual Recovery: ₹{total_leak_savings:,.0f}/year
+
+        Provide an exact 3-point remediation plan adhering STRICTLY to this format:
+        1. Immediate Action (Next 24-48 Hours): [Targeted subscription cancellation with exact rupee savings]
+        2. Mid-Month Budget Guardrail: [Specific maximum discretionary daily spend limit]
+        3. End-of-Month Solvency Strategy: [Target savings amount and emergency buffer allocation]
+
+        Keep total response under 130 words. Be concrete, empowering, and direct. No filler words.
+    """).strip()
+
+    try:
+        res = call_gemini(prompt, max_tokens=250)
+        if "1. Immediate Action" in res:
+            return res
+    except Exception as e:
+        err_log.warning(f"Hyper-personalized advice fallback for {user_name}: {e}")
+
+    # Fallback template adhering strictly to prompt format
+    top_sub = leaking_subscriptions[0]["merchant"] if leaking_subscriptions else "unused streaming/gym"
+    top_saving = leaking_subscriptions[0]["monthly_cost"] if leaking_subscriptions else 500.0
+    daily_guardrail = max(300.0, current_balance / 45.0)
+
+    if days_to_shortfall is not None:
+        solvency_advice = f"Redirect all discretionary funds immediately to avoid deficit on day {days_to_shortfall}. Build a ₹{monthly_income * 0.2:,.0f} emergency liquidity floor."
+    else:
+        solvency_advice = f"Automate ₹{target_savings:,.0f} directly into a high-yield liquid fund on salary day to lock in your surplus."
+
+    return (
+        f"**1. Immediate Action (Next 24-48 Hours):** Cancel your dormant {top_sub} subscription to immediately recover ₹{top_saving:,.0f}/month (₹{top_saving*12:,.0f}/year in wasted cash flow).\n"
+        f"**2. Mid-Month Budget Guardrail:** Cap discretionary non-essential spends at strictly ₹{daily_guardrail:,.0f}/day to protect your current liquid balance of ₹{current_balance:,.0f}.\n"
+        f"**3. End-of-Month Solvency Strategy:** {solvency_advice}"
+    )
 
 def _fallback_persona_strategy(persona_name, cluster_stats, top_challenges,
                                 leakage_by_persona) -> str:
