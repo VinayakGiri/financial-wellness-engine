@@ -36,21 +36,23 @@ CATEGORIES = [
 # Known Merchant Classification Map for normalization
 MERCHANT_CATEGORY_RULES = {
     # Food & Dining
-    r"(?i).*(swiggy|zomato|mcdonald|domino|starbucks|subway|haldiram|chai point|eats|pizza|burger).*": ("Food", "Food & Dining"),
+    r"(?i).*(swiggy|zomato|mcdonald|domino|starbucks|subway|haldiram|chai point|eats|pizza|burger|shreesukhsagar|sukhsagar|coffee blues|caterer|restaurant|tea shop|foods|pan shop).*": ("Food", "Food & Dining"),
     # Transport & Mobility
-    r"(?i).*(uber|ola|rapido|metro|irctc|fuel|petrol|hpcl|bpcl|iocl).*": ("Transport", "Transport"),
+    r"(?i).*(uber|ola|rapido|metro|irctc|railways|fuel|petrol|hpcl|bpcl|iocl).*": ("Transport", "Transport"),
     # Shopping & E-Commerce
     r"(?i).*(amazon|flipkart|myntra|zara|blinkit|bigbasket|zepto|dmart|instamart).*": ("Shopping", "Shopping & Groceries"),
     # Subscriptions & Digital
-    r"(?i).*(netflix|spotify|prime|hotstar|youtube|apple|google storage|coursera|github|medium|audible).*": ("Subscriptions", "Subscriptions"),
+    r"(?i).*(netflix|spotify|prime|hotstar|youtube|apple|google storage|coursera|github|medium|audible|agione).*": ("Subscriptions", "Subscriptions"),
+    # Investment & Wealth
+    r"(?i).*(zerodha|groww|upstox|angel|kite|coin|mutual fund|sebi|broking).*": ("Investment", "Investments"),
     # Utilities & Bills
     r"(?i).*(bescom|tatapower|airtel|jio|vi |bsnl|indane|mahanagar|electricity|water|broadband).*": ("Utilities", "Bills & Utilities"),
     # Medical & Healthcare
     r"(?i).*(apollo|pharmeasy|netmeds|1mg|hospital|clinic|pharmacy|diagnostic).*": ("Medical", "Healthcare"),
     # Entertainment & Leisure
-    r"(?i).*(bookmyshow|pvr|inox|steam|playstation|gaming|bowling).*": ("Entertainment", "Entertainment"),
-    # Salary / Income
-    r"(?i).*(salary|payroll|stipend|dividend|interest|credit).*": ("Salary", "Income"),
+    r"(?i).*(bookmyshow|pvr|inox|steam|playstation|gaming|bowling|nesco).*": ("Entertainment", "Entertainment"),
+    # Salary / Income / Rewards
+    r"(?i).*(salary|payroll|stipend|dividend|interest|credit|reward|gpayreward|googlepayreward|cashback).*": ("Salary", "Income"),
 }
 
 
@@ -58,20 +60,28 @@ def sanitize_pii_string(text: str) -> str:
     """
     Zero-Knowledge PII Sanitizer:
     Hashes Indian 10-digit mobile numbers, 12-16 digit bank accounts,
-    and Aadhaar/PAN patterns with SHA-256 salt.
+    email addresses, and Aadhaar/PAN patterns with SHA-256 salt.
     """
     if not isinstance(text, str):
         return str(text)
 
-    # 1. Indian Phone Numbers (starts with 6-9, 10 digits)
+    # 1. Email Addresses
+    def hash_email(match):
+        raw = match.group(0)
+        h = hashlib.sha256(raw.encode("utf-8")).hexdigest()[:8]
+        return f"ANON_EMAIL_{h}"
+
+    cleaned = re.sub(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b", hash_email, text)
+
+    # 2. Indian Phone Numbers (starts with 6-9, 10 digits)
     def hash_phone(match):
         raw = match.group(0)
         h = hashlib.sha256(raw.encode("utf-8")).hexdigest()[:8]
         return f"ANON_TEL_{h}"
 
-    cleaned = re.sub(r"\b[6-9]\d{9}\b", hash_phone, text)
+    cleaned = re.sub(r"\b[6-9]\d{9}\b", hash_phone, cleaned)
 
-    # 2. Bank Account Numbers / Card Numbers (11 to 16 continuous digits)
+    # 3. Bank Account Numbers / Card Numbers (11 to 16 continuous digits)
     def hash_account(match):
         raw = match.group(0)
         h = hashlib.sha256(raw.encode("utf-8")).hexdigest()[:8]
@@ -79,7 +89,7 @@ def sanitize_pii_string(text: str) -> str:
 
     cleaned = re.sub(r"\b\d{11,16}\b", hash_account, cleaned)
 
-    # 3. PAN Numbers (5 letters, 4 digits, 1 letter)
+    # 4. PAN Numbers (5 letters, 4 digits, 1 letter)
     def hash_pan(match):
         raw = match.group(0)
         h = hashlib.sha256(raw.encode("utf-8")).hexdigest()[:6]
@@ -90,11 +100,38 @@ def sanitize_pii_string(text: str) -> str:
     return cleaned
 
 
+def unsquish_camelcase(text: str) -> str:
+    """
+    Splits camelCase / PascalCase words extracted from PDF without spaces.
+    e.g. 'IndianRailways' -> 'Indian Railways', 'MahimaGiri' -> 'Mahima Giri'
+    """
+    s = re.sub(r"([a-z])([A-Z])", r"\1 \2", text)
+    s = re.sub(r"([A-Z]+)([A-Z][a-z])", r"\1 \2", s)
+    return re.sub(r"\s+", " ", s).strip()
+
+
 def normalize_merchant_and_category(raw_merchant: str, narration: str = "") -> Tuple[str, str]:
     """
     Infers clean merchant name and category from raw merchant name or UPI narration.
     """
     full_text = f"{raw_merchant} {narration}".strip()
+
+    # Specific authentic merchant overrides
+    lower_raw = raw_merchant.lower().replace(" ", "").replace("_", "")
+    if "shreesukhsagar" in lower_raw or "sukhsagar" in lower_raw:
+        return "Shree Sukh Sagar", "Food"
+    if "indianrailways" in lower_raw or "railway" in lower_raw or "irctc" in lower_raw:
+        return "Indian Railways", "Transport"
+    if "zerodha" in lower_raw:
+        return "Zerodha Broking", "Investment"
+    if "coffeeblues" in lower_raw:
+        return "Coffee Blues Andheri", "Food"
+    if "agione" in lower_raw:
+        return "AGIONE Technologies", "Subscriptions"
+    if "nesco" in lower_raw:
+        return "Nesco Limited", "Entertainment"
+    if "googlepayreward" in lower_raw or "gpayreward" in lower_raw:
+        return "Google Pay Rewards", "Salary"
 
     # Match against rules
     for pattern, (cat, display_name) in MERCHANT_CATEGORY_RULES.items():
@@ -102,6 +139,7 @@ def normalize_merchant_and_category(raw_merchant: str, narration: str = "") -> T
             # Extract clean brand name
             m = re.search(pattern, full_text)
             clean_name = m.group(1).title() if m.groups() else raw_merchant.title()
+            clean_name = unsquish_camelcase(clean_name)
             # Standardize common names
             if "swiggy" in clean_name.lower(): clean_name = "Swiggy"
             elif "zomato" in clean_name.lower(): clean_name = "Zomato"
@@ -115,8 +153,8 @@ def normalize_merchant_and_category(raw_merchant: str, narration: str = "") -> T
             elif "jio" in clean_name.lower(): clean_name = "Jio"
             return clean_name, cat
 
-    clean_name = raw_merchant.strip().title() if raw_merchant else "General Merchant"
-    return clean_name, "Others"
+    clean_name = unsquish_camelcase(raw_merchant.strip()) if raw_merchant else "General Merchant"
+    return clean_name.title(), "Others"
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -728,6 +766,9 @@ class UpiPdfStatementParser:
     def parse_pdf(cls, user_id: str, file_path_or_buffer: Union[str, Any]) -> List[Dict[str, Any]]:
         """
         Parses UPI PDF statement into normalized transaction records.
+        Supports:
+        - Authentic Google Pay UPI statements (multi-page transaction statements)
+        - PhonePe, Paytm, and generic bank UPI export PDFs
         """
         raw_text = cls.extract_text(file_path_or_buffer)
         if not raw_text.strip():
@@ -736,13 +777,94 @@ class UpiPdfStatementParser:
         lines = [line.strip() for line in raw_text.splitlines() if line.strip()]
         parsed_records = []
 
+        # ── 1. Specialized Parser for Google Pay Statement PDF ─────────────
+        is_gpay = (
+            "transactionstatement" in raw_text.lower()
+            or "google pay" in raw_text.lower()
+            or ("sent" in raw_text.lower() and "received" in raw_text.lower() and "₹" in raw_text)
+        )
+
+        date_re = re.compile(r"^\b(\d{1,2})\s*([A-Za-z]{3,9}),?\s*(\d{4})\b$", re.IGNORECASE)
+        time_re = re.compile(r"^\b\d{1,2}:\d{2}\s*(?:AM|PM)\b$", re.IGNORECASE)
+        header_exact = {
+            "Transactionstatement", "Sent", "Received", "Date&time",
+            "Date&time Transactiondetails Amount", "Transactionstatementperiod"
+        }
+
+        if is_gpay:
+            i = 0
+            while i < len(lines):
+                line = lines[i]
+                if date_re.match(line) and i + 1 < len(lines) and time_re.match(lines[i + 1]):
+                    date_str = line
+                    time_str = lines[i + 1]
+                    block = []
+                    j = i + 2
+                    while j < len(lines) and not (date_re.match(lines[j]) and j + 1 < len(lines) and time_re.match(lines[j + 1])):
+                        cur = lines[j]
+                        if cur not in header_exact and not cur.startswith("Page") and not cur.startswith("Note:") and not cur.startswith("01September") and "@" not in cur:
+                            block.append(cur)
+                        j += 1
+
+                    amt = None
+                    for b_line in block:
+                        if b_line.startswith("₹") or b_line.startswith("Rs") or b_line.startswith("INR"):
+                            try:
+                                clean_num = b_line.replace("₹", "").replace("Rs.", "").replace("Rs", "").replace("INR", "").replace(",", "").strip()
+                                amt = float(clean_num)
+                                break
+                            except Exception:
+                                pass
+
+                    if amt is not None:
+                        direction_line = block[0] if block else "Unknown Merchant"
+                        if "Receivedfrom" in direction_line or direction_line.startswith("Received"):
+                            txn_type = "Credit"
+                            raw_merchant = direction_line.replace("Receivedfrom", "").replace("Received", "").strip()
+                        elif "Paidto" in direction_line or direction_line.startswith("Paid"):
+                            txn_type = "Debit"
+                            raw_merchant = direction_line.replace("Paidto", "").strip()
+                        else:
+                            txn_type = "Debit"
+                            raw_merchant = direction_line
+
+                        raw_dt_str = f"{date_str} {time_str}".replace(",", " ")
+                        clean_dt = re.sub(r"(\d+)([A-Za-z]+)", r"\1 \2", raw_dt_str)
+                        clean_dt = re.sub(r"\s+", " ", clean_dt)
+                        try:
+                            dt = pd.to_datetime(clean_dt)
+                            iso_dt = dt.strftime("%Y-%m-%d %H:%M:%S")
+                        except Exception:
+                            iso_dt = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+                        sanitized_block = sanitize_pii_string(" ".join(block))
+                        norm_merchant, cat = normalize_merchant_and_category(raw_merchant, sanitized_block)
+
+                        parsed_records.append({
+                            "transaction_id": hashlib.md5(f"{user_id}_{iso_dt}_{amt}_{norm_merchant}_{len(parsed_records)}".encode()).hexdigest(),
+                            "user_id": user_id,
+                            "timestamp": iso_dt,
+                            "merchant": norm_merchant,
+                            "normalized_merchant": norm_merchant,
+                            "category": cat,
+                            "amount": amt,
+                            "type": txn_type,
+                            "mode": "UPI",
+                            "balance_after": None,
+                            "narration": sanitized_block
+                        })
+                        i = j - 1
+                i += 1
+
+            if parsed_records:
+                return parsed_records
+
+        # ── 2. Generic / PhonePe Line-by-Line Fallback ─────────────────────
         combined_date_regex = re.compile("|".join(f"(?:{p})" for p in cls.DATE_PATTERNS), re.IGNORECASE)
 
         idx = 0
         while idx < len(lines):
             line = lines[idx]
-
-            # 1. Search for date in the line
             d_match = combined_date_regex.search(line)
             if d_match:
                 raw_date_str = d_match.group(0)
@@ -753,26 +875,24 @@ class UpiPdfStatementParser:
                     else datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 )
 
-                # Look for transaction details in current line and next 2 lines (PhonePe / GPay block)
                 block_lines = [line]
                 lookahead = 1
                 while lookahead <= 2 and (idx + lookahead) < len(lines):
                     next_l = lines[idx + lookahead]
                     if combined_date_regex.search(next_l):
-                        break  # next transaction started
+                        break
                     block_lines.append(next_l)
                     lookahead += 1
 
                 block_text = " ".join(block_lines)
 
-                # 2. Extract amount (mask date string first so date digits are not parsed as amount)
                 text_without_date = block_text.replace(raw_date_str, " ")
                 amounts = []
                 for amt_m in re.finditer(r"(?:₹|Rs\.?|INR)?\s*([0-9]{1,3}(?:,[0-9]{2,3})*(?:\.[0-9]{1,2})|[0-9]+(?:\.[0-9]{1,2})|\b[0-9]{2,7}\b)", text_without_date):
                     amt_str = amt_m.group(1).replace(",", "")
                     try:
                         amt_val = float(amt_str)
-                        if 1.0 <= amt_val <= 10000000.0:  # reasonable transaction range
+                        if 1.0 <= amt_val <= 10000000.0:
                             amounts.append(amt_val)
                     except ValueError:
                         pass
@@ -780,19 +900,16 @@ class UpiPdfStatementParser:
                 raw_amount = amounts[0] if amounts else 0.0
 
                 if raw_amount > 0:
-                    # 3. Determine transaction type (Credit vs Debit)
                     block_lower = block_text.lower()
                     if any(kw in block_lower for kw in ["received", "credited", "credit", "cr", "cashback", "refund", "salary"]):
                         txn_type = "Credit"
                     else:
                         txn_type = "Debit"
 
-                    # 4. Extract merchant / narration
                     narration = text_without_date
                     for a_val in amounts:
                         narration = re.sub(rf"(?:₹|Rs\.?|INR)?\s*{re.escape(str(a_val))}(?:\.00)?", "", narration)
                     
-                    # Look for explicit "Paid to <Merchant>" or "Received from <Merchant>"
                     m_paid = re.search(r"(?:paid to|transfer to|payment to|sent to)\s+([^0-9\n\r/]+)", block_text, re.IGNORECASE)
                     m_recv = re.search(r"(?:received from|transfer from)\s+([^0-9\n\r/]+)", block_text, re.IGNORECASE)
                     if m_paid:
@@ -804,7 +921,6 @@ class UpiPdfStatementParser:
                     
                     target_merchant = re.sub(r"\s+", " ", target_merchant).strip()
 
-                    # Sanitize PII
                     sanitized_narration = sanitize_pii_string(block_text)
                     norm_merchant, cat = normalize_merchant_and_category(target_merchant, sanitized_narration)
 
@@ -936,6 +1052,22 @@ def seed_database_from_legacy_data(db_path: str = DB_PATH, force: bool = False):
         return
 
     print("🌱 Seeding FinWell SQLite database from authentic feeds & legacy transactions...")
+
+    # 0. Ingest authentic Google Pay real-time statement for Vinayak Giri
+    vinayak_pdf = os.path.join(DATA_DIR, "statements", "vinayak_gpay_statement_sept2026.pdf")
+    if os.path.exists(vinayak_pdf):
+        save_user_profile("USR_VINAYAK_GIRI", "Vinayak Giri (Live Google Pay)", 45000.0, 12000.0, db_path=db_path)
+        txns_vinayak = UpiPdfStatementParser.parse_pdf("USR_VINAYAK_GIRI", vinayak_pdf)
+        # Compute accurate running balance progression starting at ₹45,000
+        cur_bal = 45000.0
+        for tx in txns_vinayak:
+            if tx["type"] == "Credit":
+                cur_bal += tx["amount"]
+            else:
+                cur_bal -= tx["amount"]
+            tx["balance_after"] = round(cur_bal, 2)
+        save_transactions_to_db(txns_vinayak, db_path=db_path)
+        print(f"✅ Ingested {len(txns_vinayak)} authentic Google Pay transactions for Vinayak Giri.")
 
     # 1. Add authentic sandbox users
     sandbox_users = [

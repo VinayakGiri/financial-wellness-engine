@@ -8,6 +8,7 @@ __pycache__/
 
 # Secrets — never commit
 .env
+.streamlit/credentials.toml
 
 # Large binary model files (use Git LFS for these if needed)
 *.pkl

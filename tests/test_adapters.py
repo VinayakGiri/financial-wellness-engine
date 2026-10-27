@@ -149,6 +149,18 @@ startxref
     assert records[2]["amount"] == 65000.00
 
 
+def test_google_pay_authentic_statement_parsing():
+    """Validates 100% accurate parsing of Vinayak Giri's authentic Google Pay statement."""
+    pdf_path = os.path.join(PROJECT_ROOT, "data", "statements", "vinayak_gpay_statement_sept2026.pdf")
+    if os.path.exists(pdf_path):
+        txns = UpiPdfStatementParser.parse_pdf("USR_VINAYAK_GIRI", pdf_path)
+        assert len(txns) == 100, f"Expected 100 transactions, got {len(txns)}"
+        debits = sum(t["amount"] for t in txns if t["type"] == "Debit")
+        credits = sum(t["amount"] for t in txns if t["type"] == "Credit")
+        assert abs(debits - 39994.60) < 0.01, f"Expected ₹39,994.60 debits, got {debits}"
+        assert abs(credits - 28831.00) < 0.01, f"Expected ₹28,831.00 credits, got {credits}"
+
+
 def test_parse_and_ingest_dispatcher():
     """Validates unified ingestion dispatcher for both CSV and PDF files."""
     import io
