@@ -39,12 +39,23 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
-from src.data_adapter import (
-    init_db, seed_database_from_legacy_data, get_all_users,
-    get_user_transactions, get_user_profile,
-    parse_and_ingest_statement_file, sync_live_upi_account,
-    UpiImageReceiptParser, DB_PATH
-)
+import importlib
+try:
+    from src.data_adapter import (
+        init_db, seed_database_from_legacy_data, get_all_users,
+        get_user_transactions, get_user_profile,
+        parse_and_ingest_statement_file, sync_live_upi_account,
+        UpiImageReceiptParser, DB_PATH
+    )
+except ImportError:
+    import src.data_adapter
+    importlib.reload(src.data_adapter)
+    from src.data_adapter import (
+        init_db, seed_database_from_legacy_data, get_all_users,
+        get_user_transactions, get_user_profile,
+        parse_and_ingest_statement_file, sync_live_upi_account,
+        UpiImageReceiptParser, DB_PATH
+    )
 from src.engine_1_behavior import analyze_user_persona, PERSONA_META
 from src.engine_2_leakage import analyze_user_leakages
 from src.engine_3_predictive import analyze_user_cashflow_and_wellness
