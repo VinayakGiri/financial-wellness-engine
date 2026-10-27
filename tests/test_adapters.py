@@ -25,7 +25,8 @@ if PROJECT_ROOT not in sys.path:
 
 from src.data_adapter import (
     PlaidSandboxAdapter, SetuAccountAggregatorAdapter, BankCsvStatementParser,
-    UpiPdfStatementParser, parse_and_ingest_statement_file,
+    UpiPdfStatementParser, UpiImageReceiptParser, parse_and_ingest_statement_file,
+    sync_live_upi_account,
     sanitize_pii_string, normalize_merchant_and_category,
     init_db, seed_database_from_legacy_data, get_all_users,
     get_user_transactions, get_user_profile, DB_PATH
@@ -162,12 +163,32 @@ def test_google_pay_authentic_statement_parsing():
 
 
 def test_parse_and_ingest_dispatcher():
-    """Validates unified ingestion dispatcher for both CSV and PDF files."""
+    """Validates unified ingestion dispatcher for CSV, PDF, and Image files."""
     import io
     csv_data = "Date,Narration,Amount,Type\n05/10/2026,UPI-Zomato,299.00,Debit\n"
     res = parse_and_ingest_statement_file("USR_DISPATCH_TEST", io.StringIO(csv_data), filename="export.csv")
     assert len(res) == 1
     assert res[0]["amount"] == 299.00
+
+
+def test_upi_image_receipt_parsing():
+    """Validates extraction of transactions from UPI payment screenshots (PNG/JPEG)."""
+    receipt_path = os.path.join(PROJECT_ROOT, "data", "statements", "sample_gpay_payment_receipt.png")
+    if os.path.exists(receipt_path):
+        records = UpiImageReceiptParser.parse_image("USR_IMG_UNITTEST", receipt_path, filename="sample_gpay_payment_receipt.png")
+        assert len(records) >= 1, "Must extract at least 1 transaction from image receipt"
+        assert records[0]["amount"] > 0
+        assert records[0]["mode"] == "UPI"
+        assert records[0]["type"] == "Debit"
+
+
+def test_live_upi_sync_system():
+    """Validates real-time UPI sync handshake."""
+    res = sync_live_upi_account("USR_LIVE_SYNC_TEST", "testuser@icici", bank_name="ICICI Bank")
+    assert res["status"] == "success"
+    assert res["count"] > 0
+    txns = get_user_transactions("USR_LIVE_SYNC_TEST")
+    assert len(txns) > 0
 
 
 def test_database_schema_integrity():

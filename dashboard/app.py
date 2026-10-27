@@ -42,7 +42,8 @@ if ROOT not in sys.path:
 from src.data_adapter import (
     init_db, seed_database_from_legacy_data, get_all_users,
     get_user_transactions, get_user_profile,
-    parse_and_ingest_statement_file, DB_PATH
+    parse_and_ingest_statement_file, sync_live_upi_account,
+    UpiImageReceiptParser, DB_PATH
 )
 from src.engine_1_behavior import analyze_user_persona, PERSONA_META
 from src.engine_2_leakage import analyze_user_leakages
@@ -51,24 +52,35 @@ from src.gemini_insights import get_hyper_personalized_pfm_advice
 from src.tda_mapper import get_tda_network_plotly
 from src.deep_learning_models import get_black_book_model_benchmarks
 
-# Status colors for badges and tables
-STATUS_COLORS = {
-    "Active":    "#10b981",
-    "Low Usage": "#f59e0b",
-    "Dormant":   "#ef4444",
-    "Duplicate": "#8b5cf6",
-}
+# ── Editorial Haute-Fintech Design System Palette ─────────────────────────────
+# Unique, organic, editorial palette — deliberately avoiding generic AI neon/dark tropes.
+THEME_CANVAS = "#FAF9F6"      # Alabaster warm off-white canvas
+THEME_CARD   = "#FFFFFF"      # Pure porcelain card background
+THEME_BORDER = "#ECEAE4"      # Subtle tactile hairline border
+THEME_INK    = "#0C1821"      # Deep obsidian ink for headings
+THEME_BODY   = "#334155"      # High-legibility charcoal for body text
+THEME_MUTED  = "#64748B"      # Refined slate for secondary metadata
 
-# Credix Design System Color Palette
-CREDIX_BLUE = "#146ef5"
-CREDIX_DARK = "#0f172a"
-CREDIX_MUTED = "#64748b"
-CREDIX_LIGHT = "#f8fafc"
-CREDIX_BORDER = "#e2e8f0"
-CREDIX_EMERALD = "#10b981"
-CREDIX_AMBER = "#f59e0b"
-CREDIX_ROSE = "#ef4444"
-CREDIX_PURPLE = "#8b5cf6"
+# Bespoke Harmonic Accents
+BRAND_TEAL       = "#0D6E6E"      # Nordic Alpine Teal (Primary Brand Accent)
+BRAND_TEAL_LIGHT = "#E6F4F4"      # Light teal wash
+BRAND_AMBER      = "#D97706"      # Warm Burnt Saffron / Amber
+BRAND_AMBER_LIGHT= "#FEF3C7"      # Light amber wash
+BRAND_EMERALD    = "#059669"      # Sage Emerald (Health / Solvency)
+BRAND_EMERALD_LIGHT = "#ECFDF5"   # Light emerald wash
+BRAND_ROSE       = "#DC2626"      # Velvet Crimson (Deficit / Alert)
+BRAND_ROSE_LIGHT = "#FEF2F2"      # Light rose wash
+BRAND_PLUM       = "#7C3AED"      # Iris Plum (Investments / Clusters)
+BRAND_PLUM_LIGHT = "#F5F3FF"      # Light plum wash
+BRAND_BLUE       = "#2563EB"      # Cobalt Blue (UPI Gateway / Tech)
+BRAND_BLUE_LIGHT = "#EFF6FF"      # Light blue wash
+
+STATUS_COLORS = {
+    "Active":    BRAND_EMERALD,
+    "Low Usage": BRAND_AMBER,
+    "Dormant":   BRAND_ROSE,
+    "Duplicate": BRAND_PLUM,
+}
 
 # ── Page Config ───────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -78,21 +90,21 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ── Credix Fintech Design System CSS ──────────────────────────────────────────
+# ── Editorial Haute-Fintech Design System CSS ──────────────────────────────────
 st.markdown("""
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 
   /* Global typography and layout resets */
   html, body, [class*="css"], [class*="st-"] {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
-    letter-spacing: -0.011em;
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    letter-spacing: -0.015em;
   }
   
   /* Background Canvas */
   .stApp {
-    background-color: #f8fafc;
-    color: #0f172a;
+    background-color: #FAF9F6 !important;
+    color: #0C1821 !important;
   }
   
   /* Streamlit default chrome removal */
@@ -104,38 +116,39 @@ st.markdown("""
   .block-container {
     padding-top: 1.0rem !important;
     padding-bottom: 3.5rem !important;
-    max-width: 1400px;
+    max-width: 1420px;
   }
   
   /* Top Institutional Academic Pill */
   .academic-top-bar {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
+    background: #FFFFFF;
+    border: 1px solid #ECEAE4;
     border-radius: 12px;
-    padding: 8px 16px;
-    margin-bottom: 12px;
+    padding: 9px 18px;
+    margin-bottom: 14px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-size: 0.78rem;
-    color: #64748b;
+    color: #64748B;
+    box-shadow: 0 1px 3px rgba(12, 24, 33, 0.02);
   }
   .academic-bold {
     font-weight: 700;
-    color: #0f172a;
+    color: #0C1821;
   }
 
   /* Credix Top Navbar Container */
   .credix-nav {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
+    background: #FFFFFF;
+    border: 1px solid #ECEAE4;
     border-radius: 16px;
     padding: 16px 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.02);
+    box-shadow: 0 1px 3px 0 rgba(12, 24, 33, 0.03), 0 6px 18px rgba(12, 24, 33, 0.02);
   }
   .credix-logo-group {
     display: flex;
@@ -143,28 +156,28 @@ st.markdown("""
     gap: 12px;
   }
   .credix-logo-mark {
-    background: #146ef5;
-    color: #ffffff;
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
+    background: linear-gradient(135deg, #0D6E6E 0%, #064E4E 100%);
+    color: #FFFFFF;
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     font-weight: 800;
-    box-shadow: 0 4px 12px rgba(20, 110, 245, 0.25);
+    box-shadow: 0 4px 14px rgba(13, 110, 110, 0.28);
   }
   .credix-logo-title {
     font-size: 1.25rem;
-    font-weight: 700;
-    color: #0f172a;
+    font-weight: 800;
+    color: #0C1821;
     line-height: 1.2;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.025em;
   }
   .credix-logo-sub {
     font-size: 0.78rem;
-    color: #64748b;
+    color: #64748B;
     font-weight: 500;
   }
   .credix-status-group {
@@ -173,8 +186,8 @@ st.markdown("""
     gap: 10px;
   }
   .credix-status-chip {
-    background: #f1f5f9;
-    color: #475569;
+    background: #F4F3EE;
+    color: #334155;
     padding: 6px 14px;
     border-radius: 20px;
     font-size: 0.8rem;
@@ -182,33 +195,33 @@ st.markdown("""
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid #ECEAE4;
   }
   .credix-dot-green {
     width: 8px;
     height: 8px;
-    background-color: #10b981;
+    background-color: #059669;
     border-radius: 50%;
     display: inline-block;
-    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+    box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.2);
   }
   .credix-user-badge {
-    background: #eff6ff;
-    color: #1d4ed8;
-    border: 1px solid #bfdbfe;
+    background: #E6F4F4;
+    color: #0D6E6E;
+    border: 1px solid #B2DFDB;
     padding: 6px 14px;
     border-radius: 20px;
     font-size: 0.82rem;
-    font-weight: 600;
+    font-weight: 700;
   }
 
   /* Metric Cards */
   .credix-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
+    background: #FFFFFF;
+    border: 1px solid #ECEAE4;
     border-radius: 16px;
-    padding: 20px 22px;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.02);
+    padding: 22px 24px;
+    box-shadow: 0 1px 3px rgba(12, 24, 33, 0.03), 0 8px 24px rgba(12, 24, 33, 0.02);
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     height: 100%;
     display: flex;
@@ -216,30 +229,32 @@ st.markdown("""
     justify-content: space-between;
   }
   .credix-card:hover {
-    border-color: #cbd5e1;
-    box-shadow: 0 4px 16px -2px rgba(20, 110, 245, 0.08);
+    border-color: #D6D3CC;
+    box-shadow: 0 6px 22px rgba(13, 110, 110, 0.07);
+    transform: translateY(-1px);
   }
   .credix-card-label {
-    font-size: 0.76rem;
-    font-weight: 600;
+    font-size: 0.74rem;
+    font-weight: 700;
     text-transform: uppercase;
-    color: #64748b;
+    color: #64748B;
     letter-spacing: 0.06em;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
   .credix-card-val {
-    font-size: 2.0rem;
+    font-size: 2.1rem;
     font-weight: 800;
-    color: #0f172a;
+    color: #0C1821;
     letter-spacing: -0.03em;
     margin: 8px 0 6px 0;
     line-height: 1.15;
+    font-feature-settings: 'tnum' 1, 'cv02' 1;
   }
   .credix-card-sub {
     font-size: 0.82rem;
-    color: #64748b;
+    color: #64748B;
     font-weight: 500;
     display: flex;
     align-items: center;
@@ -248,47 +263,51 @@ st.markdown("""
   
   /* Tag Badges */
   .chip {
-    padding: 3px 9px;
+    padding: 3px 10px;
     border-radius: 20px;
     font-size: 0.72rem;
-    font-weight: 600;
+    font-weight: 700;
     display: inline-block;
+    letter-spacing: 0.02em;
   }
-  .chip-emerald { background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; }
-  .chip-rose { background: #fff1f2; color: #e11d48; border: 1px solid #fecdd3; }
-  .chip-amber { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
-  .chip-blue { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
-  .chip-purple { background: #faf5ff; color: #7c3aed; border: 1px solid #e9d5ff; }
+  .chip-emerald { background: #ECFDF5; color: #059669; border: 1px solid #A7F3D0; }
+  .chip-rose { background: #FEF2F2; color: #DC2626; border: 1px solid #FECACA; }
+  .chip-amber { background: #FFFBEB; color: #D97706; border: 1px solid #FDE68A; }
+  .chip-teal { background: #E6F4F4; color: #0D6E6E; border: 1px solid #B2DFDB; }
+  .chip-blue { background: #EFF6FF; color: #2563EB; border: 1px solid #BFDBFE; }
+  .chip-purple { background: #F5F3FF; color: #7C3AED; border: 1px solid #DDD6FE; }
 
   /* Segmented Navigation Tabs */
   .stTabs [data-baseweb="tab-list"] {
     gap: 6px !important;
-    background-color: #f1f5f9 !important;
+    background-color: #F1EFEA !important;
     padding: 6px !important;
     border-radius: 12px !important;
     border-bottom: none !important;
-    margin-bottom: 20px !important;
+    margin-bottom: 22px !important;
+    border: 1px solid #ECEAE4 !important;
   }
   .stTabs [data-baseweb="tab"] {
-    height: 40px !important;
+    height: 42px !important;
     border-radius: 8px !important;
-    padding: 0 16px !important;
-    font-size: 0.86rem !important;
-    font-weight: 500 !important;
-    color: #64748b !important;
+    padding: 0 18px !important;
+    font-size: 0.88rem !important;
+    font-weight: 600 !important;
+    color: #64748B !important;
     border: none !important;
     background-color: transparent !important;
     transition: all 0.15s ease-in-out !important;
   }
   .stTabs [data-baseweb="tab"]:hover {
-    color: #0f172a !important;
-    background-color: rgba(255,255,255,0.5) !important;
+    color: #0C1821 !important;
+    background-color: rgba(255,255,255,0.6) !important;
   }
   .stTabs [aria-selected="true"] {
-    background-color: #ffffff !important;
-    color: #0f172a !important;
-    font-weight: 600 !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+    background-color: #FFFFFF !important;
+    color: #0D6E6E !important;
+    font-weight: 700 !important;
+    box-shadow: 0 1px 3px rgba(12, 24, 33, 0.08) !important;
+    border: 1px solid #ECEAE4 !important;
   }
   .stTabs [data-baseweb="tab-highlight"] {
     background-color: transparent !important;
@@ -302,20 +321,20 @@ st.markdown("""
     margin: 18px 0;
   }
   .strategy-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
+    background: #FFFFFF;
+    border: 1px solid #ECEAE4;
     border-radius: 14px;
-    padding: 20px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    padding: 22px;
+    box-shadow: 0 1px 3px rgba(12, 24, 33, 0.03);
     position: relative;
-    border-top: 3px solid #146ef5;
+    border-top: 3.5px solid #0D6E6E;
   }
   .strategy-card-title {
     font-size: 0.82rem;
-    font-weight: 700;
-    color: #146ef5;
+    font-weight: 800;
+    color: #0D6E6E;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.05em;
     margin-bottom: 8px;
     display: flex;
     align-items: center;
@@ -323,58 +342,62 @@ st.markdown("""
   }
   .strategy-card-body {
     font-size: 0.88rem;
-    line-height: 1.55;
+    line-height: 1.6;
     color: #334155;
   }
 
   /* 5-Component Formula Grid */
   .formula-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 14px;
-    padding: 18px 22px;
+    background: #FFFFFF;
+    border: 1px solid #ECEAE4;
+    border-radius: 16px;
+    padding: 20px 24px;
     margin: 18px 0;
+    box-shadow: 0 1px 3px rgba(12, 24, 33, 0.02);
   }
   .formula-title {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: #0f172a;
+    font-size: 0.98rem;
+    font-weight: 800;
+    color: #0C1821;
     margin-bottom: 4px;
+    letter-spacing: -0.01em;
   }
   .formula-sub {
     font-size: 0.8rem;
-    color: #64748b;
+    color: #64748B;
     margin-bottom: 14px;
   }
 
   /* Academic Report Section Panels */
   .academic-panel {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
+    background: #FFFFFF;
+    border: 1px solid #ECEAE4;
     border-radius: 16px;
-    padding: 24px;
-    margin-bottom: 20px;
+    padding: 26px;
+    margin-bottom: 22px;
+    box-shadow: 0 1px 3px rgba(12, 24, 33, 0.02);
   }
   .academic-header {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: #0f172a;
+    font-size: 1.18rem;
+    font-weight: 800;
+    color: #0C1821;
     margin-bottom: 8px;
     display: flex;
     align-items: center;
     gap: 8px;
+    letter-spacing: -0.015em;
   }
   .academic-body {
-    font-size: 0.88rem;
-    line-height: 1.6;
+    font-size: 0.9rem;
+    line-height: 1.65;
     color: #334155;
   }
 
   /* Banner Alerts */
   .credix-alert-critical {
-    background: #fff1f2;
-    border: 1px solid #fecdd3;
-    color: #9f1239;
+    background: #FEF2F2;
+    border: 1px solid #FECACA;
+    color: #991B1B;
     border-radius: 12px;
     padding: 16px 20px;
     margin: 16px 0;
@@ -382,8 +405,8 @@ st.markdown("""
     line-height: 1.5;
   }
   .credix-alert-safe {
-    background: #f0fdf4;
-    border: 1px solid #bbf7d0;
+    background: #F0FDF4;
+    border: 1px solid #BBF7D0;
     color: #166534;
     border-radius: 12px;
     padding: 16px 20px;
@@ -394,41 +417,78 @@ st.markdown("""
 
   /* Modern Sidebar Tweaks */
   section[data-testid="stSidebar"] {
-    background-color: #ffffff !important;
-    border-right: 1px solid #e2e8f0;
+    background-color: #F6F5F0 !important;
+    border-right: 1px solid #ECEAE4;
   }
   section[data-testid="stSidebar"] .block-container {
     padding-top: 1.5rem !important;
   }
   .sidebar-profile-card {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 16px;
+    background: #FFFFFF;
+    border: 1px solid #ECEAE4;
+    border-radius: 14px;
+    padding: 16px 18px;
     margin: 14px 0;
+    box-shadow: 0 1px 3px rgba(12, 24, 33, 0.02);
   }
   .sidebar-stat-label {
     font-size: 0.72rem;
     font-weight: 700;
     text-transform: uppercase;
-    color: #64748b;
-    letter-spacing: 0.04em;
+    color: #64748B;
+    letter-spacing: 0.05em;
   }
   .sidebar-stat-val {
-    font-size: 1.12rem;
+    font-size: 1.15rem;
     font-weight: 800;
-    color: #0f172a;
+    color: #0C1821;
     margin-bottom: 8px;
+    font-feature-settings: 'tnum' 1;
   }
 
   /* Clean Dataframe Styling */
   .stDataFrame {
     border-radius: 12px;
     overflow: hidden;
-    border: 1px solid #e2e8f0;
+    border: 1px solid #ECEAE4;
   }
 </style>
 """, unsafe_allow_html=True)
+
+
+# ── Chart Theming Helper Function ─────────────────────────────────────────────
+def apply_editorial_theme(fig, height=None, title=None):
+    """Applies bespoke editorial haute-fintech theme to Plotly figures."""
+    fig.update_layout(
+        font=dict(family="Plus Jakarta Sans, Inter, sans-serif", color=THEME_INK),
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        margin=dict(t=45 if title else 20, b=20, l=20, r=20),
+    )
+    if hasattr(fig.layout, "xaxis") and fig.layout.xaxis:
+        fig.update_xaxes(
+            showgrid=True,
+            gridcolor="#ECEAE4",
+            zerolinecolor="#D6D3CC",
+            tickfont=dict(color=THEME_MUTED, size=10, family="Plus Jakarta Sans")
+        )
+    if hasattr(fig.layout, "yaxis") and fig.layout.yaxis:
+        fig.update_yaxes(
+            showgrid=True,
+            gridcolor="#ECEAE4",
+            zerolinecolor="#D6D3CC",
+            tickfont=dict(color=THEME_MUTED, size=10, family="Plus Jakarta Sans")
+        )
+    if height:
+        fig.update_layout(height=height)
+    if title:
+        fig.update_layout(
+            title=dict(
+                text=f"<b>{title}</b>",
+                font=dict(size=14, color=THEME_INK, family="Plus Jakarta Sans")
+            )
+        )
+    return fig
 
 
 # ── Database & Global State Initialization ────────────────────────────────────
@@ -462,8 +522,8 @@ st.markdown("""
 # ── Sidebar: Account Switcher & Statement Ingestion ───────────────────────────
 st.sidebar.markdown("""
 <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
-  <span style="background:#146ef5; color:white; font-weight:800; font-size:0.9rem; padding:4px 8px; border-radius:6px;">FW</span>
-  <span style="font-size:1.05rem; font-weight:700; color:#0f172a;">Account Center</span>
+  <span style="background:linear-gradient(135deg, #0D6E6E 0%, #064E4E 100%); color:white; font-weight:800; font-size:0.9rem; padding:4px 8px; border-radius:7px; box-shadow:0 2px 6px rgba(13,110,110,0.3);">FW</span>
+  <span style="font-size:1.05rem; font-weight:800; color:#0C1821; letter-spacing:-0.02em;">Account Center</span>
 </div>
 """, unsafe_allow_html=True)
 
@@ -477,18 +537,24 @@ for _, u_row in users_df.iterrows():
 
 # Default to authentic verified user
 default_idx = 0
-preferred_defaults = ["USR_VINAYAK_GIRI", "USR_PLAID_GOOD", "USR_PLAID_CUSTOM", "USR_SETU_AA", "USR0001"]
+preferred_defaults = ["USR_VINAYAK_GIRI", "USR_PRIYA_HDFC", "USR_ARJUN_SBI", "USR_PLAID_GOOD", "USR_SETU_AA"]
 for pref in preferred_defaults:
     if pref in user_options:
         default_idx = list(user_options.keys()).index(pref)
         break
 
+# Profile selection state management
+if "active_user_id" not in st.session_state:
+    st.session_state.active_user_id = list(user_options.keys())[default_idx]
+
 selected_user_id = st.sidebar.selectbox(
-    "Active Profile",
+    "Active Account Profile",
     options=list(user_options.keys()),
     format_func=lambda x: user_options[x],
-    index=default_idx
+    index=list(user_options.keys()).index(st.session_state.active_user_id) if st.session_state.active_user_id in user_options else default_idx,
+    key="profile_selector"
 )
+st.session_state.active_user_id = selected_user_id
 
 # Fetch Active User Profile
 active_profile = get_user_profile(selected_user_id) or {
@@ -502,35 +568,61 @@ active_profile = get_user_profile(selected_user_id) or {
 st.sidebar.markdown(f"""
 <div class="sidebar-profile-card">
   <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
-    <div style="background:#146ef5; color:white; font-weight:700; width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.95rem;">
+    <div style="background:linear-gradient(135deg, #0D6E6E 0%, #064E4E 100%); color:white; font-weight:800; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.95rem; box-shadow:0 2px 8px rgba(13,110,110,0.25);">
       {active_profile['name'][:1]}
     </div>
     <div>
-      <div style="font-weight:700; color:#0f172a; font-size:0.95rem;">{active_profile['name']}</div>
-      <div style="font-size:0.75rem; color:#64748b;">ID: {selected_user_id}</div>
+      <div style="font-weight:800; color:#0C1821; font-size:0.92rem; letter-spacing:-0.01em;">{active_profile['name']}</div>
+      <div style="font-size:0.75rem; color:#64748B;">ID: {selected_user_id}</div>
     </div>
   </div>
   <div class="sidebar-stat-label">Monthly Inflow</div>
   <div class="sidebar-stat-val">₹{active_profile['monthly_income']:,.0f}</div>
   <div class="sidebar-stat-label">Target Savings Goal</div>
-  <div class="sidebar-stat-val" style="color:#146ef5; margin-bottom:0;">₹{active_profile['target_savings']:,.0f}/mo</div>
+  <div class="sidebar-stat-val" style="color:#0D6E6E; margin-bottom:0;">₹{active_profile['target_savings']:,.0f}/mo</div>
 </div>
 """, unsafe_allow_html=True)
 
-# Real-Time Account Linker in Sidebar
+# 1-Click Switch Authentic Profiles
+st.sidebar.markdown("<div style='margin-top:14px;'></div>", unsafe_allow_html=True)
+st.sidebar.markdown("<div class='sidebar-stat-label' style='margin-bottom:6px;'>⚡ 1-Click Authentic Accounts</div>", unsafe_allow_html=True)
+q_col1, q_col2 = st.sidebar.columns(2)
+with q_col1:
+    if st.button("Vinayak (GPay)", use_container_width=True, help="100 Authentic Txns from GPay Statement PDF"):
+        st.session_state.active_user_id = "USR_VINAYAK_GIRI"
+        st.rerun()
+    if st.button("Arjun (SBI UPI)", use_container_width=True, help="17 Authentic Txns from SBI UPI Export"):
+        st.session_state.active_user_id = "USR_ARJUN_SBI"
+        st.rerun()
+with q_col2:
+    if st.button("Priya (HDFC)", use_container_width=True, help="20 Authentic Txns from HDFC Bank Statement"):
+        st.session_state.active_user_id = "USR_PRIYA_HDFC"
+        st.rerun()
+    if st.button("Rahul (Setu AA)", use_container_width=True, help="31 Authentic Txns from RBI Sahamati Feed"):
+        st.session_state.active_user_id = "USR_SETU_AA"
+        st.rerun()
+
+# Real-Time Account Linker & UPI Handshake in Sidebar
 st.sidebar.markdown("<div style='margin-top:16px;'></div>", unsafe_allow_html=True)
-st.sidebar.markdown("##### ⚡ Live Account Linking")
+st.sidebar.markdown("<div class='sidebar-stat-label' style='margin-bottom:6px;'>⚡ Live UPI Sync Handshake</div>", unsafe_allow_html=True)
 
-if st.sidebar.button("🔄 Sync Live Bank Feed (RBI AA)", use_container_width=True):
-    st.sidebar.success("✅ Real-Time Webhook synced 100 transactions from ICICI Bank 4092 via NPCI UPI bridge!")
+upi_vpa_input = st.sidebar.text_input("UPI VPA / Phone", value="vinayak@icici", label_visibility="collapsed", placeholder="e.g. vinayak@icici")
+bank_choice = st.sidebar.selectbox("Linked Bank Gateway", ["ICICI Bank (Live)", "HDFC Bank", "State Bank of India", "Axis Bank", "Kotak Bank"], label_visibility="collapsed")
 
-# Statement Uploader in Sidebar
-st.sidebar.markdown("<div style='margin-top:12px;'></div>", unsafe_allow_html=True)
-st.sidebar.markdown("##### 📥 Ingest Statement (PDF / CSV)")
+if st.sidebar.button("⚡ Connect & Pull Live UPI Feed", use_container_width=True):
+    with st.spinner("Connecting to RBI Sahamati FIU / NPCI UPI Gateway..."):
+        sync_res = sync_live_upi_account(selected_user_id, upi_vpa_input, bank_name=bank_choice)
+        st.sidebar.success(f"✅ Handshake verified! Synced {sync_res['count']} live transactions from {bank_choice}.")
+        st.rerun()
+
+# Multi-Format Statement Ingestion (CSV, PDF, JPEG, PNG)
+st.sidebar.markdown("<div style='margin-top:14px;'></div>", unsafe_allow_html=True)
+st.sidebar.markdown("<div class='sidebar-stat-label' style='margin-bottom:6px;'>📥 Ingest Statement / Receipt</div>", unsafe_allow_html=True)
 uploaded_file = st.sidebar.file_uploader(
-    "Upload Bank / UPI Statement",
-    type=["csv", "pdf"],
-    help="Supports PhonePe, GPay, Paytm, HDFC, SBI, ICICI statements (CSV & PDF) with Zero-Knowledge PII hashing."
+    "Upload Bank Statement or UPI Receipt",
+    type=["csv", "pdf", "jpg", "jpeg", "png"],
+    help="Supports PhonePe, GPay, Paytm, HDFC, SBI, ICICI (CSV, PDF, JPEG, PNG payment screenshots) with Zero-Knowledge PII hashing.",
+    label_visibility="collapsed"
 )
 
 if uploaded_file is not None:
@@ -541,7 +633,7 @@ if uploaded_file is not None:
             filename=uploaded_file.name
         )
         if new_txns:
-            st.sidebar.success(f"Ingested {len(new_txns)} transactions from {uploaded_file.name}!")
+            st.sidebar.success(f"✅ Ingested {len(new_txns)} records from {uploaded_file.name}!")
             st.rerun()
         else:
             st.sidebar.warning("No readable transaction entries found in uploaded file.")
@@ -549,7 +641,7 @@ if uploaded_file is not None:
         st.sidebar.error(f"Error parsing statement: {e}")
 
 st.sidebar.markdown("""
-<div style="margin-top:20px; font-size:0.75rem; color:#94a3b8; line-height:1.4;">
+<div style="margin-top:16px; font-size:0.75rem; color:#94A3B8; line-height:1.4;">
   🔒 <strong>Zero-Knowledge Protocol</strong><br/>
   PII (Phone/Acc#) hashed with SHA-256 prior to modeling layer.
 </div>
@@ -615,51 +707,97 @@ with tab1:
     # Authentic Real-Time Account Linker Card
     if selected_user_id == "USR_VINAYAK_GIRI":
         st.markdown(f"""
-        <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:14px; padding:16px 20px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.04); display:flex; justify-content:space-between; align-items:center;">
+        <div style="background:#ffffff; border:1px solid #ECEAE4; border-radius:14px; padding:16px 20px; margin-bottom:20px; box-shadow:0 1px 3px rgba(12,24,33,0.03); display:flex; justify-content:space-between; align-items:center;">
           <div style="display:flex; align-items:center; gap:14px;">
-            <div style="background:#ecfdf5; border:1px solid #a7f3d0; color:#059669; width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.35rem;">
+            <div style="background:#ECFDF5; border:1px solid #A7F3D0; color:#059669; width:44px; height:44px; border-radius:11px; display:flex; align-items:center; justify-content:center; font-size:1.35rem;">
               ⚡
             </div>
             <div>
               <div style="display:flex; align-items:center; gap:8px;">
-                <span style="font-size:0.98rem; font-weight:700; color:#0f172a;">Linked Bank Feed: ICICI Bank (A/C ...4092) via Google Pay UPI</span>
+                <span style="font-size:0.98rem; font-weight:800; color:#0C1821;">Linked Bank Feed: ICICI Bank (A/C ...4092) via Google Pay UPI</span>
                 <span class="chip chip-emerald" style="font-size:0.7rem; font-weight:700;">● LIVE ACCOUNT CONNECTED</span>
               </div>
-              <div style="font-size:0.8rem; color:#64748b; margin-top:3px;">
+              <div style="font-size:0.8rem; color:#64748B; margin-top:3px;">
                 <strong>100 Authentic Transactions</strong> &bull; Total Sent: <strong>₹39,994.60</strong> &bull; Total Received: <strong>₹28,831.00</strong> &bull; Zero-Knowledge PII Sanitized
               </div>
             </div>
           </div>
           <div style="text-align:right;">
-            <span style="font-size:0.72rem; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; display:block;">Aggregation Gateway</span>
-            <span style="font-size:0.85rem; font-weight:700; color:#146ef5;">RBI Sahamati AA / NPCI UPI 2.0</span>
+            <span style="font-size:0.72rem; color:#64748B; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; display:block;">Aggregation Gateway</span>
+            <span style="font-size:0.85rem; font-weight:800; color:#0D6E6E;">RBI Sahamati AA / NPCI UPI 2.0</span>
+          </div>
+        </div>
+        """, unsafe_allow_html=True)
+    elif selected_user_id == "USR_PRIYA_HDFC":
+        st.markdown(f"""
+        <div style="background:#ffffff; border:1px solid #ECEAE4; border-radius:14px; padding:16px 20px; margin-bottom:20px; box-shadow:0 1px 3px rgba(12,24,33,0.03); display:flex; justify-content:space-between; align-items:center;">
+          <div style="display:flex; align-items:center; gap:14px;">
+            <div style="background:#EFF6FF; border:1px solid #BFDBFE; color:#2563EB; width:44px; height:44px; border-radius:11px; display:flex; align-items:center; justify-content:center; font-size:1.35rem;">
+              🏦
+            </div>
+            <div>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-size:0.98rem; font-weight:800; color:#0C1821;">Linked Bank Feed: HDFC Bank Salary & Living (A/C ...8102)</span>
+                <span class="chip chip-blue" style="font-size:0.7rem; font-weight:700;">● LIVE MULTI-MONTH STATEMENT</span>
+              </div>
+              <div style="font-size:0.8rem; color:#64748B; margin-top:3px;">
+                <strong>20 Authentic Transactions</strong> &bull; Inflow: <strong>₹78,000.00/mo</strong> &bull; HDFC NetBanking Direct Parser
+              </div>
+            </div>
+          </div>
+          <div style="text-align:right;">
+            <span style="font-size:0.72rem; color:#64748B; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; display:block;">Statement Protocol</span>
+            <span style="font-size:0.85rem; font-weight:800; color:#2563EB;">HDFC CSV / Automated Parser</span>
+          </div>
+        </div>
+        """, unsafe_allow_html=True)
+    elif selected_user_id == "USR_ARJUN_SBI":
+        st.markdown(f"""
+        <div style="background:#ffffff; border:1px solid #ECEAE4; border-radius:14px; padding:16px 20px; margin-bottom:20px; box-shadow:0 1px 3px rgba(12,24,33,0.03); display:flex; justify-content:space-between; align-items:center;">
+          <div style="display:flex; align-items:center; gap:14px;">
+            <div style="background:#F5F3FF; border:1px solid #DDD6FE; color:#7C3AED; width:44px; height:44px; border-radius:11px; display:flex; align-items:center; justify-content:center; font-size:1.35rem;">
+              💳
+            </div>
+            <div>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-size:0.98rem; font-weight:800; color:#0C1821;">Linked Bank Feed: State Bank of India UPI (A/C ...5519)</span>
+                <span class="chip chip-purple" style="font-size:0.7rem; font-weight:700;">● LIVE UPI EXPORT ACTIVE</span>
+              </div>
+              <div style="font-size:0.8rem; color:#64748B; margin-top:3px;">
+                <strong>17 Authentic Transactions</strong> &bull; Stipend: <strong>₹20,000.00</strong> &bull; Verified Micro-Payments
+              </div>
+            </div>
+          </div>
+          <div style="text-align:right;">
+            <span style="font-size:0.72rem; color:#64748B; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; display:block;">Aggregation Gateway</span>
+            <span style="font-size:0.85rem; font-weight:800; color:#7C3AED;">SBI YONO / NPCI UPI Feed</span>
           </div>
         </div>
         """, unsafe_allow_html=True)
     else:
         st.markdown(f"""
-        <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:14px; padding:14px 18px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,0.04); display:flex; justify-content:space-between; align-items:center;">
+        <div style="background:#ffffff; border:1px solid #ECEAE4; border-radius:14px; padding:14px 18px; margin-bottom:20px; box-shadow:0 1px 3px rgba(12,24,33,0.03); display:flex; justify-content:space-between; align-items:center;">
           <div style="display:flex; align-items:center; gap:12px;">
-            <div style="background:#eff6ff; border:1px solid #bfdbfe; color:#1d4ed8; width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.2rem;">
+            <div style="background:#E6F4F4; border:1px solid #B2DFDB; color:#0D6E6E; width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.2rem;">
               🏦
             </div>
             <div>
-              <span style="font-size:0.92rem; font-weight:700; color:#0f172a;">Active Bank Feed: {active_profile['name']}</span>
-              <div style="font-size:0.78rem; color:#64748b;">
+              <span style="font-size:0.92rem; font-weight:800; color:#0C1821;">Active Bank Feed: {active_profile['name']}</span>
+              <div style="font-size:0.78rem; color:#64748B;">
                 {len(active_txns)} transactions verified &bull; SHA-256 Sanitized &bull; Account ID: {selected_user_id}
               </div>
             </div>
           </div>
-          <span class="chip chip-blue" style="font-size:0.72rem;">FIU Aggregator Verified</span>
+          <span class="chip chip-teal" style="font-size:0.72rem;">FIU Aggregator Verified</span>
         </div>
         """, unsafe_allow_html=True)
 
-    # 4 Top Metric Cards (Credix Style)
+    # 4 Top Metric Cards
     c1, c2, c3, c4 = st.columns(4)
 
     w_score = cashflow_data["wellness_score"]
     score_badge_class = "chip-emerald" if w_score >= 75 else ("chip-amber" if w_score >= 50 else "chip-rose")
-    score_color = "#10b981" if w_score >= 75 else ("#f59e0b" if w_score >= 50 else "#ef4444")
+    score_color = BRAND_EMERALD if w_score >= 75 else (BRAND_AMBER if w_score >= 50 else BRAND_ROSE)
 
     with c1:
         st.markdown(f"""
@@ -669,10 +807,10 @@ with tab1:
             <span class="chip {score_badge_class}">Health Index</span>
           </div>
           <div class="credix-card-val" style="color:{score_color};">
-            {w_score:.1f}<span style="font-size:1.1rem; color:#94a3b8; font-weight:500;">/100</span>
+            {w_score:.1f}<span style="font-size:1.1rem; color:#94A3B8; font-weight:500;">/100</span>
           </div>
           <div class="credix-card-sub">
-            <span style="font-weight:600; color:#0f172a;">{cashflow_data['risk_level']}</span> tier stability
+            <span style="font-weight:700; color:#0C1821;">{cashflow_data['risk_level']}</span> tier stability
           </div>
         </div>
         """, unsafe_allow_html=True)
@@ -680,12 +818,12 @@ with tab1:
     with c2:
         if cashflow_data["is_shortage"]:
             solvency_title = f"Deficit in {cashflow_data['days_to_shortage']} Days"
-            solvency_color = "#ef4444"
+            solvency_color = BRAND_ROSE
             solvency_chip = "chip-rose"
             solvency_sub = f"Breach expected: {cashflow_data['shortfall_date']}"
         else:
             solvency_title = "Solvent"
-            solvency_color = "#10b981"
+            solvency_color = BRAND_EMERALD
             solvency_chip = "chip-emerald"
             solvency_sub = "Full 30-day cushion intact"
 
@@ -706,7 +844,7 @@ with tab1:
 
     with c3:
         annual_leak = leakage_data["total_annual_savings"]
-        leak_color = "#ef4444" if annual_leak > 0 else "#10b981"
+        leak_color = BRAND_ROSE if annual_leak > 0 else BRAND_EMERALD
         leak_chip = "chip-amber" if annual_leak > 0 else "chip-emerald"
 
         st.markdown(f"""
@@ -716,7 +854,7 @@ with tab1:
             <span class="chip {leak_chip}">Subscriptions</span>
           </div>
           <div class="credix-card-val" style="color:{leak_color};">
-            ₹{leakage_data['total_monthly_leakage']:,.0f}<span style="font-size:0.9rem; color:#94a3b8; font-weight:500;">/mo</span>
+            ₹{leakage_data['total_monthly_leakage']:,.0f}<span style="font-size:0.9rem; color:#94A3B8; font-weight:500;">/mo</span>
           </div>
           <div class="credix-card-sub">
             ₹{annual_leak:,.0f}/yr recoverable cash
@@ -729,9 +867,9 @@ with tab1:
         <div class="credix-card">
           <div class="credix-card-label">
             <span>Spending Persona</span>
-            <span class="chip chip-blue">Cluster #{persona_data['cluster_id']}</span>
+            <span class="chip chip-teal">Cluster #{persona_data['cluster_id']}</span>
           </div>
-          <div class="credix-card-val" style="font-size:1.45rem; color:#146ef5;">
+          <div class="credix-card-val" style="font-size:1.45rem; color:#0D6E6E;">
             {persona_data['persona_name']}
           </div>
           <div class="credix-card-sub">
@@ -872,25 +1010,25 @@ with tab1:
             debits = active_txns[active_txns["type"] == "Debit"]
             if not debits.empty:
                 cat_summary = debits.groupby("category")["amount"].sum().reset_index()
-                donut_colors = [CREDIX_BLUE, "#0ea5e9", "#6366f1", "#10b981", "#f59e0b", "#ec4899", "#8b5cf6"]
+                donut_colors = [BRAND_TEAL, BRAND_AMBER, BRAND_EMERALD, BRAND_BLUE, BRAND_PLUM, "#E11D48", "#0EA5E9", "#64748B"]
                 
                 fig_cat = go.Figure(data=[go.Pie(
                     labels=cat_summary["category"],
                     values=cat_summary["amount"],
-                    hole=0.62,
+                    hole=0.64,
                     textinfo="label+percent",
                     insidetextorientation="radial",
                     marker=dict(colors=donut_colors, line=dict(color="#ffffff", width=2)),
                     hoverinfo="label+value+percent",
-                    hoverlabel=dict(bgcolor="#ffffff", font_size=12, font_family="Inter")
+                    hoverlabel=dict(bgcolor="#ffffff", font_size=12, font_family="Plus Jakarta Sans")
                 )])
                 
                 total_spend = cat_summary["amount"].sum()
                 fig_cat.update_layout(
-                    title=dict(text="<b>Expense Distribution by Category</b>", font=dict(size=15, color="#0f172a", family="Inter")),
+                    title=dict(text="<b>Expense Distribution by Category</b>", font=dict(size=14, color=THEME_INK, family="Plus Jakarta Sans")),
                     annotations=[dict(
-                        text=f"<b>₹{total_spend:,.0f}</b><br><span style='font-size:10px; color:#64748b;'>TOTAL DEBITS</span>",
-                        x=0.5, y=0.5, font_size=14, showarrow=False, font_family="Inter"
+                        text=f"<b>₹{total_spend:,.0f}</b><br><span style='font-size:10px; color:#64748B;'>TOTAL DEBITS</span>",
+                        x=0.5, y=0.5, font_size=13, showarrow=False, font_family="Plus Jakarta Sans"
                     )],
                     showlegend=False,
                     paper_bgcolor="rgba(0,0,0,0)",
@@ -905,24 +1043,24 @@ with tab1:
             st.info("No transaction history available.")
 
     with col_b:
-        # Credix Sleek Financial Wellness Gauge
+        # Editorial Haute-Fintech Wellness Gauge
         fig_gauge = go.Figure(go.Indicator(
             mode="gauge+number",
             value=w_score,
-            title={'text': "<b>Financial Wellness Gauge</b>", 'font': {'size': 15, 'color': '#0f172a', 'family': 'Inter'}},
-            number={'suffix': "/100", 'font': {'size': 26, 'color': '#0f172a', 'family': 'Inter'}},
+            title={'text': "<b>Financial Wellness Gauge</b>", 'font': {'size': 14, 'color': THEME_INK, 'family': 'Plus Jakarta Sans'}},
+            number={'suffix': "/100", 'font': {'size': 26, 'color': THEME_INK, 'family': 'Plus Jakarta Sans'}},
             gauge={
-                'axis': {'range': [0, 100], 'tickwidth': 1, 'tickcolor': "#94a3b8", 'tickfont': {'family': 'Inter', 'size': 10}},
-                'bar': {'color': CREDIX_BLUE, 'thickness': 0.28},
+                'axis': {'range': [0, 100], 'tickwidth': 1, 'tickcolor': THEME_MUTED, 'tickfont': {'family': 'Plus Jakarta Sans', 'size': 10}},
+                'bar': {'color': BRAND_TEAL, 'thickness': 0.28},
                 'bgcolor': "#ffffff",
                 'borderwidth': 0,
                 'steps': [
-                    {'range': [0, 50], 'color': "#fee2e2"},
-                    {'range': [50, 75], 'color': "#fef3c7"},
-                    {'range': [75, 100], 'color': "#dcfce7"},
+                    {'range': [0, 50], 'color': "#FEE2E2"},
+                    {'range': [50, 75], 'color': "#FEF3C7"},
+                    {'range': [75, 100], 'color': "#ECFDF5"},
                 ],
                 'threshold': {
-                    'line': {'color': "#0f172a", 'width': 3},
+                    'line': {'color': THEME_INK, 'width': 3},
                     'thickness': 0.75,
                     'value': w_score
                 }
@@ -1012,7 +1150,7 @@ with tab2:
                     showlegend=False
                 ))
 
-            # Active User Marker (High-Contrast Credix Blue Star)
+            # Active User Marker (High-Contrast Nordic Teal Star)
             u_x = persona_data["user_pca"]["x"]
             u_y = persona_data["user_pca"]["y"]
             fig_pca.add_trace(go.Scatter(
@@ -1022,11 +1160,11 @@ with tab2:
                 name="★ YOU ARE HERE",
                 text=[f"<b>★ {active_profile['name']}</b>"],
                 textposition="top right",
-                textfont=dict(size=12, color=CREDIX_BLUE, family="Inter"),
+                textfont=dict(size=12, color=BRAND_TEAL, family="Plus Jakarta Sans"),
                 marker=dict(
                     size=22,
                     symbol="star",
-                    color=CREDIX_BLUE,
+                    color=BRAND_TEAL,
                     line=dict(color="#ffffff", width=2.5)
                 ),
                 hoverinfo="text",
@@ -1036,20 +1174,20 @@ with tab2:
             fig_pca.update_layout(
                 height=440,
                 margin=dict(t=20, b=20, l=20, r=20),
-                xaxis=dict(title=dict(text="Spend Magnitude & Velocity (PC1: 28.1%)", font=dict(family="Inter", size=11, color="#64748b")), showgrid=True, gridcolor="#f1f5f9"),
-                yaxis=dict(title=dict(text="Category Volatility (PC2: 13.4%)", font=dict(family="Inter", size=11, color="#64748b")), showgrid=True, gridcolor="#f1f5f9"),
-                legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1, font=dict(family="Inter", size=10)),
-                paper_bgcolor="#ffffff",
-                plot_bgcolor="#ffffff"
+                xaxis=dict(title=dict(text="Spend Magnitude & Velocity (PC1: 28.1%)", font=dict(family="Plus Jakarta Sans", size=11, color=THEME_MUTED)), showgrid=True, gridcolor="#ECEAE4"),
+                yaxis=dict(title=dict(text="Category Volatility (PC2: 13.4%)", font=dict(family="Plus Jakarta Sans", size=11, color=THEME_MUTED)), showgrid=True, gridcolor="#ECEAE4"),
+                legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1, font=dict(family="Plus Jakarta Sans", size=10)),
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="#FFFFFF"
             )
             st.plotly_chart(fig_pca, use_container_width=True)
 
         with pcol2:
             st.markdown(f"""
-            <div style="font-size:0.95rem; font-weight:700; color:#0f172a; margin-bottom:4px;">
+            <div style="font-size:0.95rem; font-weight:800; color:#0C1821; margin-bottom:4px;">
               Behavioral Variance vs. Cohort Mean
             </div>
-            <div style="font-size:0.8rem; color:#64748b; margin-bottom:10px;">
+            <div style="font-size:0.8rem; color:#64748B; margin-bottom:10px;">
               Normalized index (0.0 to 1.0) compared to your peer group.
             </div>
             """, unsafe_allow_html=True)
@@ -1063,33 +1201,33 @@ with tab2:
                 x=bench_df["user_value"],
                 name="Your Metrics",
                 orientation="h",
-                marker=dict(color=CREDIX_BLUE, line=dict(color="#ffffff", width=1))
+                marker=dict(color=BRAND_TEAL, line=dict(color="#ffffff", width=1))
             ))
             fig_bar.add_trace(go.Bar(
                 y=bench_df["metric"],
                 x=bench_df["cluster_mean"],
                 name="Cohort Average",
                 orientation="h",
-                marker=dict(color="#cbd5e1", line=dict(color="#ffffff", width=1))
+                marker=dict(color="#D6D3CC", line=dict(color="#ffffff", width=1))
             ))
 
             fig_bar.update_layout(
                 barmode="group",
                 height=440,
                 margin=dict(t=20, b=20, l=10, r=10),
-                xaxis=dict(title=dict(text="Normalized Intensity", font=dict(family="Inter", size=11, color="#64748b")), range=[0, 1.05], showgrid=True, gridcolor="#f1f5f9"),
-                legend=dict(orientation="h", y=-0.12, font=dict(family="Inter", size=10)),
-                paper_bgcolor="#ffffff",
-                plot_bgcolor="#ffffff"
+                xaxis=dict(title=dict(text="Normalized Intensity", font=dict(family="Plus Jakarta Sans", size=11, color=THEME_MUTED)), range=[0, 1.05], showgrid=True, gridcolor="#ECEAE4"),
+                legend=dict(orientation="h", y=-0.12, font=dict(family="Plus Jakarta Sans", size=10)),
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="#FFFFFF"
             )
             st.plotly_chart(fig_bar, use_container_width=True)
 
     elif view_mode == "3D Interactive PCA Landscape (Section 4.4.4)":
         st.markdown("""
-        <div style="font-size:0.95rem; font-weight:700; color:#0f172a; margin-bottom:4px;">
+        <div style="font-size:0.95rem; font-weight:800; color:#0C1821; margin-bottom:4px;">
           3D PCA Manifold Space (PC1, PC2, PC3 Capturing >50% Total Variance)
         </div>
-        <div style="font-size:0.8rem; color:#64748b; margin-bottom:10px;">
+        <div style="font-size:0.8rem; color:#64748B; margin-bottom:10px;">
           Interactive 3D view of all 500 users clustered into 5 financial personas with cluster centroids and active user star.
         </div>
         """, unsafe_allow_html=True)
@@ -1118,7 +1256,7 @@ with tab2:
                 mode="markers+text",
                 name=f"Centroid {c['cluster_id']}",
                 text=[f"C{c['cluster_id']}"],
-                marker=dict(size=7, symbol="cross", color="#0F172A"),
+                marker=dict(size=7, symbol="cross", color=THEME_INK),
                 showlegend=False
             ))
 
@@ -1129,8 +1267,8 @@ with tab2:
             mode="markers+text",
             name="★ Active User (You)",
             text=[f"★ {active_profile['name']}"],
-            textfont=dict(color="#146EF5", size=11, family="Inter"),
-            marker=dict(size=14, color="#146EF5", symbol="diamond", line=dict(color="#FFFFFF", width=2)),
+            textfont=dict(color=BRAND_TEAL, size=11, family="Plus Jakarta Sans"),
+            marker=dict(size=14, color=BRAND_TEAL, symbol="diamond", line=dict(color="#FFFFFF", width=2)),
             hoverinfo="text",
             hovertext=f"User: {active_profile['name']}<br>Coords: ({u_3d['x']:.2f}, {u_3d['y']:.2f}, {u_3d['z']:.2f})"
         ))
@@ -1139,9 +1277,9 @@ with tab2:
             height=540,
             margin=dict(t=10, b=10, l=10, r=10),
             scene=dict(
-                xaxis=dict(title="PC1: Spend Magnitude", backgroundcolor="#FFFFFF", gridcolor="#F1F5F9"),
-                yaxis=dict(title="PC2: Category Volatility", backgroundcolor="#FFFFFF", gridcolor="#F1F5F9"),
-                zaxis=dict(title="PC3: Frequency Dynamics", backgroundcolor="#FFFFFF", gridcolor="#F1F5F9"),
+                xaxis=dict(title="PC1: Spend Magnitude", backgroundcolor="#FFFFFF", gridcolor="#ECEAE4"),
+                yaxis=dict(title="PC2: Category Volatility", backgroundcolor="#FFFFFF", gridcolor="#ECEAE4"),
+                zaxis=dict(title="PC3: Frequency Dynamics", backgroundcolor="#FFFFFF", gridcolor="#ECEAE4"),
             ),
             legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
         )
@@ -1387,16 +1525,16 @@ with tab4:
 
     fig_ts = go.Figure()
 
-    # 1. Historical Actual Balance (Smooth Credix Blue)
+    # 1. Historical Actual Balance (Smooth Nordic Alpine Teal)
     if not df_hist.empty:
         fig_ts.add_trace(go.Scatter(
             x=df_hist["date"],
             y=df_hist["balance"],
             mode="lines",
             name="Historical Balance (Actual)",
-            line=dict(color=CREDIX_BLUE, width=3, shape="spline"),
+            line=dict(color=BRAND_TEAL, width=3, shape="spline"),
             fill="tozeroy",
-            fillcolor="rgba(20, 110, 245, 0.05)",
+            fillcolor="rgba(13, 110, 110, 0.06)",
             hoverinfo="x+y"
         ))
 
@@ -1416,19 +1554,19 @@ with tab4:
             mode="lines",
             line=dict(width=0),
             fill="tonexty",
-            fillcolor="rgba(245, 158, 11, 0.12)",
+            fillcolor="rgba(217, 119, 6, 0.12)",
             name="95% Confidence Band",
             hoverinfo="skip"
         ))
 
-        # 3. Projected Forward Balance (Dashed Dark Slate Line)
+        # 3. Projected Forward Balance (Dashed Obsidian Line)
         fig_ts.add_trace(go.Scatter(
             x=df_proj["date"],
             y=df_proj["projected_balance"],
             mode="lines+markers",
             name="30-Day Forward Forecast",
-            line=dict(color="#0f172a", width=2.5, dash="dot"),
-            marker=dict(size=4, color="#0f172a"),
+            line=dict(color=THEME_INK, width=2.5, dash="dot"),
+            marker=dict(size=4, color=THEME_INK),
             hoverinfo="x+y"
         ))
 
@@ -1440,7 +1578,7 @@ with tab4:
             y=[0, 0],
             mode="lines",
             name="Zero Cash Floor",
-            line=dict(color="#ef4444", width=1.5, dash="dash"),
+            line=dict(color=BRAND_ROSE, width=1.5, dash="dash"),
             hoverinfo="skip"
         ))
 
@@ -1452,27 +1590,27 @@ with tab4:
             text=f"⚠️ Deficit in {cashflow_data['days_to_shortage']}d",
             showarrow=True,
             arrowhead=2,
-            arrowcolor="#ef4444",
+            arrowcolor=BRAND_ROSE,
             arrowsize=1.2,
             arrowwidth=2,
             ax=0,
             ay=-36,
-            font=dict(color="#ffffff", size=11, family="Inter"),
-            bgcolor="#ef4444",
-            bordercolor="#dc2626",
+            font=dict(color="#ffffff", size=11, family="Plus Jakarta Sans"),
+            bgcolor=BRAND_ROSE,
+            bordercolor=BRAND_ROSE,
             borderwidth=1,
             borderpad=4
         )
 
     fig_ts.update_layout(
-        title=dict(text="<b>Daily Liquid Balance Trajectory (Historical vs. 30-Day Outlook)</b>", font=dict(family="Inter", size=15, color="#0f172a")),
-        xaxis=dict(title=dict(text="Timeline", font=dict(family="Inter", size=11, color="#64748b")), showgrid=True, gridcolor="#f1f5f9"),
-        yaxis=dict(title=dict(text="Liquid Balance (₹)", font=dict(family="Inter", size=11, color="#64748b")), showgrid=True, gridcolor="#f1f5f9"),
+        title=dict(text="<b>Daily Liquid Balance Trajectory (Historical vs. 30-Day Outlook)</b>", font=dict(family="Plus Jakarta Sans", size=14, color=THEME_INK)),
+        xaxis=dict(title=dict(text="Timeline", font=dict(family="Plus Jakarta Sans", size=11, color=THEME_MUTED)), showgrid=True, gridcolor="#ECEAE4"),
+        yaxis=dict(title=dict(text="Liquid Balance (₹)", font=dict(family="Plus Jakarta Sans", size=11, color=THEME_MUTED)), showgrid=True, gridcolor="#ECEAE4"),
         height=480,
         margin=dict(t=50, b=30, l=40, r=20),
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1, font=dict(family="Inter", size=10)),
-        paper_bgcolor="#ffffff",
-        plot_bgcolor="#ffffff"
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1, font=dict(family="Plus Jakarta Sans", size=10)),
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="#FFFFFF"
     )
     st.plotly_chart(fig_ts, use_container_width=True)
 
