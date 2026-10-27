@@ -280,6 +280,34 @@ plt.close()
 print(f"\n  Scatter plot saved -> {SCATTER_PATH}")
 
 # ─────────────────────────────────────────────────────────────────────────────
+# 7b. Hierarchical Clustering Dendrogram (Section 4.2.2)
+# ─────────────────────────────────────────────────────────────────────────────
+section("7b. HIERARCHICAL CLUSTERING DENDROGRAM (Ward Linkage)")
+
+from scipy.cluster.hierarchy import linkage, dendrogram
+DENDRO_PATH = os.path.join(PROJECT_ROOT, "outputs", "hierarchical_dendrogram.png")
+
+Z = linkage(X, method="ward")
+plt.figure(figsize=(11, 5), facecolor="#f8f9fa")
+plt.title("Hierarchical Clustering Dendrogram (Ward Linkage)\nBehavioral Subgroups Across 500 Users", fontsize=12, fontweight="bold", pad=12)
+plt.xlabel("User Index / Cluster Leaves", fontsize=10)
+plt.ylabel("Ward Linkage Distance", fontsize=10)
+dendrogram(
+    Z,
+    truncate_mode="lastp",
+    p=30,
+    leaf_rotation=90.,
+    leaf_font_size=9.,
+    show_contracted=True
+)
+plt.axhline(y=1.5, color="red", linestyle="--", alpha=0.7, label="k=5 Cutoff")
+plt.legend(loc="upper right")
+plt.tight_layout()
+plt.savefig(DENDRO_PATH, dpi=150, bbox_inches="tight")
+plt.close()
+print(f"  Hierarchical dendrogram saved -> {DENDRO_PATH}")
+
+# ─────────────────────────────────────────────────────────────────────────────
 # 8. Save model
 # ─────────────────────────────────────────────────────────────────────────────
 section("8. SAVING K-MEANS MODEL")

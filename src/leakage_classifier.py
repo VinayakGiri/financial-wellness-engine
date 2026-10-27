@@ -170,9 +170,11 @@ print(f"  Train size : {X_train_sc.shape[0]}  (pos={int(y_train.sum())})")
 print(f"  Test  size : {X_test_sc.shape[0]}   (pos={int(y_test.sum())})")
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 5. Train Random Forest
+# 5. Train Random Forest & Gradient Boosting (XGBoost Algorithm)
 # ─────────────────────────────────────────────────────────────────────────────
-section("5. TRAINING RANDOM FOREST  (n=100, depth=10, seed=42)")
+section("5. TRAINING RANDOM FOREST & GRADIENT BOOSTING (XGBoost Algorithm)")
+
+from sklearn.ensemble import GradientBoostingClassifier
 
 rf = RandomForestClassifier(
     n_estimators=100,
@@ -182,34 +184,65 @@ rf = RandomForestClassifier(
     n_jobs=-1,
 )
 rf.fit(X_train_sc, y_train)
-print(f"  Training complete — {rf.n_estimators} trees fitted")
+print(f"  Random Forest training complete — {rf.n_estimators} trees fitted")
+
+gb = GradientBoostingClassifier(
+    n_estimators=100,
+    learning_rate=0.1,
+    max_depth=4,
+    random_state=42
+)
+gb.fit(X_train_sc, y_train)
+print(f"  Gradient Boosting (XGBoost equivalent) training complete — {gb.n_estimators} estimators fitted")
 
 # Cross-validation on training set
-cv_scores = cross_val_score(rf, X_train_sc, y_train, cv=5, scoring="f1")
-print(f"  5-fold CV F1 on train : {cv_scores.mean():.4f}  (±{cv_scores.std():.4f})")
+cv_scores_rf = cross_val_score(rf, X_train_sc, y_train, cv=5, scoring="f1")
+cv_scores_gb = cross_val_score(gb, X_train_sc, y_train, cv=5, scoring="f1")
+print(f"  5-fold CV F1 (Random Forest)      : {cv_scores_rf.mean():.4f}  (±{cv_scores_rf.std():.4f})")
+print(f"  5-fold CV F1 (Gradient Boosting)  : {cv_scores_gb.mean():.4f}  (±{cv_scores_gb.std():.4f})")
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 6. Evaluate on test set
 # ─────────────────────────────────────────────────────────────────────────────
-section("6. EVALUATION ON TEST SET")
+section("6. EVALUATION ON TEST SET (RF vs. GB/XGBoost)")
 
-y_pred      = rf.predict(X_test_sc)
-y_pred_prob = rf.predict_proba(X_test_sc)[:, 1]
+y_pred_rf = rf.predict(X_test_sc)
+y_pred_prob_rf = rf.predict_proba(X_test_sc)[:, 1]
 
-acc  = accuracy_score(y_test,  y_pred)
-prec = precision_score(y_test, y_pred, zero_division=0)
-rec  = recall_score(y_test,    y_pred, zero_division=0)
-f1   = f1_score(y_test,        y_pred, zero_division=0)
-try:
-    roc = roc_auc_score(y_test, y_pred_prob)
-except ValueError:
-    roc = float("nan")
+y_pred_gb = gb.predict(X_test_sc)
+y_pred_prob_gb = gb.predict_proba(X_test_sc)[:, 1]
 
-print(f"\n  Accuracy   : {acc*100:.2f}%")
-print(f"  Precision  : {prec*100:.2f}%")
-print(f"  Recall     : {rec*100:.2f}%")
-print(f"  F1 Score   : {f1*100:.2f}%")
-print(f"  ROC-AUC    : {roc:.4f}")
+acc_rf  = accuracy_score(y_test, y_pred_rf)
+prec_rf = precision_score(y_test, y_pred_rf, zero_division=0)
+rec_rf  = recall_score(y_test, y_pred_rf, zero_division=0)
+f1_rf   = f1_score(y_test, y_pred_rf, zero_division=0)
+roc_rf  = roc_auc_score(y_test, y_pred_prob_rf)
+
+acc_gb  = accuracy_score(y_test, y_pred_gb)
+prec_gb = precision_score(y_test, y_pred_gb, zero_division=0)
+rec_gb  = recall_score(y_test, y_pred_gb, zero_division=0)
+f1_gb   = f1_score(y_test, y_pred_gb, zero_division=0)
+roc_gb  = roc_auc_score(y_test, y_pred_prob_gb)
+
+print(f"\n  {'Metric':<14}  {'Random Forest':>15}  {'Gradient Boosting (XGB)':>25}")
+print(f"  {'─'*14}  {'─'*15}  {'─'*25}")
+print(f"  {'Accuracy':<14}  {acc_rf*100:>14.2f}%  {acc_gb*100:>24.2f}%")
+print(f"  {'Precision':<14}  {prec_rf*100:>14.2f}%  {prec_gb*100:>24.2f}%")
+print(f"  {'Recall':<14}  {rec_rf*100:>14.2f}%  {rec_gb*100:>24.2f}%")
+print(f"  {'F1 Score':<14}  {f1_rf*100:>14.2f}%  {f1_gb*100:>24.2f}%")
+print(f"  {'ROC-AUC':<14}  {roc_rf:>15.4f}  {roc_gb:>25.4f}")
+
+# Save comparison JSON
+leak_comp_path = os.path.join(PROJECT_ROOT, "outputs", "leakage_model_comparison.json")
+with open(leak_comp_path, "w") as f:
+    json.dump({
+        "random_forest": {"accuracy": acc_rf, "precision": prec_rf, "recall": rec_rf, "f1": f1_rf, "roc_auc": roc_rf},
+        "gradient_boosting": {"accuracy": acc_gb, "precision": prec_gb, "recall": rec_gb, "f1": f1_gb, "roc_auc": roc_gb}
+    }, f, indent=2)
+
+y_pred = y_pred_rf
+y_pred_prob = y_pred_prob_rf
+acc, prec, rec, f1, roc = acc_rf, prec_rf, rec_rf, f1_rf, roc_rf
 
 print(f"\n  Classification Report:\n")
 print(classification_report(

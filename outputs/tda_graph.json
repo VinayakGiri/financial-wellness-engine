@@ -1,0 +1,13 @@
+{
+  "n_simplicial_nodes": 47,
+  "n_topological_edges": 116,
+  "connected_components": 3,
+  "graph_density": 0.1073,
+  "avg_clustering_coefficient": 0.5327,
+  "lens_method": "Principal Component Analysis (PCA 2D)",
+  "clustering_algorithm": "DBSCAN (eps=0.6, min_samples=3)",
+  "cover_parameters": {
+    "n_cubes": 8,
+    "perc_overlap": 0.35
+  }
+}

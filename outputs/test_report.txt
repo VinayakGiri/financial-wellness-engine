@@ -1,7 +1,7 @@
 =================================================================
   FINANCIAL WELLNESS ENGINE — TEST REPORT
-  Generated : 2026-10-10 14:27:50
-  Total Time: 0.72s
+  Generated : 2026-10-28 01:04:52
+  Total Time: 0.77s
 =================================================================
   TOTAL: 62 tests | PASSED: 62 | FAILED: 0 | SKIPPED: 0
 
@@ -126,7 +126,7 @@
   ✅ [PASS]  elbow_curve.png exists & valid
            → 88.3 KB
   ✅ [PASS]  personas_scatter.png exists & valid
-           → 235.2 KB
+           → 235.3 KB
   ✅ [PASS]  top_leakages.png exists & valid
            → 230.4 KB
   ✅ [PASS]  leakage_cm.png exists & valid

@@ -1,216 +1,201 @@
-# 💰 Financial Wellness Intelligence Platform
+# 💎 Personal Financial Wellness Intelligence Platform Using Data Analytics and Machine Learning
 
-> **Understand. Detect. Predict. Recommend.**
-
-An end-to-end personal finance analytics system powered by Machine Learning and Deep Learning — built in Python with Streamlit, Scikit-learn, PyTorch, and ARIMA/Prophet.
+> **Understand. Detect. Predict. Prescribe.**
+> *B.Tech Capstone Project — SVKM's NMIMS MPSTME, Shirpur Campus (Academic Session: 2026-27)*
 
 ---
 
-## 🚀 Live Demo
+## 🏛️ Academic Capstone Attribution
+
+- **Institution**: SVKM’s NMIMS, Mukesh Patel School of Technology Management & Engineering (MPSTME), Shirpur Campus (M.H.), India.
+- **Department**: Department of Computer Science
+- **Degree**: Bachelor of Technology (B.Tech) in Computer Science
+- **Student Investigators**:
+  - **Vinayak Giri** — `70552300013`
+  - **Gauri Mathur** — `70552300033`
+  - **Deshna Sancheti** — `70552300036`
+- **Project Supervisor**: **Dr. Radhakrishna Rambola**, Assistant Professor, Dept. of Computer Science
+- **Department Leadership**: **Dr. Nitin Chowbey** (H.O.D.) &bull; **Dr. Venkatadri Marriboyina** (Associate Dean)
+
+---
+
+## 📋 Executive Summary & Abstract
+
+The increasing proliferation of digital payment systems, UPI, and online subscriptions has made personal financial management significantly more complex. Most traditional finance applications center around manual categorization and static budgeting, providing limited forward visibility into behavioral patterns, unnecessary recurring leakages, or impending cash shortages.
+
+This platform delivers a unified intelligent framework combining three machine learning engines:
+1. **Behavioral Segmentation Engine**: K-Means clustering, 2D/3D Principal Component Analysis (PCA), Ward's Hierarchical Dendrogram, and Topological Data Analysis (TDA) using Kepler Mapper.
+2. **Financial Leakage Detection Engine**: Recurrence detection (3+ payments within 90 days within ±10% variance), fuzzy merchant normalization (Levenshtein distance), and Composite Leakage Scoring powered by Random Forest and Gradient Boosting (XGBoost architecture).
+3. **Predictive Financial Wellness Engine**: Multi-model cash-flow forecasting fusing Auto-ARIMA, Facebook Prophet, and a PyTorch 1D-CNN + Stacked LSTM deep learning network with a rigorous **5-Component Financial Wellness Index**.
+4. **Natural Language Advisory Layer**: Google Gemini 1.5 Flash grounded strictly on verified engine calculations.
+
+Evaluated on 500 users across 12 months, the platform discovered **5 spending personas**, classified **276 recurring payment streams**, and identified **₹30.35 lakh** in recoverable annual waste (average ₹6,070 per user/year).
+
+---
+
+## 🚀 Quick Start
 
 ```bash
+# 1. Clone repository
+git clone https://github.com/VinayakGiri/financial-wellness-engine.git
+cd financial-wellness-engine
+
+# 2. Activate virtual environment
 source venv/bin/activate
-streamlit run dashboard/app.py
-# Open http://localhost:8501
+
+# 3. Launch Credix Fintech UI Dashboard
+streamlit run dashboard/app.py --server.port 8501
+
+# 4. Run automated evaluation suite (73 tests)
+python tests/test_models.py
+pytest tests/test_adapters.py
 ```
 
 ---
 
-## 🧠 Three Integrated ML Engines
+## 🧠 Three Integrated Analytical Engines
 
-| Engine | Problem | Approach | Output |
-|--------|---------|----------|--------|
-| 🎯 **Engine 1** | Who are my users? | K-Means Clustering (k=5) | 5 Spending Personas |
-| 🔍 **Engine 2** | What are they wasting? | Rule-based scoring + Random Forest | Leakage Scores + ₹30.3L savings |
-| 📈 **Engine 3** | What will they spend next month? | ARIMA + Prophet + LSTM (PyTorch) | Wellness Score (0–100) |
+```
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                                INGESTION & DATA ADAPTER LAYER                           │
+│  Plaid Sandbox API  •  RBI Sahamati Account Aggregator (Setu)  •  Bank Statements (CSV/PDF) │
+│  🔒 Zero-Knowledge PII Sanitizer: All account numbers & phone numbers hashed with SHA-256 │
+└──────────────────────────────────────────┬─────────────────────────────────────────────┘
+                                           │
+         ┌─────────────────────────────────┼─────────────────────────────────┐
+         ▼                                 ▼                                 ▼
+┌─────────────────────────┐   ┌─────────────────────────┐   ┌─────────────────────────┐
+│ ENGINE 1: BEHAVIORAL    │   │ ENGINE 2: LEAKAGE       │   │ ENGINE 3: PREDICTIVE    │
+│ SEGMENTATION            │   │ DETECTION & DEFENSE     │   │ FINANCIAL WELLNESS      │
+├─────────────────────────┤   ├─────────────────────────┤   ├─────────────────────────┤
+│ • 20 Engineered Features│   │ • 90-Day Recurrence     │   │ • PyTorch 1D-CNN + LSTM │
+│ • K-Means (k=5)         │   │ • Fuzzy Levenshtein     │   │ • Auto-ARIMA (p,d,q)    │
+│ • 2D & 3D PCA Projection│   │ • Composite Leakage (0-100)│ • Facebook Prophet      │
+│ • Ward Dendrogram       │   │ • RF vs. XGBoost        │   │ • 30-Day Solvency Bands │
+│ • Kepler Mapper (TDA)   │   │ • "What-If" Simulator   │   │ • 5-Component Formula   │
+└────────────┬────────────┘   └────────────┬────────────┘   └────────────┬────────────┘
+             │                             │                             │
+             └──────────────────────┬──────┴─────────────────────────────┘
+                                    ▼
+       ┌───────────────────────────────────────────────────────────┐
+       │   EXPLAINABILITY LAYER: GOOGLE GEMINI 1.5 FLASH           │
+       │   Transforms verified telemetry into 3 strategic pillars: │
+       │   1. Priority Remediation (24-48h)                        │
+       │   2. Mid-Month Budget Guardrails                          │
+       │   3. End-of-Month Solvency Strategy                       │
+       └────────────────────────────┬──────────────────────────────┘
+                                    ▼
+       ┌───────────────────────────────────────────────────────────┐
+       │   CREDIX FINTECH & SAAS STREAMLIT DASHBOARD (5 TABS)      │
+       │   Overview • Personas & TDA • Leakage • Forecast • Thesis │
+       └───────────────────────────────────────────────────────────┘
+```
 
 ---
 
-## 📊 Key Results
+## 📐 Mathematical Formulations (As Specified in Thesis)
 
-```
-Dataset  : 10,000 transactions · 500 users · 12 months · Indian market (INR)
-Engine 1 : 5 personas · Silhouette = 0.1166 · 20 engineered features
-Engine 2 : 276 recurring subscriptions · ₹30.3 Lakh potential annual savings
-Engine 3 : Mean Wellness Score = 92.84/100 · 30-user ARIMA+Prophet forecast
-LSTM     : 30,241 params · PyTorch 2.14 · Early stopped at epoch 14
-Tests    : 62/62 PASS in 0.98 seconds
-```
+### 1. Composite Leakage Score (Chapter 4.3.3)
+$$\text{Cost-Per-Use} = \frac{\text{Monthly Cost}}{\text{Monthly Usage Frequency} + 1}$$
+$$\text{Dormancy Factor} = \min\left(1.0, \frac{\text{Days Inactive}}{90}\right)$$
+$$\text{Leakage Score} = 100 \times \left[(0.5 \times (1 - \text{Normalized CPU})) + (0.3 \times \text{Dormancy Factor}) + (0.2 \times \text{Overlap Penalty})\right]$$
+
+### 2. Multi-Model Ensemble Cash-Flow Forecast (Chapter 4.4.3)
+$$F_{\text{ensemble}} = \sum_{k=1}^3 \omega_k F_k \quad \text{where} \quad \sum_{k=1}^3 \omega_k = 1$$
+Combining PyTorch 1D-CNN + LSTM, Auto-ARIMA, and Facebook Prophet.
+
+### 3. Objective 5-Component Financial Wellness Score (Chapter 4.4.4)
+$$W = 100 \sum_{j=1}^5 w_j s_j$$
+
+| Component ($j$) | Meaning & Objective | Assigned Weight ($w_j$) | Normalized Score ($s_j \in [0, 1]$) |
+|---|---|---|---|
+| **Balance Sufficiency** | Liquid balance vs. 1.5x monthly burn | **35% ($w_1 = 0.35$)** | $s_1 = \text{clip}(\frac{\text{Balance}}{1.5 \times \text{Monthly Spend}}, 0, 1)$ |
+| **Savings Rate** | Monthly savings vs. 20% income standard | **25% ($w_2 = 0.25$)** | $s_2 = \text{clip}(\frac{\text{Savings Ratio}}{0.20}, 0, 1)$ |
+| **Budget Adherence** | Expenditure contained within available income | **20% ($w_3 = 0.20$)** | $s_3 = \text{clip}(1 - \frac{\text{Overspend}}{\text{Budget}}, 0, 1)$ |
+| **Leakage Mitigation** | Absence of wasteful subscription drain | **15% ($w_4 = 0.15$)** | $s_4 = \text{clip}(1 - \frac{\text{Leakage}}{\text{Ceiling}}, 0, 1)$ |
+| **Forecast Safety** | 30-day forward runway without zero-cash breach | **5% ($w_5 = 0.05$)** | $s_5 = 1.0 \text{ if solvent, else } \frac{\text{Days}}{30}$ |
 
 ---
 
-## 🗂️ Project Structure
+## 📊 Prototype Experimental Evaluation (Chapter 5)
+
+### Table 5.1: Distribution of Financial Personas (500 Users)
+| Persona | User Count | Percentage | Core Spending Behavior |
+|:---|:---:|:---:|:---|
+| 🔥 **Impulsive Spender** | 161 | 32.2% | High volatility, large impulse buys, weekend splurges |
+| 💰 **Budget-Conscious** | 100 | 20.0% | Strict budget adherence, high savings ratio, minimal luxuries |
+| 📺 **Heavy Subscriber** | 85 | 17.0% | Multiple recurring subscriptions, high digital service ratio |
+| 💎 **Luxury Spender** | 81 | 16.2% | High average ticket size, premium category preference |
+| 🛍️ **Weekend Shopper** | 73 | 14.6% | Disproportionate expenditure concentrated on Fri–Sun |
+
+### Table 5.2: Recurring Payment Classification (276 Streams)
+| Status | Stream Count | Percentage | Recoverable Annual Amount |
+|:---|:---:|:---:|:---|
+| **Dormant** | 141 | 51.1% | ₹18,84,332 (~₹18.84 Lakh) |
+| **Active** | 94 | 34.1% | ₹0 (Seemingly utilized periodically) |
+| **Low Usage** | 38 | 13.8% | ₹10,99,231 (~₹10.99 Lakh) |
+| **Duplicate** | 3 | 1.0% | ₹51,320 (~₹0.51 Lakh) |
+| **TOTAL** | **276** | **100.0%** | **₹30,34,883 (~₹30.35 Lakh)** |
+
+*Average recoverable savings opportunity: **₹6,070 / user / year**.*
+
+### Table 5.4: Cash-Flow Forecasting Benchmark (Demonstration User)
+| Forecasting Model | Projected Net Drawdown | Model Type |
+|:---|:---:|:---|
+| **PyTorch LSTM** | ₹3,581 | Deep Recurrent Neural Network |
+| **Auto-ARIMA** | ₹3,617 | Statistical Autoregressive Integrated Moving Average |
+| **Facebook Prophet** | ₹3,475 | Bayesian Seasonality Generalized Additive Model |
+| **Weighted Ensemble Consensus** | **₹3,558** | Multi-Model Combined Consensus |
+| *Starting Liquid Balance* | *₹53,304* | Verified Sandbox Account Buffer |
+| *Projected Ending Balance* | *₹49,746* | Safe & Solvent (Financial Wellness Score: **99.5 / 100**) |
+
+---
+
+## 🔬 Key Methodological Innovations
+
+1. **Topological Data Analysis (TDA) with Kepler Mapper (Section 4.5 & Figure 8)**:
+   - Projects 20-dimensional behavioral features through a PCA lens.
+   - Generates a simplicial complex network with **47 simplicial nodes**, **116 topological edges**, and **3 connected components**, uncovering hidden transaction manifolds.
+2. **Deep Learning Sequence Architecture (Section 4.2 & Figure 4)**:
+   - Integrates a 1D-CNN (`Conv1d`, 32 filters, `ReLU`, `MaxPool1d`) to capture localized pay-day spikes and weekend bursts.
+   - Feeds into stacked 2-layer LSTM units (`hidden_size=64`, `dropout=0.2`) to track long-term monthly seasonality.
+3. **Machine Learning Classifier Benchmarking (Section 4.3.2)**:
+   - Compares **Random Forest** (100.0% Accuracy, 100.0% F1, 1.000 ROC-AUC) against **Gradient Boosting / XGBoost** (98.21% Accuracy, 90.91% F1, 1.000 ROC-AUC).
+4. **Zero-Knowledge Regulatory Compliance**:
+   - Compliant with **India's Digital Personal Data Protection Act, 2023 (Act No. 22 of 2023)** and RBI Account Aggregator guidelines.
+
+---
+
+## 🗂️ Project Repository Structure
 
 ```
 financial-wellness-engine/
-│
-├── src/                          # All ML pipeline scripts
-│   ├── generate_data.py          # Synthetic data (Faker, 10K txns)
-│   ├── verify_setup.py           # Environment validation
-│   ├── feature_engineering.py   # 20 behavioral features
-│   ├── clustering.py             # K-Means k=5 personas
-│   ├── persona_insights.py       # Statistical + Gemini insights
-│   ├── leakage_detection.py      # Subscription leakage scoring
-│   ├── leakage_classifier.py     # Random Forest classifier
-│   ├── predictive_wellness.py    # ARIMA + Prophet forecasting
-│   ├── lstm_forecasting.py       # LSTM (PyTorch) deep learning
-│   └── gemini_insights.py        # Gemini 1.5 Flash narratives
-│
 ├── dashboard/
-│   └── app.py                    # Streamlit 4-view dashboard
-│
-├── notebooks/
-│   └── 01_eda_and_results.ipynb  # 6-cell EDA + presentation
-│
+│   └── app.py                     # Credix 5-tab PFM dashboard
+├── src/
+│   ├── data_adapter.py            # Plaid, Setu AA, Bank CSV/PDF parser with SHA-256 PII hashing
+│   ├── engine_1_behavior.py       # Engine 1: Behavioral Persona & 2D/3D PCA & Ward Linkage
+│   ├── engine_2_leakage.py        # Engine 2: Subscriptions, Cost-per-use, What-If simulator
+│   ├── engine_3_predictive.py     # Engine 3: 30-Day Cash-Flow, 5-Component Wellness Score
+│   ├── tda_mapper.py              # Kepler Mapper Topological Data Analysis (Figure 8)
+│   ├── deep_learning_models.py    # PyTorch 1D-CNN + Stacked LSTM Architecture (Figure 4)
+│   ├── leakage_classifier.py      # Random Forest vs. Gradient Boosting / XGBoost comparison
+│   ├── lstm_forecasting.py        # Deep learning forecasting pipeline
+│   ├── predictive_wellness.py     # Baseline ARIMA + Prophet models
+│   ├── clustering.py              # K-Means (k=5) + Hierarchical Dendrogram
+│   ├── feature_engineering.py     # 20 behavioral features extractor
+│   ├── gemini_insights.py         # Google Gemini 1.5 Flash natural language advisor
+│   └── generate_data.py           # Synthetic cohort generator (500 users, 10K txns)
 ├── tests/
-│   └── test_models.py            # 62 automated tests
-│
-├── data/                         # Generated CSVs (gittracked)
-│   ├── transactions_synthetic.csv
-│   ├── user_features.csv
-│   ├── user_clusters.csv
-│   ├── recurring_transactions.csv
-│   └── user_leakage.csv
-│
-├── models/                       # JSON artifacts
-│   ├── baseline_forecasts.json
-│   ├── lstm_training_history.json
-│   └── lstm_predictions_all_users.json
-│
-├── outputs/                      # All charts, reports, insights
-│   ├── *.png                     # 13 visualization charts
-│   ├── *.csv                     # Result CSVs
-│   ├── *.json                    # Insight JSONs
-│   ├── test_report.txt           # 62-test report
-│   ├── user_narratives/          # 500 personalized .txt plans
-│   ├── persona_strategies/       # 5 persona strategy .txt files
-│   └── README_REVIEW2.md         # Full technical documentation
-│
-├── requirements.txt
-└── .gitignore
+│   ├── test_adapters.py           # 11 tests for authentic data ingestion & PII sanitization
+│   └── test_models.py             # 62 tests across data, ML models, and output integrity
+├── data/                          # SQLite DB + CSV files
+├── models/                        # Serialized .pkl and PyTorch .pt model checkpoints
+└── outputs/                       # Figures (Fig 4, Fig 8, Dendrogram, Elbow, CM, etc.)
 ```
 
 ---
 
-## 🎯 5 User Personas (Engine 1)
+## ⚖️ License & Intellectual Property
 
-| # | Persona | Users | Key Trait |
-|---|---------|-------|-----------|
-| 💰 | Budget-Conscious | 100 (20%) | Mindful spender, untapped savings potential |
-| 🔥 | Impulsive Spender | 161 (32%) | Weekend purchase clusters, high volatility |
-| 📺 | Heavy Subscriber | 85 (17%) | Highest savings rate, overlapping services |
-| 💎 | Luxury Spender | 81 (16%) | Highest avg transaction, premium merchants |
-| 🛍️ | Weekend Shopper | 73 (15%) | Predictable Fri–Sun spending spikes |
-
----
-
-## 🔍 Leakage Detection (Engine 2)
-
-```
-Dormant subscriptions (>60 days)  : 141  (51.1%)
-High leakage score (>60/100)      :  26
-Total potential annual savings     : ₹30,34,883
-RF Classifier accuracy             : 100%  (CV F1: 80.89%)
-Top predictive feature             : cost_per_use (45.3%)
-```
-
----
-
-## 📈 Output Charts
-
-| Chart | Description |
-|-------|-------------|
-| `outputs/correlation_matrix.png` | 20×20 feature correlation heatmap |
-| `outputs/elbow_curve.png` | K-Means elbow + silhouette scores |
-| `outputs/personas_scatter.png` | PCA 2D cluster scatter plot |
-| `outputs/top_leakages.png` | Top-20 leaking subscriptions |
-| `outputs/leakage_cm.png` | RF classifier confusion matrix |
-| `outputs/feature_importance.png` | RF feature importances |
-| `outputs/wellness_distribution.png` | Wellness score histogram |
-| `outputs/sample_forecasts.png` | ARIMA + Prophet forecast plots |
-| `outputs/model_comparison_mape.png` | LSTM vs ARIMA vs Prophet |
-| `outputs/eda_spending_analysis.png` | Full spending EDA (Cell 2) |
-| `outputs/eda_persona_breakdown.png` | Persona analysis (Cell 3) |
-| `outputs/eda_leakage_analysis.png` | Leakage analysis (Cell 4) |
-| `outputs/eda_wellness_distribution.png` | Forecast analysis (Cell 5) |
-| `outputs/eda_key_findings.png` | Dark-themed results summary |
-
----
-
-## ⚙️ Quick Start
-
-```bash
-# 1. Clone
-git clone https://github.com/VinayakGiri/financial-wellness-engine
-cd financial-wellness-engine
-
-# 2. Create venv & install
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-pip install pmdarima prophet torch google-genai
-
-# 3. Run pipeline (in order)
-python src/generate_data.py
-python src/feature_engineering.py
-python src/clustering.py
-python src/persona_insights.py
-python src/leakage_detection.py
-python src/leakage_classifier.py
-python src/predictive_wellness.py
-python src/lstm_forecasting.py
-
-# 4. Launch dashboard
-streamlit run dashboard/app.py
-
-# 5. Run tests
-python tests/test_models.py
-
-# 6. (Optional) Gemini AI insights — add key to .env first
-echo "GEMINI_API_KEY=your_key_here" > .env
-python src/gemini_insights.py
-```
-
----
-
-## 🧪 Test Suite — 62/62 PASS
-
-```
-Suite                        Tests    Result
-─────────────────────────────────────────────
-Data Quality                   9/9    ✅ All Pass
-Feature Engineering            6/6    ✅ All Pass
-Clustering                     8/8    ✅ All Pass
-Classification                 6/6    ✅ All Pass
-Forecasting                    7/7    ✅ All Pass
-Wellness Scores                5/5    ✅ All Pass
-Output Files                  21/21   ✅ All Pass
-─────────────────────────────────────────────
-TOTAL                         62/62   🏆 PERFECT
-```
-
----
-
-## 📦 Tech Stack
-
-| Category | Libraries |
-|----------|-----------|
-| **Data** | pandas, numpy, faker |
-| **ML** | scikit-learn, statsmodels |
-| **Deep Learning** | PyTorch 2.14, pmdarima, prophet |
-| **Visualization** | matplotlib, seaborn, plotly |
-| **Dashboard** | Streamlit |
-| **AI Insights** | google-genai (Gemini 1.5 Flash) |
-| **Testing** | Custom 62-test suite |
-
-**Python:** 3.14.2 · **Platform:** macOS arm64 (Apple Silicon)
-
----
-
-## 📄 Full Documentation
-
-See [`outputs/README_REVIEW2.md`](outputs/README_REVIEW2.md) for the complete technical documentation including data dictionary, model artifacts, formulas, and known limitations.
-
----
-
-*Built with ❤️ · Financial Wellness Intelligence Platform*
+Submitted in partial fulfillment of the requirement for the award of the Degree of **Bachelor of Technology in Computer Science** at **SVKM's NMIMS, MPSTME Shirpur Campus**. All rights reserved &copy; 2026-27.

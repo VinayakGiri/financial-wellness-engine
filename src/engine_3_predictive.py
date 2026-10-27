@@ -239,26 +239,51 @@ def analyze_user_cashflow_and_wellness(
 
     is_shortage = days_to_shortage is not None
 
-    # Compute Individual Financial Wellness Score (0-100)
-    # Available Budget = Income - Target Savings
+    # Compute Individual Financial Wellness Score (0-100) using 5-Component Formula (Black Book §4.4.4):
+    # W = 100 * sum(w_j * s_j)
+    # w_1 = 0.35 (Balance Sufficiency)
+    # w_2 = 0.25 (Savings Rate)
+    # w_3 = 0.20 (Budget Adherence)
+    # w_4 = 0.15 (Leakage Mitigation)
+    # w_5 = 0.05 (Forecast Safety)
     available_budget = max(monthly_income - target_savings, 5000.0)
-    stress_factor = (ens_monthly / available_budget) * 100.0
 
-    # Base score
-    base_wellness = 100.0 - stress_factor
+    # 1. Balance Sufficiency (35%): liquid buffer relative to 1.5x monthly burn
+    target_buffer = max(ens_monthly * 1.5, 15000.0)
+    s1 = float(np.clip(current_balance / target_buffer, 0.0, 1.0))
 
-    # Liquidity Adjustment
-    liquidity_ratio = current_balance / max(ens_monthly, 1000.0)
-    if liquidity_ratio >= 1.5:
-        liquidity_bonus = 8.0
-    elif liquidity_ratio >= 1.0:
-        liquidity_bonus = 4.0
-    elif liquidity_ratio < 0.3:
-        liquidity_bonus = -15.0
+    # 2. Savings Rate (25%): savings relative to 20% standard recommended income allocation
+    target_savings_ratio = 0.20
+    user_savings_ratio = target_savings / max(monthly_income, 1000.0)
+    s2 = float(np.clip(user_savings_ratio / target_savings_ratio, 0.0, 1.0))
+
+    # 3. Budget Adherence (20%): spend contained within available budget
+    if ens_monthly <= available_budget:
+        s3 = 1.0
     else:
-        liquidity_bonus = 0.0
+        overspend = ens_monthly - available_budget
+        s3 = float(np.clip(1.0 - (overspend / max(available_budget, 1000.0)), 0.0, 1.0))
 
-    final_score = float(np.clip(base_wellness + liquidity_bonus, 5.0, 99.5))
+    # 4. Leakage Mitigation (15%): recurring subscription health and absence of waste
+    # Retrieve user's leakage if available, else derive from baseline
+    try:
+        from src.engine_2_leakage import analyze_user_leakages
+        u_leak = analyze_user_leakages(user_id, txns_df)
+        m_leak = float(u_leak.get("total_monthly_leakage", 0.0))
+    except Exception:
+        m_leak = 0.0
+    leak_ceiling = max(ens_monthly * 0.15, 1000.0)
+    s4 = float(np.clip(1.0 - (m_leak / leak_ceiling), 0.0, 1.0))
+
+    # 5. Forecast Safety (5%): liquidity runway preservation over forward 30-day horizon
+    if not is_shortage:
+        s5 = 1.0
+    else:
+        s5 = float(np.clip(days_to_shortage / 30.0, 0.0, 1.0))
+
+    # Final Weighted Wellness Score (0 to 100)
+    raw_score = 100.0 * (0.35 * s1 + 0.25 * s2 + 0.20 * s3 + 0.15 * s4 + 0.05 * s5)
+    final_score = float(np.clip(raw_score, 5.0, 99.5))
 
     # Risk level classification
     if final_score >= 75.0 and not is_shortage:
@@ -267,6 +292,49 @@ def analyze_user_cashflow_and_wellness(
         risk_level = "Medium Risk"
     else:
         risk_level = "High Risk"
+
+    wellness_components = {
+        "balance_sufficiency": {
+            "name": "Balance Sufficiency",
+            "weight": 0.35,
+            "weight_pct": "35%",
+            "normalized_score": round(s1, 3),
+            "points": round(35.0 * s1, 1),
+            "description": f"Current liquid balance (₹{current_balance:,.0f}) vs. 1.5x burn target"
+        },
+        "savings_rate": {
+            "name": "Savings Rate",
+            "weight": 0.25,
+            "weight_pct": "25%",
+            "normalized_score": round(s2, 3),
+            "points": round(25.0 * s2, 1),
+            "description": f"Savings goal (₹{target_savings:,.0f}/mo) vs. 20% income benchmark"
+        },
+        "budget_adherence": {
+            "name": "Budget Adherence",
+            "weight": 0.20,
+            "weight_pct": "20%",
+            "normalized_score": round(s3, 3),
+            "points": round(20.0 * s3, 1),
+            "description": f"Ensemble spend forecast (₹{ens_monthly:,.0f}) within available budget"
+        },
+        "leakage_mitigation": {
+            "name": "Leakage Mitigation",
+            "weight": 0.15,
+            "weight_pct": "15%",
+            "normalized_score": round(s4, 3),
+            "points": round(15.0 * s4, 1),
+            "description": f"Unnecessary subscription leakage control (₹{m_leak:,.0f}/mo waste)"
+        },
+        "forecast_safety": {
+            "name": "Forecast Safety",
+            "weight": 0.05,
+            "weight_pct": "5%",
+            "normalized_score": round(s5, 3),
+            "points": round(5.0 * s5, 1),
+            "description": "30-day forward liquidity runway without zero-cash breach"
+        }
+    }
 
     return {
         "user_id": user_id,
@@ -287,6 +355,7 @@ def analyze_user_cashflow_and_wellness(
         "lowest_projected_balance": round(lowest_balance, 2),
         "wellness_score": round(final_score, 1),
         "risk_level": risk_level,
+        "wellness_components": wellness_components,
         "daily_balance_history": daily_history,
         "daily_balance_projection": daily_projection,
     }

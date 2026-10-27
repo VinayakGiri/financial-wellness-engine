@@ -17,3 +17,6 @@ torch
 pmdarima
 prophet
 pytest
+kmapper
+networkx
+scipy

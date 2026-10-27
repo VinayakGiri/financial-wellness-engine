@@ -50,14 +50,17 @@ _cohort_features_df = None
 _cohort_clusters_df = None
 _kmeans_model = None
 _pca_model = None
+_pca_3d_model = None
 _cohort_pca_df = None
+_cohort_pca_3d_df = None
+_hierarchical_linkage = None
 
 
 def load_cohort_models():
     """
-    Loads pretrained K-Means model and cohort baseline data.
+    Loads pretrained K-Means model, 2D and 3D PCA models, and Hierarchical Clustering linkage.
     """
-    global _cohort_features_df, _cohort_clusters_df, _kmeans_model, _pca_model, _cohort_pca_df
+    global _cohort_features_df, _cohort_clusters_df, _kmeans_model, _pca_model, _pca_3d_model, _cohort_pca_df, _cohort_pca_3d_df, _hierarchical_linkage
 
     if _cohort_features_df is None and os.path.exists(USER_FEATURES_PATH):
         _cohort_features_df = pd.read_csv(USER_FEATURES_PATH, index_col="user_id")
@@ -69,6 +72,7 @@ def load_cohort_models():
         _kmeans_model = joblib.load(KMEANS_MODEL_PATH)
 
     if _pca_model is None and _cohort_features_df is not None:
+        # 2D PCA Model (Section 4.4.3)
         _pca_model = PCA(n_components=2, random_state=42)
         X_pca = _pca_model.fit_transform(_cohort_features_df.values)
         _cohort_pca_df = pd.DataFrame(
@@ -79,6 +83,24 @@ def load_cohort_models():
         if _cohort_clusters_df is not None:
             _cohort_pca_df["cluster_label"] = _cohort_clusters_df["cluster_label"]
             _cohort_pca_df["persona_name"] = _cohort_clusters_df["persona_name"]
+
+    if _pca_3d_model is None and _cohort_features_df is not None:
+        # 3D PCA Model (Section 4.4.4)
+        _pca_3d_model = PCA(n_components=3, random_state=42)
+        X_pca_3d = _pca_3d_model.fit_transform(_cohort_features_df.values)
+        _cohort_pca_3d_df = pd.DataFrame(
+            X_pca_3d,
+            index=_cohort_features_df.index,
+            columns=["PCA1", "PCA2", "PCA3"]
+        )
+        if _cohort_clusters_df is not None:
+            _cohort_pca_3d_df["cluster_label"] = _cohort_clusters_df["cluster_label"]
+            _cohort_pca_3d_df["persona_name"] = _cohort_clusters_df["persona_name"]
+
+    if _hierarchical_linkage is None and _cohort_features_df is not None:
+        # Hierarchical Clustering: Ward's Linkage (Section 4.2.2)
+        from scipy.cluster.hierarchy import linkage
+        _hierarchical_linkage = linkage(_cohort_features_df.values, method="ward")
 
 
 def compute_user_behavioral_features(user_id: str, txns_df: Optional[pd.DataFrame] = None) -> Dict[str, float]:
@@ -205,16 +227,25 @@ def analyze_user_persona(user_id: str, txns_df: Optional[pd.DataFrame] = None) -
 
     persona_info = PERSONA_META.get(cluster_id, PERSONA_META[0])
 
-    # 2. PCA Projection
+    # 2. PCA Projection (2D and 3D)
     if _pca_model is not None:
         user_pca_coords = _pca_model.transform(feat_vector)[0]
         user_x = float(user_pca_coords[0])
         user_y = float(user_pca_coords[1])
-        # Cluster centroids in PCA space
         centroids_pca = _pca_model.transform(_kmeans_model.cluster_centers_)
     else:
         user_x, user_y = 0.0, 0.0
         centroids_pca = np.zeros((5, 2))
+
+    if _pca_3d_model is not None:
+        user_pca_3d_coords = _pca_3d_model.transform(feat_vector)[0]
+        user_3d_x = float(user_pca_3d_coords[0])
+        user_3d_y = float(user_pca_3d_coords[1])
+        user_3d_z = float(user_pca_3d_coords[2])
+        centroids_pca_3d = _pca_3d_model.transform(_kmeans_model.cluster_centers_)
+    else:
+        user_3d_x, user_3d_y, user_3d_z = 0.0, 0.0, 0.0
+        centroids_pca_3d = np.zeros((5, 3))
 
     # 3. Cluster Benchmarks
     cluster_means = {}
@@ -256,11 +287,15 @@ def analyze_user_persona(user_id: str, txns_df: Optional[pd.DataFrame] = None) -
         "persona_color": persona_info["color"],
         "persona_desc": persona_info["desc"],
         "user_pca": {"x": user_x, "y": user_y},
+        "user_pca_3d": {"x": user_3d_x, "y": user_3d_y, "z": user_3d_z},
         "centroids_pca": [{"cluster_id": i, "x": float(centroids_pca[i][0]), "y": float(centroids_pca[i][1])} for i in range(len(centroids_pca))],
+        "centroids_pca_3d": [{"cluster_id": i, "x": float(centroids_pca_3d[i][0]), "y": float(centroids_pca_3d[i][1]), "z": float(centroids_pca_3d[i][2])} for i in range(len(centroids_pca_3d))],
         "user_features": user_features,
         "cluster_means": cluster_means,
         "benchmark_comparison": benchmark_comparison,
-        "cohort_pca_df": _cohort_pca_df
+        "cohort_pca_df": _cohort_pca_df,
+        "cohort_pca_3d_df": _cohort_pca_3d_df,
+        "hierarchical_linkage": _hierarchical_linkage
     }
 
 
