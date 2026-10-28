@@ -129,25 +129,6 @@ st.markdown("""
     padding-bottom: 3.5rem !important;
     max-width: 1420px;
   }
-  
-  /* Top Institutional Academic Pill */
-  .academic-top-bar {
-    background: #FFFFFF;
-    border: 1px solid #ECEAE4;
-    border-radius: 12px;
-    padding: 9px 18px;
-    margin-bottom: 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.78rem;
-    color: #64748B;
-    box-shadow: 0 1px 3px rgba(12, 24, 33, 0.02);
-  }
-  .academic-bold {
-    font-weight: 700;
-    color: #0C1821;
-  }
 
   /* Credix Top Navbar Container */
   .credix-nav {
@@ -379,31 +360,6 @@ st.markdown("""
     margin-bottom: 14px;
   }
 
-  /* Academic Report Section Panels */
-  .academic-panel {
-    background: #FFFFFF;
-    border: 1px solid #ECEAE4;
-    border-radius: 16px;
-    padding: 26px;
-    margin-bottom: 22px;
-    box-shadow: 0 1px 3px rgba(12, 24, 33, 0.02);
-  }
-  .academic-header {
-    font-size: 1.18rem;
-    font-weight: 800;
-    color: #0C1821;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    letter-spacing: -0.015em;
-  }
-  .academic-body {
-    font-size: 0.9rem;
-    line-height: 1.65;
-    color: #334155;
-  }
-
   /* Banner Alerts */
   .credix-alert-critical {
     background: #FEF2F2;
@@ -510,24 +466,6 @@ def bootstrap_database():
     return True
 
 bootstrap_database()
-
-
-# ── Top Institutional Academic Pill ───────────────────────────────────────────
-st.markdown("""
-<div class="academic-top-bar">
-  <div>
-    🏛️ <span class="academic-bold">SVKM's NMIMS MPSTME, Shirpur Campus</span> &nbsp;|&nbsp; 
-    Dept. of Computer Science &nbsp;|&nbsp; 
-    <span class="academic-bold">B.Tech Capstone Project 2026-27</span>
-  </div>
-  <div>
-    <strong>Vinayak Giri</strong> (70552300013) &bull; 
-    <strong>Gauri Mathur</strong> (70552300033) &bull; 
-    <strong>Deshna Sancheti</strong> (70552300036) &bull; 
-    Guide: <strong>Dr. Radhakrishna Rambola</strong>
-  </div>
-</div>
-""", unsafe_allow_html=True)
 
 
 # ── Sidebar: Account Switcher & Statement Ingestion ───────────────────────────
@@ -701,13 +639,12 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 
-# ── Segmented Tab Navigation (5 Full Chapters) ────────────────────────────────
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
+# ── Segmented Tab Navigation ──────────────────────────────────────────────────
+tab1, tab2, tab3, tab4 = st.tabs([
     "📊 Executive Overview",
     "🎯 Behavioral Persona & TDA",
     "🔍 Subscription Defense",
-    "📈 30-Day Liquidity Forecast",
-    "🎓 Academic Capstone & Thesis"
+    "📈 30-Day Liquidity Forecast"
 ])
 
 
@@ -1649,156 +1586,15 @@ with tab4:
 
 
 # ═════════════════════════════════════════════════════════════════════════════
-# TAB 5: ACADEMIC CAPSTONE & THESIS (THE BLACK BOOK)
+# Footer
 # ═════════════════════════════════════════════════════════════════════════════
-with tab5:
-    st.markdown("""
-    <div style="margin-bottom:20px;">
-      <div style="font-size:1.35rem; font-weight:800; color:#0f172a; letter-spacing:-0.02em;">
-        🎓 Personal Financial Wellness Intelligence Platform Using Data Analytics and Machine Learning
-      </div>
-      <div style="font-size:0.85rem; color:#64748b; margin-top:3px;">
-        Capstone Thesis & Experimental Evaluation Documentation &bull; SVKM's NMIMS MPSTME, Shirpur Campus
-      </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    # Project Metadata Grid
-    c_m1, c_m2, c_m3 = st.columns(3)
-    with c_m1:
-        st.markdown("""
-        <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:16px;">
-          <div style="font-size:0.75rem; font-weight:700; color:#64748b;">DEGREE & INSTITUTION</div>
-          <div style="font-size:0.95rem; font-weight:700; color:#0f172a; margin-top:2px;">B.Tech in Computer Science</div>
-          <div style="font-size:0.8rem; color:#475569;">SVKM's NMIMS, MPSTME Shirpur</div>
-          <div style="font-size:0.75rem; color:#94a3b8; margin-top:4px;">Academic Session: 2026-27</div>
-        </div>
-        """, unsafe_allow_html=True)
-    with c_m2:
-        st.markdown("""
-        <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:16px;">
-          <div style="font-size:0.75rem; font-weight:700; color:#64748b;">STUDENT INVESTIGATORS</div>
-          <div style="font-size:0.88rem; font-weight:700; color:#0f172a; margin-top:2px;">Vinayak Giri (70552300013)</div>
-          <div style="font-size:0.88rem; font-weight:700; color:#0f172a;">Gauri Mathur (70552300033)</div>
-          <div style="font-size:0.88rem; font-weight:700; color:#0f172a;">Deshna Sancheti (70552300036)</div>
-        </div>
-        """, unsafe_allow_html=True)
-    with c_m3:
-        st.markdown("""
-        <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:16px;">
-          <div style="font-size:0.75rem; font-weight:700; color:#64748b;">FACULTY SUPERVISION</div>
-          <div style="font-size:0.92rem; font-weight:700; color:#0f172a; margin-top:2px;">Dr. Radhakrishna Rambola</div>
-          <div style="font-size:0.78rem; color:#64748b;">Project Mentor & Asst. Professor</div>
-          <div style="font-size:0.75rem; color:#94a3b8; margin-top:4px;">HOD: Dr. Nitin Chowbey</div>
-        </div>
-        """, unsafe_allow_html=True)
-
-    # Abstract & 7 Contributions
-    st.markdown("""
-    <div class="academic-panel" style="margin-top:20px;">
-      <div class="academic-header">📋 Project Abstract & Problem Statement</div>
-      <div class="academic-body">
-        The increasing proliferation of digital payment systems, UPI, and online subscriptions has made personal financial management significantly more complex. Most traditional finance applications center around manual categorization and static budgeting, providing limited forward visibility into behavioral patterns, unnecessary recurring leakages, or impending cash shortages.<br/><br/>
-        This platform delivers a unified intelligent framework combining three machine learning engines:
-        <strong>Behavioral Segmentation</strong> (K-Means & Topological Data Analysis), <strong>Financial Leakage Detection</strong> (Recurrence modeling & Composite Leakage Scoring), and <strong>Predictive Financial Wellness</strong> (Ensemble Auto-ARIMA, Prophet, and PyTorch 1D-CNN + LSTM). The prototype was evaluated on 500 users, successfully discovering five spending personas and 276 recurring payment streams with an estimated potential annual savings of <strong>₹30.35 lakh</strong>.
-      </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    # Experimental Results Tables from Chapter 5 of Black Book
-    st.markdown("""
-    <div style="font-size:1.1rem; font-weight:700; color:#0f172a; margin:20px 0 12px 0;">
-      📊 Prototype Experimental Evaluation Results (500 Cohort Users &bull; Chapter 5)
-    </div>
-    """, unsafe_allow_html=True)
-
-    col_t1, col_t2 = st.columns(2)
-
-    with col_t1:
-        st.markdown("**Table 5.1: Distribution of Financial Personas (500 Users)**")
-        df_p_dist = pd.DataFrame([
-            {"Financial Persona": "🔥 Impulsive Spender", "No. of Users": 161, "Percentage": "32.2%", "Core Trait": "Spend volatility, frequent weekend splurges"},
-            {"Financial Persona": "💰 Budget-Conscious", "No. of Users": 100, "Percentage": "20.0%", "Core Trait": "Disciplined spend, high savings ratio"},
-            {"Financial Persona": "📺 Heavy Subscriber", "No. of Users": 85, "Percentage": "17.0%", "Core Trait": "Overlapping recurring digital commitments"},
-            {"Financial Persona": "💎 Luxury Spender", "No. of Users": 81, "Percentage": "16.2%", "Core Trait": "High average ticket size, premium merchants"},
-            {"Financial Persona": "🛍️ Weekend Shopper", "No. of Users": 73, "Percentage": "14.6%", "Core Trait": "Disproportionate spend concentrated Fri–Sun"},
-            {"Financial Persona": "TOTAL", "No. of Users": 500, "Percentage": "100.0%", "Core Trait": "Evaluated on 10,000 transactions across 12 months"}
-        ])
-        st.dataframe(df_p_dist, use_container_width=True, hide_index=True)
-
-        st.markdown("**Table 5.2: Recurring Payment Classification (276 Streams)**")
-        df_leak_dist = pd.DataFrame([
-            {"Classification": "Dormant", "Stream Count": 141, "Percentage": "51.1%", "Annual Savings": "₹18,84,332"},
-            {"Classification": "Active", "Stream Count": 94, "Percentage": "34.1%", "Annual Savings": "₹0 (Utilized)"},
-            {"Classification": "Low Usage", "Stream Count": 38, "Percentage": "13.8%", "Annual Savings": "₹10,99,231"},
-            {"Classification": "Duplicate", "Stream Count": 3, "Percentage": "1.0%", "Annual Savings": "₹51,320"},
-            {"Classification": "TOTAL RECOVERABLE", "Stream Count": 276, "Percentage": "100.0%", "Annual Savings": "₹30,34,883"}
-        ])
-        st.dataframe(df_leak_dist, use_container_width=True, hide_index=True)
-
-    with col_t2:
-        st.markdown("**Table 5.3: Potential Annual Savings Summary**")
-        df_sav_summary = pd.DataFrame([
-            {"Savings Category": "Dormant Unused Subscriptions", "Potential Annual Savings": "₹18.84 Lakh (~62.1%)"},
-            {"Savings Category": "Low-Usage Payment Streams", "Potential Annual Savings": "₹10.99 Lakh (~36.2%)"},
-            {"Savings Category": "Duplicate SaaS Services", "Potential Annual Savings": "₹0.51 Lakh (~1.7%)"},
-            {"Savings Category": "TOTAL POTENTIAL RECOVERY", "Potential Annual Savings": "₹30,34,883 (~₹30.35 Lakh)"},
-            {"Savings Category": "AVERAGE PER USER RECOVERY", "Potential Annual Savings": "₹6,070 / user / year"}
-        ])
-        st.dataframe(df_sav_summary, use_container_width=True, hide_index=True)
-
-        st.markdown("**Table 5.4: Cash-Flow Forecasting Benchmark (Demonstration User)**")
-        df_fc_demo = pd.DataFrame([
-            {"Forecasting Model": "PyTorch LSTM (Deep Recurrent)", "Projected Net Drawdown": "₹3,581", "Model Type": "Deep Learning (PyTorch)"},
-            {"Forecasting Model": "Auto-ARIMA", "Projected Net Drawdown": "₹3,617", "Model Type": "Statistical Time-Series"},
-            {"Forecasting Model": "Facebook Prophet", "Projected Net Drawdown": "₹3,475", "Model Type": "Bayesian Generalized Additive"},
-            {"Forecasting Model": "WEIGHTED ENSEMBLE CONSENSUS", "Projected Net Drawdown": "₹3,558", "Model Type": "Multi-Engine Ensemble"},
-            {"Forecasting Model": "STARTING LIQUID BALANCE", "Projected Net Drawdown": "₹53,304", "Model Type": "Verified Account Buffer"},
-            {"Forecasting Model": "PROJECTED ENDING BALANCE", "Projected Net Drawdown": "₹49,746 (~₹50,000)", "Model Type": "Safe & Solvent (Score: 99.5)"}
-        ])
-        st.dataframe(df_fc_demo, use_container_width=True, hide_index=True)
-
-    # Key Methodology Artifacts
-    st.markdown("""
-    <div style="font-size:1.1rem; font-weight:700; color:#0f172a; margin:24px 0 12px 0;">
-      🔬 Key Methodological Figures (The Black Book)
-    </div>
-    """, unsafe_allow_html=True)
-
-    fig_col1, fig_col2 = st.columns(2)
-    with fig_col1:
-        f4_path = os.path.join(ROOT, "outputs", "deep_learning_architecture.png")
-        if os.path.exists(f4_path):
-            st.image(f4_path, use_container_width=True, caption="Figure 4: Deep Learning Model Architecture (1D-CNN + Stacked LSTM in PyTorch)")
-    with fig_col2:
-        f8_path = os.path.join(ROOT, "outputs", "topological_network.png")
-        if os.path.exists(f8_path):
-            st.image(f8_path, use_container_width=True, caption="Figure 8: Topological Network (Kepler Mapper Simplicial Complex)")
-
-    # Institutional Compliance & Literature References
-    st.markdown("""
-    <div class="academic-panel" style="margin-top:20px;">
-      <div class="academic-header">🔒 Privacy, Ethics & Regulatory Compliance (DPDP Act, 2023)</div>
-      <div class="academic-body">
-        The Personal Financial Wellness Intelligence Platform strictly complies with <strong>India's Digital Personal Data Protection Act, 2023 (Act No. 22 of 2023)</strong> and RBI Sahamati Account Aggregator standards:
-        <ul>
-          <li><strong>Zero-Knowledge Hashing</strong>: All sensitive Personally Identifiable Information (PII) including bank account numbers, customer names, and phone numbers are encrypted with irreversible SHA-256 hashes prior to ingestion into the modeling layer.</li>
-          <li><strong>Local Analytical Execution</strong>: Machine learning inference (K-Means, XGBoost/Random Forest, PyTorch LSTM, Auto-ARIMA) executes in isolated sandboxes without transmitting raw banking transactions to third-party endpoints.</li>
-          <li><strong>Grounded LLM Explanations</strong>: Google Gemini is utilized purely as an interpretive and explanation layer over verified analytical outputs, strictly eliminating hallucinations or unsupported numeric recommendations.</li>
-        </ul>
-      </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-
-# ── Credix Footer ─────────────────────────────────────────────────────────────
 st.markdown("""
-<div style="margin-top:40px; padding-top:20px; border-top:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center; font-size:0.8rem; color:#94a3b8;">
+<div style="margin-top:40px; padding-top:20px; border-top:1px solid #ECEAE4; display:flex; justify-content:space-between; align-items:center; font-size:0.8rem; color:#94A3B8;">
   <div>
-    <strong>FinWell Platform</strong> &bull; SVKM's NMIMS MPSTME Shirpur &bull; Dept. of Computer Science &bull; 2026-27
+    <strong>FinWell Platform</strong> &bull; Personal Financial Management & Wellness Intelligence Engine
   </div>
   <div>
-    Investigators: Vinayak Giri &bull; Gauri Mathur &bull; Deshna Sancheti &bull; Supervisor: Dr. Radhakrishna Rambola
+    Zero-Knowledge 256-bit SHA Encrypted &bull; Real-Time Multi-Format Ingestion
   </div>
 </div>
 """, unsafe_allow_html=True)
