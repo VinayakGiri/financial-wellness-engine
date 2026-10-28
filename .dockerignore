@@ -1,0 +1,11 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.git/
+.gitignore
+.env
+.pytest_cache/
+*.log
+outputs/*.log
+finwell_graphs_and_statistics.zip

@@ -636,7 +636,7 @@ class BankCsvStatementParser:
                             except: pass
 
                 date_val = str(row.get("Date", row.get("date", txn_date)))
-                txn_date = pd.to_datetime(date_val, errors="coerce")
+                txn_date = pd.to_datetime(date_val, dayfirst=True, errors="coerce")
                 txn_date = txn_date.strftime("%Y-%m-%d %H:%M:%S") if pd.notnull(txn_date) else datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
             # 2. SBI Format
@@ -657,18 +657,40 @@ class BankCsvStatementParser:
                     txn_type = "Debit"
 
                 date_val = str(row.get("Txn Date", row.get("Date", txn_date)))
-                txn_date = pd.to_datetime(date_val, errors="coerce")
+                txn_date = pd.to_datetime(date_val, dayfirst=True, errors="coerce")
                 txn_date = txn_date.strftime("%Y-%m-%d %H:%M:%S") if pd.notnull(txn_date) else datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
             # 3. PhonePe / Google Pay / Generic
             else:
-                # Find amount
-                for col in ["Amount", "amount", "Transaction Amount", "Debit Amount"]:
-                    if col in row and pd.notnull(row[col]):
-                        try:
-                            raw_amount = abs(float(str(row[col]).replace(",", "").replace("₹", "").strip()))
-                            break
-                        except: pass
+                # Check split Debit/Credit columns first
+                if any(c in row for c in ["Debit", "Withdrawal"]) and any(c in row for c in ["Credit", "Deposit"]):
+                    deb_col = next((c for c in ["Debit", "Withdrawal"] if c in row), None)
+                    crd_col = next((c for c in ["Credit", "Deposit"] if c in row), None)
+                    deb_val = 0.0
+                    crd_val = 0.0
+                    try:
+                        if deb_col and pd.notnull(row[deb_col]):
+                            deb_val = abs(float(str(row[deb_col]).replace(",", "").replace("₹", "").strip()))
+                    except: pass
+                    try:
+                        if crd_col and pd.notnull(row[crd_col]):
+                            crd_val = abs(float(str(row[crd_col]).replace(",", "").replace("₹", "").strip()))
+                    except: pass
+
+                    if crd_val > 0:
+                        raw_amount = crd_val
+                        txn_type = "Credit"
+                    else:
+                        raw_amount = deb_val
+                        txn_type = "Debit"
+                else:
+                    # Find amount
+                    for col in ["Amount", "amount", "Transaction Amount", "Debit Amount", "Debit", "Credit"]:
+                        if col in row and pd.notnull(row[col]):
+                            try:
+                                raw_amount = abs(float(str(row[col]).replace(",", "").replace("₹", "").strip()))
+                                break
+                            except: pass
 
                 # Find narration / merchant
                 for col in ["Description", "Narration", "Remarks", "Merchant", "Name", "Details"]:
@@ -676,20 +698,21 @@ class BankCsvStatementParser:
                         narration = str(row[col])
                         break
 
-                # Find type
-                for col in ["Type", "Transaction Type", "Cr/Dr"]:
-                    if col in row and pd.notnull(row[col]):
-                        val = str(row[col]).upper()
-                        if "CR" in val or "CREDIT" in val:
-                            txn_type = "Credit"
-                        else:
-                            txn_type = "Debit"
-                        break
+                # Find type if not already established
+                if not any(c in row for c in ["Debit", "Withdrawal"]):
+                    for col in ["Type", "Transaction Type", "Cr/Dr"]:
+                        if col in row and pd.notnull(row[col]):
+                            val = str(row[col]).upper()
+                            if "CR" in val or "CREDIT" in val:
+                                txn_type = "Credit"
+                            else:
+                                txn_type = "Debit"
+                            break
 
                 # Find date
                 for col in ["Date", "Timestamp", "Date & Time", "Txn Date"]:
                     if col in row and pd.notnull(row[col]):
-                        d = pd.to_datetime(str(row[col]), errors="coerce")
+                        d = pd.to_datetime(str(row[col]), dayfirst=True, errors="coerce")
                         if pd.notnull(d):
                             txn_date = d.strftime("%Y-%m-%d %H:%M:%S")
                             break

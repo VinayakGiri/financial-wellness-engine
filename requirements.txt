@@ -20,3 +20,4 @@ pytest
 kmapper
 networkx
 scipy
+Pillow

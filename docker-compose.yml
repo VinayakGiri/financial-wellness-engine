@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  finwell-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: financial-wellness-engine
+    ports:
+      - "8501:8501"
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - MPLCONFIGDIR=/tmp/matplotlib
+    volumes:
+      # Optional: bind mount statements directory for dynamic drops without rebuilding container
+      - ./data/statements:/app/data/statements
+    restart: unless-stopped
