@@ -6,6 +6,10 @@ __pycache__/
 *.pyc
 *.pyo
 
+# Log files
+*.log
+outputs/*.log
+
 # Secrets — never commit
 .env
 .streamlit/credentials.toml

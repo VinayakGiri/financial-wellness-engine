@@ -46,10 +46,24 @@ source venv/bin/activate
 # 3. Launch Credix Fintech UI Dashboard
 streamlit run dashboard/app.py --server.port 8501
 
-# 4. Run automated evaluation suite (73 tests)
+# 4. Run automated evaluation suite (76 tests)
 python tests/test_models.py
 pytest tests/test_adapters.py
+
+# 5. Extract all project figures and statistical reports
+unzip finwell_graphs_and_statistics.zip
 ```
+
+---
+
+## 📦 Download Complete Graphs & Statistics Archive
+
+All publication-ready charts (17 figures), model comparison metrics, test logs, and analytical summaries are packaged into a single standalone ZIP archive in the repository root:
+- **Archive Path**: [`finwell_graphs_and_statistics.zip`](finwell_graphs_and_statistics.zip)
+- **Archive Contents**:
+  - **17 High-Resolution Visualizations**: `deep_learning_architecture.png`, `topological_network.png`, `hierarchical_dendrogram.png`, `elbow_curve.png`, `personas_scatter.png`, `leakage_cm.png`, `feature_importance.png`, `model_comparison_mape.png`, `sample_forecasts.png`, `top_leakages.png`, `wellness_distribution.png`, `correlation_matrix.png`, and comprehensive EDA breakdown plots.
+  - **Comprehensive Statistical Summaries**: `personas_summary.csv`, `wellness_forecast_final.csv`, `wellness_forecast_baseline.csv`, `leakage_features.json`, `leakage_model_comparison.json`, `persona_insights.json`, `tda_graph.json`.
+  - **Test Execution Audit**: `test_report.txt` (100% pass rate across all 76 unit and integration test assertions).
 
 ---
 
