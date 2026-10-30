@@ -35,6 +35,53 @@ from src.engine_2_leakage import analyze_user_leakages
 from src.engine_3_predictive import analyze_user_cashflow_and_wellness
 
 
+def analyze_user_account(user_id: str = "USR_VINAYAK_GIRI") -> dict:
+    """Run full 3-engine analytics directly on the recognized user's database records."""
+    df = get_user_transactions(user_id)
+    if df.empty:
+        return {"user_id": user_id, "status": "EMPTY", "error": "No records found in database"}
+
+    total_txns = len(df)
+    type_col = "type" if "type" in df.columns else ("transaction_type" if "transaction_type" in df.columns else None)
+    if type_col:
+        debit_df = df[df[type_col].astype(str).str.lower() == "debit"]
+        credit_df = df[df[type_col].astype(str).str.lower() == "credit"]
+    else:
+        debit_df = df[df["amount"] < 0]
+        credit_df = df[df["amount"] > 0]
+
+    total_debit = float(debit_df["amount"].abs().sum()) if not debit_df.empty else 0.0
+    total_credit = float(credit_df["amount"].abs().sum()) if not credit_df.empty else 0.0
+    net_flow = total_credit - total_debit
+
+    persona = analyze_user_persona(user_id=user_id, txns_df=df)
+    leakage_result = analyze_user_leakages(user_id=user_id, txns_df=df)
+    subscriptions = leakage_result.get("subscriptions", [])
+    total_leakage_annual = leakage_result.get("total_annual_savings", 0.0)
+
+    wellness_result = analyze_user_cashflow_and_wellness(user_id=user_id, txns_df=df)
+    score = wellness_result.get("wellness_score", 65.0)
+    health_status = "HEALTHY" if score >= 75 else ("MODERATE" if score >= 55 else "AT_RISK")
+
+    return {
+        "file": f"Account Center ({user_id})",
+        "user_id": user_id,
+        "analyzed_at": datetime.now().isoformat(),
+        "transactions_parsed": total_txns,
+        "total_debit": round(total_debit, 2),
+        "total_credit": round(total_credit, 2),
+        "net_flow": round(net_flow, 2),
+        "persona": persona.get("persona_name", "Weekend Shopper"),
+        "wellness_score": round(score, 1),
+        "wellness_grade": wellness_result.get("grade", "A"),
+        "health_status": health_status,
+        "projected_spend_30d": round(wellness_result.get("ensemble_monthly_forecast", 0.0), 2),
+        "is_shortage_expected": wellness_result.get("is_shortage", False),
+        "active_recurring_streams": len(subscriptions),
+        "annual_leakage_waste": round(total_leakage_annual, 2),
+    }
+
+
 def analyze_statement_file(file_path: str) -> dict:
     """Run unified ingestion and full 3-engine analytics on a statement file."""
     user_id = "AUDIT_" + os.path.splitext(os.path.basename(file_path))[0].replace(" ", "_").upper()
@@ -115,8 +162,38 @@ def send_webhook_alert(summary: dict, webhook_url: str):
 def main():
     parser = argparse.ArgumentParser(description="FinWell Background Monitor & Statement Batch Analyzer")
     parser.add_argument("--statement", type=str, help="Path to single statement (PDF/CSV/PNG)")
+    parser.add_argument("--user", type=str, default=None, help="User ID to audit directly from database (defaults to single recognized user)")
     parser.add_argument("--notify", action="store_true", help="Send alert via ALERT_WEBHOOK_URL env var if defined")
     args = parser.parse_args()
+
+    webhook_url = os.environ.get("ALERT_WEBHOOK_URL")
+
+    # If --user or no statement specified, audit the recognized single user
+    if args.user or not args.statement:
+        target_uid = args.user or "USR_VINAYAK_GIRI"
+        print("=" * 70)
+        print(" 🚀 FinWell Single-User Account Center Audit")
+        print(f" Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        print(f" Auditing User: {target_uid}")
+        print("=" * 70)
+        res = analyze_user_account(target_uid)
+        print(f"    • User ID           : {res.get('user_id')}")
+        print(f"    • Txns Ingested     : {res.get('transactions_parsed')}")
+        print(f"    • Total Outflow     : ₹{res.get('total_debit'):,.2f}")
+        print(f"    • Total Inflow      : ₹{res.get('total_credit'):,.2f}")
+        print(f"    • Net Balance       : ₹{res.get('net_flow'):,.2f}")
+        print(f"    • Behavioral Persona: {res.get('persona')}")
+        print(f"    • Wellness Score    : {res.get('wellness_score')}/100 [{res.get('health_status')}]")
+        print(f"    • Annual Leakage    : ₹{res.get('annual_leakage_waste'):,.2f}")
+
+        if args.notify and webhook_url:
+            send_webhook_alert(res, webhook_url)
+
+        if not args.statement:
+            print("\n" + "=" * 70)
+            print(" ✅ Single-user audit complete.")
+            print("=" * 70)
+            return
 
     files = []
     if args.statement:
