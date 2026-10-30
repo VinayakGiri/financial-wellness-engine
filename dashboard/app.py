@@ -470,9 +470,9 @@ def bootstrap_database():
 bootstrap_database()
 
 
-# ── Sidebar: Dedicated Single-User Account Center ───────────────────────────
+# ── Sidebar: Dedicated Single-User Account Center with Switcher ─────────────
 st.sidebar.markdown("""
-<div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;">
+<div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
   <div style="display:flex; align-items:center; gap:8px;">
     <span style="background:linear-gradient(135deg, #0D6E6E 0%, #064E4E 100%); color:white; font-weight:800; font-size:0.9rem; padding:4px 8px; border-radius:7px; box-shadow:0 2px 6px rgba(13,110,110,0.3);">FW</span>
     <span style="font-size:1.05rem; font-weight:800; color:#0C1821; letter-spacing:-0.02em;">Account Center</span>
@@ -481,32 +481,87 @@ st.sidebar.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Fixed Single Active User whose real-time data is fetched & recognized
-selected_user_id = "USR_VINAYAK_GIRI"
+# Load all users from SQLite database
+users_df = get_all_users()
+user_options = {}
+
+# 1. Authentic & Verified accounts priority list
+authentic_map = [
+    ("USR_VINAYAK_GIRI", "⚡ Vinayak Giri (Google Pay PDF - 100 Txns)"),
+    ("USR_PRIYA_HDFC", "⚡ Priya Sharma (HDFC Salary Live - 20 Txns)"),
+    ("USR_ARJUN_SBI", "⚡ Arjun Patel (SBI UPI Live - 17 Txns)"),
+    ("USR_SETU_AA", "⚡ Rahul Nair (RBI Sahamati AA - 9 Txns)"),
+    ("USR_PLAID_GOOD", "⚡ Aditya Sharma (Plaid Verified - 132 Txns)"),
+    ("USR_PLAID_CUSTOM", "⚡ Priya Verma (High Volatility - 82 Txns)")
+]
+for uid, label in authentic_map:
+    if not users_df.empty and uid in users_df["user_id"].values:
+        user_options[uid] = label
+
+# 2. Add all other verified cohort accounts
+for _, u_row in users_df.iterrows():
+    uid = u_row["user_id"]
+    if uid not in user_options:
+        uname = u_row["name"]
+        user_options[uid] = f"{uname} ({uid})"
+
+# Default to Vinayak Giri if not already selected
+if "active_user_id" not in st.session_state or st.session_state.active_user_id not in user_options:
+    st.session_state.active_user_id = "USR_VINAYAK_GIRI" if "USR_VINAYAK_GIRI" in user_options else list(user_options.keys())[0]
+
+default_idx = list(user_options.keys()).index(st.session_state.active_user_id)
+
+selected_user_id = st.sidebar.selectbox(
+    "Active Account Profile (Select One)",
+    options=list(user_options.keys()),
+    format_func=lambda x: user_options[x],
+    index=default_idx,
+    key="account_center_profile_select"
+)
 st.session_state.active_user_id = selected_user_id
 
-# Fetch or initialize Active User Profile
+# Quick 1-Click Authentic Accounts Switcher
+st.sidebar.markdown("<div class='sidebar-stat-label' style='margin-top:6px; margin-bottom:5px;'>⚡ 1-Click Authentic Switch</div>", unsafe_allow_html=True)
+q_col1, q_col2 = st.sidebar.columns(2)
+with q_col1:
+    if st.button("Vinayak (GPay)", use_container_width=True, key="btn_sw_vinayak"):
+        st.session_state.active_user_id = "USR_VINAYAK_GIRI"
+        st.rerun()
+    if st.button("Arjun (SBI)", use_container_width=True, key="btn_sw_arjun"):
+        st.session_state.active_user_id = "USR_ARJUN_SBI"
+        st.rerun()
+with q_col2:
+    if st.button("Priya (HDFC)", use_container_width=True, key="btn_sw_priya"):
+        st.session_state.active_user_id = "USR_PRIYA_HDFC"
+        st.rerun()
+    if st.button("Rahul (AA)", use_container_width=True, key="btn_sw_rahul"):
+        st.session_state.active_user_id = "USR_SETU_AA"
+        st.rerun()
+
+# Fetch Active User Profile strictly for the selected user
 active_profile = get_user_profile(selected_user_id) or {
     "user_id": selected_user_id,
-    "name": "Vinayak Giri",
+    "name": "Verified Account",
     "monthly_income": 45000.0,
     "target_savings": 12000.0
 }
 
-# Real-time transaction telemetry count for Vinayak Giri
-vinayak_txns = get_user_transactions(selected_user_id)
-tx_count = len(vinayak_txns)
+# Transaction count for currently active user
+active_user_txns = get_user_transactions(selected_user_id)
+tx_count = len(active_user_txns)
+clean_name = active_profile['name'].split("(")[0].strip()
+initials = "".join([part[0] for part in clean_name.split()[:2]]).upper() or "AC"
 
-# Display User Profile Card in Sidebar
+# Display Active Single User Profile Card in Sidebar
 st.sidebar.markdown(f"""
 <div class="sidebar-profile-card">
   <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
     <div style="background:linear-gradient(135deg, #0D6E6E 0%, #064E4E 100%); color:white; font-weight:800; width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.95rem; box-shadow:0 2px 8px rgba(13,110,110,0.25);">
-      VG
+      {initials}
     </div>
     <div>
-      <div style="font-weight:800; color:#0C1821; font-size:0.94rem; letter-spacing:-0.01em;">Vinayak Giri</div>
-      <div style="font-size:0.75rem; color:#64748B;">vinayak@icici &bull; A/C ...4092</div>
+      <div style="font-weight:800; color:#0C1821; font-size:0.94rem; letter-spacing:-0.01em;">{clean_name}</div>
+      <div style="font-size:0.75rem; color:#64748B;">ID: {selected_user_id}</div>
     </div>
   </div>
   <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:8px; padding:7px 10px; margin-bottom:10px;">
@@ -515,8 +570,8 @@ st.sidebar.markdown(f"""
       <span style="font-size:0.72rem; color:#059669; font-weight:700;">{tx_count} Txns Ingested</span>
     </div>
     <div style="display:flex; justify-content:space-between; align-items:center; margin-top:3px;">
-      <span style="font-size:0.73rem; color:#64748B; font-weight:600;">Bank Gateway</span>
-      <span style="font-size:0.72rem; color:#0D6E6E; font-weight:700;">Google Pay / Sahamati AA</span>
+      <span style="font-size:0.73rem; color:#64748B; font-weight:600;">Security</span>
+      <span style="font-size:0.72rem; color:#0D6E6E; font-weight:700;">Zero-Knowledge SHA-256</span>
     </div>
   </div>
   <div class="sidebar-stat-label">Monthly Inflow</div>
@@ -530,13 +585,14 @@ st.sidebar.markdown(f"""
 st.sidebar.markdown("<div style='margin-top:14px;'></div>", unsafe_allow_html=True)
 st.sidebar.markdown("<div class='sidebar-stat-label' style='margin-bottom:6px;'>⚡ Live UPI Sync Handshake</div>", unsafe_allow_html=True)
 
-upi_vpa_input = st.sidebar.text_input("UPI VPA / Phone", value="vinayak@icici", label_visibility="collapsed", placeholder="e.g. vinayak@icici")
+default_vpa = "vinayak@icici" if selected_user_id == "USR_VINAYAK_GIRI" else f"{selected_user_id.lower()}@upi"
+upi_vpa_input = st.sidebar.text_input("UPI VPA / Phone", value=default_vpa, label_visibility="collapsed", placeholder="e.g. vinayak@icici")
 bank_choice = st.sidebar.selectbox("Linked Bank Gateway", ["ICICI Bank (Live)", "HDFC Bank", "State Bank of India", "Axis Bank", "Kotak Bank"], label_visibility="collapsed")
 
 if st.sidebar.button("⚡ Connect & Pull Live UPI Feed", use_container_width=True):
     with st.spinner("Connecting to RBI Sahamati FIU / NPCI UPI Gateway..."):
         sync_res = sync_live_upi_account(selected_user_id, upi_vpa_input, bank_name=bank_choice)
-        st.sidebar.success(f"✅ Handshake verified! Synced {sync_res['count']} live transactions into Vinayak Giri's account.")
+        st.sidebar.success(f"✅ Handshake verified! Synced {sync_res['count']} live transactions into {clean_name}'s account.")
         st.rerun()
 
 # Multi-Format Statement Ingestion (CSV, PDF, JPEG, PNG)
@@ -557,16 +613,16 @@ if uploaded_file is not None:
             filename=uploaded_file.name
         )
         if new_txns:
-            st.sidebar.success(f"✅ Ingested {len(new_txns)} records from {uploaded_file.name} into Vinayak Giri's account!")
+            st.sidebar.success(f"✅ Ingested {len(new_txns)} records from {uploaded_file.name} into {clean_name}'s account!")
             st.rerun()
         else:
             st.sidebar.warning("No readable transaction entries found in uploaded file.")
     except Exception as e:
         st.sidebar.error(f"Error parsing statement: {e}")
 
-# Expandable Additional Feeds & Account Settings for Vinayak Giri
+# Expandable Additional Feeds & Account Settings
 with st.sidebar.expander("🔗 Link Additional Statement Feeds"):
-    st.markdown("<div style='font-size:0.75rem; color:#64748B; margin-bottom:8px;'>Link external statement feeds into Vinayak Giri's multi-account ledger:</div>", unsafe_allow_html=True)
+    st.markdown(f"<div style='font-size:0.75rem; color:#64748B; margin-bottom:8px;'>Link external statement feeds into {clean_name}'s multi-account ledger:</div>", unsafe_allow_html=True)
     if st.button("+ Link HDFC Salary Statement (CSV)", use_container_width=True):
         hdfc_p = os.path.join(DATA_DIR, "statements", "priya_hdfc_bank_statement.csv")
         if os.path.exists(hdfc_p):
@@ -588,31 +644,32 @@ with st.sidebar.expander("🔗 Link Additional Statement Feeds"):
             save_transactions_to_db(recs, db_path=DB_PATH)
             st.sidebar.success(f"✅ Ingested receipt entry!")
             st.rerun()
-    if st.button("↺ Reset to Clean Google Pay Baseline", use_container_width=True):
-        conn = get_db_connection(DB_PATH)
-        cur = conn.cursor()
-        cur.execute("DELETE FROM transactions WHERE user_id = ?", (selected_user_id,))
-        conn.commit()
-        conn.close()
-        vinayak_pdf = os.path.join(DATA_DIR, "statements", "vinayak_gpay_statement_sept2026.pdf")
-        if os.path.exists(vinayak_pdf):
-            txns_vinayak = UpiPdfStatementParser.parse_pdf(selected_user_id, vinayak_pdf)
-            cur_bal = 45000.0
-            for tx in txns_vinayak:
-                if tx["type"] == "Credit":
-                    cur_bal += tx["amount"]
-                else:
-                    cur_bal -= tx["amount"]
-                tx["balance_after"] = round(cur_bal, 2)
-            save_transactions_to_db(txns_vinayak, db_path=DB_PATH)
-        st.sidebar.success("✅ Reset back to 100 clean Google Pay transactions!")
-        st.rerun()
+    if selected_user_id == "USR_VINAYAK_GIRI":
+        if st.button("↺ Reset to Clean Google Pay Baseline", use_container_width=True):
+            conn = get_db_connection(DB_PATH)
+            cur = conn.cursor()
+            cur.execute("DELETE FROM transactions WHERE user_id = ?", (selected_user_id,))
+            conn.commit()
+            conn.close()
+            vinayak_pdf = os.path.join(DATA_DIR, "statements", "vinayak_gpay_statement_sept2026.pdf")
+            if os.path.exists(vinayak_pdf):
+                txns_vinayak = UpiPdfStatementParser.parse_pdf(selected_user_id, vinayak_pdf)
+                cur_bal = 45000.0
+                for tx in txns_vinayak:
+                    if tx["type"] == "Credit":
+                        cur_bal += tx["amount"]
+                    else:
+                        cur_bal -= tx["amount"]
+                    tx["balance_after"] = round(cur_bal, 2)
+                save_transactions_to_db(txns_vinayak, db_path=DB_PATH)
+            st.sidebar.success("✅ Reset back to 100 clean Google Pay transactions!")
+            st.rerun()
 
 with st.sidebar.expander("⚙️ Account Settings & Goals"):
     new_income = st.number_input("Monthly Inflow (₹)", min_value=1000.0, max_value=1000000.0, value=float(active_profile['monthly_income']), step=1000.0)
     new_savings = st.number_input("Target Savings Goal (₹)", min_value=0.0, max_value=500000.0, value=float(active_profile['target_savings']), step=500.0)
     if st.button("Save Profile Goals", use_container_width=True):
-        save_user_profile(selected_user_id, "Vinayak Giri", new_income, new_savings, db_path=DB_PATH)
+        save_user_profile(selected_user_id, clean_name, new_income, new_savings, db_path=DB_PATH)
         st.sidebar.success("✅ Goals updated!")
         st.rerun()
 
@@ -679,32 +736,119 @@ tab1, tab2, tab3, tab4 = st.tabs([
 # TAB 1: EXECUTIVE OVERVIEW
 # ═════════════════════════════════════════════════════════════════════════════
 with tab1:
-    # Single Verified User Account Center Card (Vinayak Giri)
+    # Dynamic Verified User Account Banner in Tab 1
     debit_total = float(active_txns[active_txns["type"] == "Debit"]["amount"].sum()) if not active_txns.empty else 0.0
     credit_total = float(active_txns[active_txns["type"] == "Credit"]["amount"].sum()) if not active_txns.empty else 0.0
 
-    st.markdown(f"""
-    <div style="background:#ffffff; border:1px solid #ECEAE4; border-radius:14px; padding:16px 20px; margin-bottom:20px; box-shadow:0 1px 3px rgba(12,24,33,0.03); display:flex; justify-content:space-between; align-items:center;">
-      <div style="display:flex; align-items:center; gap:14px;">
-        <div style="background:#ECFDF5; border:1px solid #A7F3D0; color:#059669; width:44px; height:44px; border-radius:11px; display:flex; align-items:center; justify-content:center; font-size:1.35rem;">
-          ⚡
-        </div>
-        <div>
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span style="font-size:0.98rem; font-weight:800; color:#0C1821;">Verified Account: Vinayak Giri &bull; ICICI Bank (A/C ...4092) via Google Pay UPI</span>
-            <span class="chip chip-emerald" style="font-size:0.7rem; font-weight:700;">● LIVE ACCOUNT RECOGNIZED</span>
+    if selected_user_id == "USR_VINAYAK_GIRI":
+        st.markdown(f"""
+        <div style="background:#ffffff; border:1px solid #ECEAE4; border-radius:14px; padding:16px 20px; margin-bottom:20px; box-shadow:0 1px 3px rgba(12,24,33,0.03); display:flex; justify-content:space-between; align-items:center;">
+          <div style="display:flex; align-items:center; gap:14px;">
+            <div style="background:#ECFDF5; border:1px solid #A7F3D0; color:#059669; width:44px; height:44px; border-radius:11px; display:flex; align-items:center; justify-content:center; font-size:1.35rem;">
+              ⚡
+            </div>
+            <div>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-size:0.98rem; font-weight:800; color:#0C1821;">Verified Account: Vinayak Giri &bull; ICICI Bank (A/C ...4092) via Google Pay UPI</span>
+                <span class="chip chip-emerald" style="font-size:0.7rem; font-weight:700;">● LIVE ACCOUNT RECOGNIZED</span>
+              </div>
+              <div style="font-size:0.8rem; color:#64748B; margin-top:3px;">
+                <strong>{len(active_txns)} Real-Time Transactions Verified</strong> &bull; Total Outflow: <strong>₹{debit_total:,.2f}</strong> &bull; Total Inflow: <strong>₹{credit_total:,.2f}</strong> &bull; Zero-Knowledge SHA-256
+              </div>
+            </div>
           </div>
-          <div style="font-size:0.8rem; color:#64748B; margin-top:3px;">
-            <strong>{len(active_txns)} Real-Time Transactions Verified</strong> &bull; Total Outflow: <strong>₹{debit_total:,.2f}</strong> &bull; Total Inflow: <strong>₹{credit_total:,.2f}</strong> &bull; Zero-Knowledge SHA-256
+          <div style="text-align:right;">
+            <span style="font-size:0.72rem; color:#64748B; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; display:block;">Aggregation Gateway</span>
+            <span style="font-size:0.85rem; font-weight:800; color:#0D6E6E;">RBI Sahamati AA / NPCI UPI 2.0</span>
           </div>
         </div>
-      </div>
-      <div style="text-align:right;">
-        <span style="font-size:0.72rem; color:#64748B; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; display:block;">Aggregation Gateway</span>
-        <span style="font-size:0.85rem; font-weight:800; color:#0D6E6E;">RBI Sahamati AA / NPCI UPI 2.0</span>
-      </div>
-    </div>
-    """, unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
+    elif selected_user_id == "USR_PRIYA_HDFC":
+        st.markdown(f"""
+        <div style="background:#ffffff; border:1px solid #ECEAE4; border-radius:14px; padding:16px 20px; margin-bottom:20px; box-shadow:0 1px 3px rgba(12,24,33,0.03); display:flex; justify-content:space-between; align-items:center;">
+          <div style="display:flex; align-items:center; gap:14px;">
+            <div style="background:#EFF6FF; border:1px solid #BFDBFE; color:#2563EB; width:44px; height:44px; border-radius:11px; display:flex; align-items:center; justify-content:center; font-size:1.35rem;">
+              🏦
+            </div>
+            <div>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-size:0.98rem; font-weight:800; color:#0C1821;">Verified Account: Priya Sharma &bull; HDFC Bank Salary & Living (A/C ...8102)</span>
+                <span class="chip chip-blue" style="font-size:0.7rem; font-weight:700;">● LIVE MULTI-MONTH STATEMENT</span>
+              </div>
+              <div style="font-size:0.8rem; color:#64748B; margin-top:3px;">
+                <strong>{len(active_txns)} Authentic Transactions</strong> &bull; Monthly Inflow: <strong>₹78,000.00</strong> &bull; HDFC NetBanking Parser
+              </div>
+            </div>
+          </div>
+          <div style="text-align:right;">
+            <span style="font-size:0.72rem; color:#64748B; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; display:block;">Statement Protocol</span>
+            <span style="font-size:0.85rem; font-weight:800; color:#2563EB;">HDFC CSV / Automated Parser</span>
+          </div>
+        </div>
+        """, unsafe_allow_html=True)
+    elif selected_user_id == "USR_ARJUN_SBI":
+        st.markdown(f"""
+        <div style="background:#ffffff; border:1px solid #ECEAE4; border-radius:14px; padding:16px 20px; margin-bottom:20px; box-shadow:0 1px 3px rgba(12,24,33,0.03); display:flex; justify-content:space-between; align-items:center;">
+          <div style="display:flex; align-items:center; gap:14px;">
+            <div style="background:#F5F3FF; border:1px solid #DDD6FE; color:#7C3AED; width:44px; height:44px; border-radius:11px; display:flex; align-items:center; justify-content:center; font-size:1.35rem;">
+              💳
+            </div>
+            <div>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-size:0.98rem; font-weight:800; color:#0C1821;">Verified Account: Arjun Patel &bull; State Bank of India UPI (A/C ...5519)</span>
+                <span class="chip chip-purple" style="font-size:0.7rem; font-weight:700;">● LIVE UPI EXPORT ACTIVE</span>
+              </div>
+              <div style="font-size:0.8rem; color:#64748B; margin-top:3px;">
+                <strong>{len(active_txns)} Authentic Transactions</strong> &bull; Stipend: <strong>₹20,000.00</strong> &bull; Verified Micro-Payments
+              </div>
+            </div>
+          </div>
+          <div style="text-align:right;">
+            <span style="font-size:0.72rem; color:#64748B; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; display:block;">Aggregation Gateway</span>
+            <span style="font-size:0.85rem; font-weight:800; color:#7C3AED;">SBI YONO / NPCI UPI Feed</span>
+          </div>
+        </div>
+        """, unsafe_allow_html=True)
+    elif selected_user_id == "USR_SETU_AA":
+        st.markdown(f"""
+        <div style="background:#ffffff; border:1px solid #ECEAE4; border-radius:14px; padding:16px 20px; margin-bottom:20px; box-shadow:0 1px 3px rgba(12,24,33,0.03); display:flex; justify-content:space-between; align-items:center;">
+          <div style="display:flex; align-items:center; gap:14px;">
+            <div style="background:#ECFDF5; border:1px solid #A7F3D0; color:#059669; width:44px; height:44px; border-radius:11px; display:flex; align-items:center; justify-content:center; font-size:1.35rem;">
+              🔗
+            </div>
+            <div>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-size:0.98rem; font-weight:800; color:#0C1821;">Verified Account: Rahul Nair &bull; RBI Sahamati Account Aggregator</span>
+                <span class="chip chip-emerald" style="font-size:0.7rem; font-weight:700;">● CONSENT TOKEN ACTIVE</span>
+              </div>
+              <div style="font-size:0.8rem; color:#64748B; margin-top:3px;">
+                <strong>{len(active_txns)} Live Transactions</strong> &bull; FIU Aggregator Gateway &bull; Financial Information User Verified
+              </div>
+            </div>
+          </div>
+          <div style="text-align:right;">
+            <span style="font-size:0.72rem; color:#64748B; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; display:block;">AA Protocol</span>
+            <span style="font-size:0.85rem; font-weight:800; color:#0D6E6E;">Setu AA / Sahamati</span>
+          </div>
+        </div>
+        """, unsafe_allow_html=True)
+    else:
+        st.markdown(f"""
+        <div style="background:#ffffff; border:1px solid #ECEAE4; border-radius:14px; padding:14px 18px; margin-bottom:20px; box-shadow:0 1px 3px rgba(12,24,33,0.03); display:flex; justify-content:space-between; align-items:center;">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="background:#E6F4F4; border:1px solid #B2DFDB; color:#0D6E6E; width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.2rem;">
+              🏦
+            </div>
+            <div>
+              <span style="font-size:0.92rem; font-weight:800; color:#0C1821;">Verified Account Feed: {clean_name}</span>
+              <div style="font-size:0.78rem; color:#64748B;">
+                {len(active_txns)} transactions verified &bull; SHA-256 Sanitized &bull; Account ID: {selected_user_id}
+              </div>
+            </div>
+          </div>
+          <span class="chip chip-teal" style="font-size:0.72rem;">FIU Aggregator Verified</span>
+        </div>
+        """, unsafe_allow_html=True)
 
     # 4 Top Metric Cards
     c1, c2, c3, c4 = st.columns(4)
