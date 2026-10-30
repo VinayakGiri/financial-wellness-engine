@@ -1,7 +1,23 @@
 # 💎 Personal Financial Wellness Intelligence Platform Using Data Analytics and Machine Learning
 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://financial-wellness-engine-oqbxbgpzsgahzkvg5x8sm2.streamlit.app)
+[![Deployment Status](https://img.shields.io/badge/Deployment-Live_on_Streamlit_Cloud-0D6E6E?logo=streamlit&logoColor=white)](https://financial-wellness-engine-oqbxbgpzsgahzkvg5x8sm2.streamlit.app)
+[![Python 3.11+](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![License: Capstone](https://img.shields.io/badge/Academic-Capstone_2026--27-teal.svg)]()
+[![Automated Tests](https://img.shields.io/badge/Tests-76_Passed_100%25-success.svg)]()
+
 > **Understand. Detect. Predict. Prescribe.**
 > *B.Tech Capstone Project — SVKM's NMIMS MPSTME, Shirpur Campus (Academic Session: 2026-27)*
+
+---
+
+## 🌐 Live Interactive Cloud Deployment
+
+The platform is deployed live on Streamlit Community Cloud with full real-time statement parsing, behavioral persona clustering, subscription leakage simulation, and deep learning cash-flow forecasting:
+
+👉 **[Launch Live Web Platform: financial-wellness-engine.streamlit.app](https://financial-wellness-engine-oqbxbgpzsgahzkvg5x8sm2.streamlit.app)**
+
+> *No local installation required. Simply open the link in any modern browser on desktop or mobile.*
 
 ---
 
@@ -35,6 +51,11 @@ Evaluated on 500 users across 12 months, the platform discovered **5 spending pe
 
 ## 🚀 Quick Start
 
+### Option 1: Try Live Online (Instant — No Installation Required)
+Access the fully functional hosted production application directly in your web browser:
+🔗 **[https://financial-wellness-engine-oqbxbgpzsgahzkvg5x8sm2.streamlit.app](https://financial-wellness-engine-oqbxbgpzsgahzkvg5x8sm2.streamlit.app)**
+
+### Option 2: Run Locally
 ```bash
 # 1. Clone repository
 git clone https://github.com/VinayakGiri/financial-wellness-engine.git

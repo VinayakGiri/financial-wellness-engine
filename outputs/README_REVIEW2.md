@@ -88,6 +88,10 @@ All three engines feed a **Streamlit dashboard** with Plotly interactive charts,
 
 ## 3. Quick Start
 
+### 🌐 Live Production Cloud App
+**Direct URL:** [https://financial-wellness-engine-oqbxbgpzsgahzkvg5x8sm2.streamlit.app](https://financial-wellness-engine-oqbxbgpzsgahzkvg5x8sm2.streamlit.app)
+
+### Local Environment
 ```bash
 # 1. Navigate to project root
 cd /Users/vinayakgiri/.gemini/antigravity/scratch/financial-wellness-engine
