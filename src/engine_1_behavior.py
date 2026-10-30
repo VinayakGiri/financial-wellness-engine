@@ -68,8 +68,22 @@ def load_cohort_models():
     if _cohort_clusters_df is None and os.path.exists(USER_CLUSTERS_PATH):
         _cohort_clusters_df = pd.read_csv(USER_CLUSTERS_PATH, index_col="user_id")
 
-    if _kmeans_model is None and os.path.exists(KMEANS_MODEL_PATH):
-        _kmeans_model = joblib.load(KMEANS_MODEL_PATH)
+    if _kmeans_model is None:
+        if os.path.exists(KMEANS_MODEL_PATH):
+            try:
+                _kmeans_model = joblib.load(KMEANS_MODEL_PATH)
+            except Exception:
+                _kmeans_model = None
+
+        if _kmeans_model is None and _cohort_features_df is not None:
+            from sklearn.cluster import KMeans
+            _kmeans_model = KMeans(n_clusters=5, random_state=42, n_init=10)
+            _kmeans_model.fit(_cohort_features_df.values)
+            try:
+                os.makedirs(os.path.dirname(KMEANS_MODEL_PATH), exist_ok=True)
+                joblib.dump(_kmeans_model, KMEANS_MODEL_PATH)
+            except Exception:
+                pass
 
     if _pca_model is None and _cohort_features_df is not None:
         # 2D PCA Model (Section 4.4.3)
@@ -232,7 +246,10 @@ def analyze_user_persona(user_id: str, txns_df: Optional[pd.DataFrame] = None) -
         user_pca_coords = _pca_model.transform(feat_vector)[0]
         user_x = float(user_pca_coords[0])
         user_y = float(user_pca_coords[1])
-        centroids_pca = _pca_model.transform(_kmeans_model.cluster_centers_)
+        if _kmeans_model is not None and hasattr(_kmeans_model, "cluster_centers_"):
+            centroids_pca = _pca_model.transform(_kmeans_model.cluster_centers_)
+        else:
+            centroids_pca = np.zeros((5, 2))
     else:
         user_x, user_y = 0.0, 0.0
         centroids_pca = np.zeros((5, 2))
@@ -242,7 +259,10 @@ def analyze_user_persona(user_id: str, txns_df: Optional[pd.DataFrame] = None) -
         user_3d_x = float(user_pca_3d_coords[0])
         user_3d_y = float(user_pca_3d_coords[1])
         user_3d_z = float(user_pca_3d_coords[2])
-        centroids_pca_3d = _pca_3d_model.transform(_kmeans_model.cluster_centers_)
+        if _kmeans_model is not None and hasattr(_kmeans_model, "cluster_centers_"):
+            centroids_pca_3d = _pca_3d_model.transform(_kmeans_model.cluster_centers_)
+        else:
+            centroids_pca_3d = np.zeros((5, 3))
     else:
         user_3d_x, user_3d_y, user_3d_z = 0.0, 0.0, 0.0
         centroids_pca_3d = np.zeros((5, 3))

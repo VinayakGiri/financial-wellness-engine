@@ -14,10 +14,6 @@ outputs/*.log
 .env
 .streamlit/credentials.toml
 
-# Large binary model files (use Git LFS for these if needed)
-*.pkl
-models/*.pkl
-
 # Raw data (unprocessed inputs)
 data/raw/
 
